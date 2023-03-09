@@ -1,21 +1,13 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
-// import icon from '../../assets/icon.svg';
 import './App.css';
-// import 'tailwindcss/tailwind.css';
-
-function Hello() {
-  return (
-    <div className="h-screen">
-      <h1 className="text-green-500">Hello</h1>
-    </div>
-  );
-}
+// import ApiKey from '../components/ApiKey';
+import Sidebar from '../components/Sidebar';
 
 export default function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Hello />} />
+        <Route path="/" element={<Sidebar />} />
       </Routes>
     </Router>
   );
