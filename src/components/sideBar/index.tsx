@@ -1,5 +1,10 @@
 import SidebarIcon from 'components/sideBarIcon';
-import { AiOutlinePoweroff, AiOutlineKey, AiOutlineApi } from 'react-icons/ai';
+import {
+  AiOutlinePoweroff,
+  AiOutlineKey,
+  AiOutlineApi,
+  AiOutlinePlusCircle,
+} from 'react-icons/ai';
 import { BsDroplet } from 'react-icons/bs';
 
 export default function Sidebar({ setPageView }: any) {
@@ -23,6 +28,11 @@ export default function Sidebar({ setPageView }: any) {
       <SidebarIcon
         icon=<AiOutlineKey size={30} />
         value="key"
+        setPageView={setPageView}
+      />
+      <SidebarIcon
+        icon=<AiOutlinePlusCircle size={30} />
+        value="import"
         setPageView={setPageView}
       />
     </div>

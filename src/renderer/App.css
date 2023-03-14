@@ -6,4 +6,8 @@
   .sidebar-icon {
     @apply relative flex items-center justify-center h-12 w-12 mb-2 mx-auto top-2 shadow-lg bg-gray-700 text-green-500 rounded-3xl hover:text-white hover:rounded-xl transition-all duration-100 ease-linear;
   }
+
+  .page-common {
+    @apply bg-discord-secondary w-full;
+  }
 }
