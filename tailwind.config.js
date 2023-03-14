@@ -7,6 +7,7 @@ module.exports = {
         'discord-sidebar': '#1e1f22',
         'discord-secondary': '#2b2d31',
         'discord-tertiary': '#313338',
+        'text-generic-color': '#aad7f5',
       },
     },
   },
