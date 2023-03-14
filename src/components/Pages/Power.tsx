@@ -1,8 +1,8 @@
 export default function Power() {
   const droplets = {
     LyadhCraft: 342253375,
-    TestCraft: 342266580,
-    CreateCraft: 344100833,
+    CreateCraft: 342266580,
+    TestCraft: 344100833,
   };
   const API_TOKEN =
     'Bearer dop_v1_8770c61f99aa312934f8a6518a6e26507481ead6b1f822fe5cc214310279a37e';
