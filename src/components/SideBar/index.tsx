@@ -1,5 +1,5 @@
 import Page from 'components/Page';
-import SidebarIcon from 'components/sideBarIcon';
+import SidebarIcon from 'components/SideBarIcon';
 import { useState } from 'react';
 // import fs from 'fs';
 import {

@@ -1,4 +1,4 @@
-import Sidebar from 'components/sideBar';
+import Sidebar from 'components/SideBar';
 
 export default function Window() {
   return (
