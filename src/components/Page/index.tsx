@@ -1,3 +1,6 @@
-export default function Page({ pageView }: any) {
-  return <p className="inline-block w-1">{pageView}</p>;
+import * as SidebarComponents from 'components/Pages';
+
+export default function Page({ pageView, id }: any) {
+  const Token = SidebarComponents[pageView];
+  return pageView === id ? <Token /> : null;
 }

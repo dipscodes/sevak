@@ -70,7 +70,7 @@ export default function Power() {
         Refresh
       </button> */}
       <div>
-        <span className="server-name">Lyadhcraft</span>
+        <span className="server-name">LyadhCraft</span>
         <button
           className="power-on-button"
           type="button"
