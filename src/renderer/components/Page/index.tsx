@@ -1,4 +1,4 @@
-import * as SidebarComponents from 'components/Pages';
+import * as SidebarComponents from 'renderer/components/Pages';
 
 export default function Page({ pageView, id }: any) {
   const Token = SidebarComponents[pageView];
