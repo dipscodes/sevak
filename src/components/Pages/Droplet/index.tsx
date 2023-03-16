@@ -1,7 +1,5 @@
 export default function Droplet() {
   return (
-    <div>
-      <div>Droplet View.</div>
-    </div>
+    <div className="page-common text-text-generic-color">Droplet View.</div>
   );
 }

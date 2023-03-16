@@ -1,7 +1,5 @@
 export default function Import() {
   return (
-    <div>
-      <div>Droplet View.</div>
-    </div>
+    <div className="page-common text-text-generic-color">Import View.</div>
   );
 }

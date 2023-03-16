@@ -27,7 +27,7 @@ export default function Sidebar() {
   // console.log(allPages);
 
   return (
-    <div className="flex flex-row">
+    <div className="flex flex-row w-full">
       <div className="h-screen w-16 bg-discord-sidebar">
         <SidebarIcon
           icon=<AiOutlineApi size={30} />
