@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain } from 'electron';
+import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
@@ -124,9 +124,21 @@ app.on('window-all-closed', () => {
   }
 });
 
+async function handleFileOpen() {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile'],
+  });
+  if (canceled) {
+    /* empty */
+    return '/path/to/file';
+  }
+  return filePaths[0];
+}
+
 app
   .whenReady()
   .then(() => {
+    ipcMain.handle('dialog:openFile', handleFileOpen);
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the
