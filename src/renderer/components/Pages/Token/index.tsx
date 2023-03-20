@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
 export default function Token() {
-  const [file, setFile] = useState('openFile');
-  // eslint-disable-next-line no-console
-  console.log(`locattion`);
+  const [file, setFile] = useState('Select token file');
   return (
     <div className="page-common text-text-generic-color">
       <button
