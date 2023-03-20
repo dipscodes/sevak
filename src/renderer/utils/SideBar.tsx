@@ -4,6 +4,7 @@ import {
   AiOutlineKey,
   AiOutlineApi,
   AiOutlinePlusCircle,
+  AiOutlineExport,
 } from 'react-icons/ai';
 import { BsDroplet } from 'react-icons/bs';
 
@@ -20,6 +21,7 @@ export default function getAllPages(): Object {
     Droplet: <BsDroplet size={30} />,
     Key: <AiOutlineKey size={30} />,
     Import: <AiOutlinePlusCircle size={30} />,
+    Export: <AiOutlineExport size={30} />,
   };
   return sideBarIcons;
 }

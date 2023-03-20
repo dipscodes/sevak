@@ -25,6 +25,7 @@ export default function Sidebar() {
       <Page pageView={pageView} id="Droplet" />
       <Page pageView={pageView} id="Key" />
       <Page pageView={pageView} id="Import" />
+      <Page pageView={pageView} id="Export" />
     </div>
   );
 }

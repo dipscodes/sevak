@@ -9,9 +9,10 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from 'path';
-import { app, BrowserWindow, shell, ipcMain, dialog } from 'electron';
+import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { handleFileOpen } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -123,17 +124,6 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
-
-async function handleFileOpen() {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ['openFile'],
-  });
-  if (canceled) {
-    /* empty */
-    return '/path/to/file';
-  }
-  return filePaths[0];
-}
 
 app
   .whenReady()
