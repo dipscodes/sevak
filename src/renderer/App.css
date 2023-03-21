@@ -19,4 +19,8 @@
   .server-name {
     @apply text-text-generic-color;
   }
+
+  .export-token-button {
+    @apply text-white fixed bottom-10 right-20 items-center justify-center h-16 w-16 mb-2 mx-auto px-2 shadow-lg bg-gray-700 rounded-full hover:text-green-500 transition-all duration-100 ease-linear;
+  }
 }

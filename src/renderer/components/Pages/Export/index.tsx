@@ -1,7 +1,11 @@
 /* eslint-disable no-shadow */
 import { useEffect, useState } from 'react';
 import CheckboxTree from 'react-checkbox-tree';
-import { AiOutlineMinusSquare, AiOutlinePlusSquare } from 'react-icons/ai';
+import {
+  AiOutlineDownload,
+  AiOutlineMinusSquare,
+  AiOutlinePlusSquare,
+} from 'react-icons/ai';
 import { BsChevronDown, BsChevronRight, BsDashSquare } from 'react-icons/bs';
 import { FaCheckSquare } from 'react-icons/fa';
 
@@ -13,22 +17,6 @@ const nodes = [
       { value: 'droplet_action-power_on', label: 'Power On' },
       { value: 'droplet_action-power_off', label: 'Power Off' },
       { value: 'droplet_action-reboot', label: 'Reboot' },
-    ],
-  },
-  {
-    value: 'mars2',
-    label: 'Mars2',
-    children: [
-      { value: 'phobos2', label: 'Phobos2' },
-      { value: 'deimos2', label: 'Deimos2' },
-    ],
-  },
-  {
-    value: 'mars3',
-    label: 'Mars3',
-    children: [
-      { value: 'phobos3', label: 'Phobos3' },
-      { value: 'deimos3', label: 'Deimos3' },
     ],
   },
 ];
@@ -63,6 +51,7 @@ export default function Export() {
         onCheck={(chk) => setChecked(chk)}
         onExpand={(exp) => setExpanded(exp)}
       />
+      <AiOutlineDownload className="export-token-button group" size={50} />
     </div>
   );
 }
