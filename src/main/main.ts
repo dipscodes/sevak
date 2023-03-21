@@ -134,8 +134,11 @@ app
     ipcMain.handle('dialog:openFile', handleFileOpen);
     ipcMain.handle(
       'exportEncryptedTokenFileFromPermissionString',
-      async (args) => {
-        handleExportEncryptedTokenFileFromPermissionString(args[0], args[1]);
+      async (event, args) => {
+        await handleExportEncryptedTokenFileFromPermissionString(
+          args[0],
+          args[1]
+        );
       }
     );
     createWindow();

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import {
   AiOutlineDownload,
@@ -24,9 +24,10 @@ export default function Export() {
   const [checked, setChecked] = useState(['']);
   const [expanded, setExpanded] = useState(['']);
 
-  // useEffect(() => {
-  //   console.log(checked, expanded);
-  // }, [checked, expanded]);
+  useEffect(() => {
+    // eslint-disable-next-line no-console
+    console.log(checked, expanded);
+  }, [checked, expanded]);
 
   async function exportEncryptedTokenFileFromPermissionString() {
     const writePath = await window.electron.openFile();
