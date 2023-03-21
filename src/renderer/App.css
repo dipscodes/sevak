@@ -5,7 +5,7 @@
 @layer components {
 
   .sidebar-icon {
-    @apply relative flex items-center justify-center h-12 w-12 mb-2 mx-auto top-2 shadow-lg bg-gray-700 text-green-500 rounded-3xl hover:text-white hover:rounded-xl transition-all duration-100 ease-linear;
+    @apply relative flex items-center justify-center cursor-pointer h-12 w-12 mb-2 mx-auto top-2 shadow-lg bg-gray-700 text-green-500 rounded-3xl hover:text-white hover:rounded-xl transition-all duration-100 ease-linear;
   }
 
   .page-common {
@@ -21,6 +21,6 @@
   }
 
   .export-token-button {
-    @apply text-white fixed bottom-10 right-20 items-center justify-center h-16 w-16 mb-2 mx-auto px-2 shadow-lg bg-gray-700 rounded-full hover:text-green-500 transition-all duration-100 ease-linear;
+    @apply text-white cursor-pointer fixed bottom-10 right-20 items-center justify-center h-16 w-16 mb-2 mx-auto px-2 shadow-lg bg-gray-700 rounded-full hover:text-green-500 transition-all duration-100 ease-linear;
   }
 }
