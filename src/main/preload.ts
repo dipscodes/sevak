@@ -22,11 +22,20 @@ const electronHandler = {
       ipcRenderer.once(channel, (_event, ...args) => func(...args));
     },
   },
+  openFile() {
+    return ipcRenderer.invoke('dialog:openFile');
+  },
+  exportEncryptedTokenFileFromPermissionString(
+    writePath: string,
+    checkedList: string[]
+  ) {
+    // const writePath = this.openFile(); // this opens a dialog and returns a path
+    ipcRenderer.invoke('exportEncryptedTokenFileFromPermissionString', [
+      writePath,
+      checkedList,
+    ]); // this is waiting for resoponse from main
+  },
 };
-
-contextBridge.exposeInMainWorld('electronAPI', {
-  openFile: () => ipcRenderer.invoke('dialog:openFile'),
-});
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
 

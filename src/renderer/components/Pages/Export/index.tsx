@@ -1,5 +1,4 @@
-/* eslint-disable no-shadow */
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import {
   AiOutlineDownload,
@@ -25,10 +24,19 @@ export default function Export() {
   const [checked, setChecked] = useState(['']);
   const [expanded, setExpanded] = useState(['']);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   console.log(checked, expanded);
+  // }, [checked, expanded]);
+
+  async function exportEncryptedTokenFileFromPermissionString() {
+    const writePath = await window.electron.openFile();
     // eslint-disable-next-line no-console
-    console.log(checked, expanded);
-  }, [checked, expanded]);
+    console.log(writePath);
+    window.electron.exportEncryptedTokenFileFromPermissionString(
+      writePath,
+      checked
+    );
+  }
 
   return (
     <div className="page-common text-text-generic-color justify-center">
@@ -51,7 +59,11 @@ export default function Export() {
         onCheck={(chk) => setChecked(chk)}
         onExpand={(exp) => setExpanded(exp)}
       />
-      <AiOutlineDownload className="export-token-button group" size={50} />
+      <AiOutlineDownload
+        className="export-token-button group"
+        size={50}
+        onClick={() => exportEncryptedTokenFileFromPermissionString()}
+      />
     </div>
   );
 }

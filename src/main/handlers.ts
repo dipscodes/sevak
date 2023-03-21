@@ -1,17 +1,30 @@
 import { dialog } from 'electron';
-import * as fs from 'fs/promises';
+import checkedListToJson from './utils/CheckedListToJson';
+import { PermissionObject } from './utils/Interfaces';
+import permissionObjectToFile from './utils/PermissionObjectToFile';
 
 async function handleFileOpen(): Promise<string> {
-  const { canceled, filePaths } = await dialog.showOpenDialog({
-    properties: ['openFile'],
+  const { canceled, filePath } = await dialog.showSaveDialog({
+    properties: [
+      'showHiddenFiles',
+      'createDirectory',
+      'showOverwriteConfirmation',
+    ],
   });
   if (canceled) {
     return 'No file was selected';
   }
+  if (!filePath) return '';
 
-  const fileContents = await fs.readFile(filePaths[0], { encoding: 'utf-8' });
-  return fileContents;
+  return filePath;
 }
 
-// eslint-disable-next-line import/prefer-default-export
-export { handleFileOpen };
+async function handleExportEncryptedTokenFileFromPermissionString(
+  writePath: string,
+  checkedList: string[]
+) {
+  const permissionObject: PermissionObject = checkedListToJson(checkedList);
+  permissionObjectToFile(writePath, permissionObject);
+}
+
+export { handleFileOpen, handleExportEncryptedTokenFileFromPermissionString };

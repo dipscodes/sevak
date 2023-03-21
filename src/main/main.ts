@@ -12,7 +12,10 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { handleFileOpen } from './handlers';
+import {
+  handleExportEncryptedTokenFileFromPermissionString,
+  handleFileOpen,
+} from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -129,6 +132,12 @@ app
   .whenReady()
   .then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen);
+    ipcMain.handle(
+      'exportEncryptedTokenFileFromPermissionString',
+      async (args) => {
+        handleExportEncryptedTokenFileFromPermissionString(args[0], args[1]);
+      }
+    );
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

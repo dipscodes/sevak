@@ -7,7 +7,7 @@ export default function Token() {
       <button
         type="button"
         onClick={async () => {
-          const filePath = await window.electronAPI.openFile();
+          const filePath = await window.electron.openFile();
           setFile(filePath);
         }}
       >

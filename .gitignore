@@ -29,3 +29,4 @@ npm-debug.log.*
 *.scss.d.ts
 src/main/encrypToken.mjs
 src/main/decryptToken.mjs
+src/main/utils/tst.mjs

@@ -13,6 +13,7 @@ export default function Sidebar() {
       <div className="h-screen w-16 bg-discord-sidebar">
         {Object.keys(icons.current).map((key: string) => (
           <SidebarIcon
+            key={key}
             icon={icons.current[key]}
             onClick={() => {
               setPageView(key);
