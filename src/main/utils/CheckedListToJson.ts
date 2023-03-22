@@ -4,14 +4,6 @@ import { PermissionObject } from './Interfaces';
 export default function checkedListToJson(
   checkedList: string[]
 ): PermissionObject {
-  // const permissionObject = {
-  //   token: 'token',
-  //   droplet_action: {
-  //     power_on: false,
-  //     power_off: false,
-  //     reboot: false,
-  //   },
-  // };
   const permissionTemplate: string = readFileSync(
     `${__dirname}/template.json`,
     {
