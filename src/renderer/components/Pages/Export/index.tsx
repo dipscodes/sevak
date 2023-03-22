@@ -7,6 +7,7 @@ import {
 } from 'react-icons/ai';
 import { BsChevronDown, BsChevronRight, BsDashSquare } from 'react-icons/bs';
 import { FaCheckSquare } from 'react-icons/fa';
+import PasswordModal from 'renderer/components/PasswordModal';
 
 const nodes = [
   {
@@ -23,6 +24,8 @@ const nodes = [
 export default function Export() {
   const [checked, setChecked] = useState(['']);
   const [expanded, setExpanded] = useState(['']);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [passWordKey, setPassWordKey] = useState('');
 
   useEffect(() => {
     // eslint-disable-next-line no-console
@@ -40,6 +43,8 @@ export default function Export() {
       );
     // eslint-disable-next-line no-console
     console.log(`pass key : ${passKey}`);
+    setPassWordKey(passKey);
+    setIsModalOpen(true);
   }
 
   return (
@@ -62,6 +67,11 @@ export default function Export() {
         }}
         onCheck={(chk) => setChecked(chk)}
         onExpand={(exp) => setExpanded(exp)}
+      />
+      <PasswordModal
+        isModalOpen={isModalOpen}
+        onRequestClose={() => setIsModalOpen(false)}
+        passKey={passWordKey}
       />
       <AiOutlineDownload
         className="export-token-button group"

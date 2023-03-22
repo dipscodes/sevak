@@ -28,8 +28,6 @@ async function handleExportEncryptedTokenFileFromPermissionString(
     writePath,
     permissionObject
   );
-  // eslint-disable-next-line no-console
-  console.log(`pass key : ${passKey}`);
   return passKey;
 }
 
