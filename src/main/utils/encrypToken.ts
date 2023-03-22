@@ -16,9 +16,10 @@ async function encrypt(permission: string): Promise<Array<string>> {
   let encryptedData = cipher.update(permission, 'utf-8', 'hex');
   encryptedData += cipher.final('hex');
   // eslint-disable-next-line no-console
-  // console.log([securitykey.toString('hex'), encryptedData]);
+  // console.log([securitykey.toString('hex'), encryptedData]);\
+  const passKey = securitykey.toString('hex');
 
-  return [securitykey.toString('hex'), encryptedData];
+  return [passKey, encryptedData];
 }
 
 export default encrypt;
