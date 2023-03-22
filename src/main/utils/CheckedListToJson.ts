@@ -1,4 +1,3 @@
-// import { readFileSync } from 'fs';
 import { PermissionObject } from './Interfaces';
 import template from './template.json';
 
