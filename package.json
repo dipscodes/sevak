@@ -102,6 +102,7 @@
     "react-checkbox-tree": "^1.8.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
