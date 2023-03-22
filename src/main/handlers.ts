@@ -24,7 +24,13 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   checkedList: string[]
 ) {
   const permissionObject: PermissionObject = checkedListToJson(checkedList);
-  permissionObjectToFile(writePath, permissionObject);
+  const passKey: string = await permissionObjectToFile(
+    writePath,
+    permissionObject
+  );
+  // eslint-disable-next-line no-console
+  console.log(`pass key : ${passKey}`);
+  return passKey;
 }
 
 export { handleFileOpen, handleExportEncryptedTokenFileFromPermissionString };

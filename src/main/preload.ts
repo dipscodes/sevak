@@ -30,7 +30,7 @@ const electronHandler = {
     checkedList: string[]
   ) {
     // const writePath = this.openFile(); // this opens a dialog and returns a path
-    ipcRenderer.invoke('exportEncryptedTokenFileFromPermissionString', [
+    return ipcRenderer.invoke('exportEncryptedTokenFileFromPermissionString', [
       writePath,
       checkedList,
     ]); // this is waiting for resoponse from main

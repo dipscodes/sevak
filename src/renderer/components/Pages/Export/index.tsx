@@ -33,10 +33,13 @@ export default function Export() {
     const writePath = await window.electron.openFile();
     // eslint-disable-next-line no-console
     console.log(writePath);
-    window.electron.exportEncryptedTokenFileFromPermissionString(
-      writePath,
-      checked
-    );
+    const passKey =
+      await window.electron.exportEncryptedTokenFileFromPermissionString(
+        writePath,
+        checked
+      );
+    // eslint-disable-next-line no-console
+    console.log(`pass key : ${passKey}`);
   }
 
   return (

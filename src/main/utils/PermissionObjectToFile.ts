@@ -5,7 +5,7 @@ import encrypt from './encrypToken';
 export default async function permissionObjectToFile(
   writePath: string,
   permissionObject: PermissionObject
-) {
+): Promise<string> {
   const [passKey, encryptedData] = await encrypt(
     JSON.stringify(permissionObject)
   );
