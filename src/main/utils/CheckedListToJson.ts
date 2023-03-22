@@ -1,24 +1,11 @@
-import { readFileSync } from 'fs';
+// import { readFileSync } from 'fs';
 import { PermissionObject } from './Interfaces';
+import template from './template.json';
 
 export default function checkedListToJson(
   checkedList: string[]
 ): PermissionObject {
-  // const permissionObject = {
-  //   token: 'token',
-  //   droplet_action: {
-  //     power_on: false,
-  //     power_off: false,
-  //     reboot: false,
-  //   },
-  // };
-  const permissionTemplate: string = readFileSync(
-    `${__dirname}/template.json`,
-    {
-      encoding: 'utf-8',
-    }
-  );
-  const permissionObject = JSON.parse(permissionTemplate);
+  const permissionObject = template;
   if (!checkedList) {
     return permissionObject;
   }
