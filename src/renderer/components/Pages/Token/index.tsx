@@ -4,6 +4,11 @@ import ApiModal from 'renderer/components/ApiModal';
 export default function Token() {
   const [file, setFile] = useState('Import File');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [message, setMessage] = useState('Key Not Added');
+
+  function onAddKey() {
+    setMessage('Key Added Succesfully');
+  }
 
   return (
     <div className="page-common text-text-generic-color">
@@ -30,7 +35,12 @@ export default function Token() {
       </div>
       <ApiModal
         isModalOpen={isModalOpen}
-        onRequestClose={() => setIsModalOpen(false)}
+        message={message}
+        onAddKey={() => onAddKey()}
+        onRequestClose={() => {
+          setIsModalOpen(false);
+          setMessage('Key Not Added');
+        }}
       />
     </div>
   );

@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 // import { useEffect } from 'react';
-import { AiOutlineClose } from 'react-icons/ai';
+import { AiOutlineClose, AiOutlineKey } from 'react-icons/ai';
 import Modal from 'react-modal';
 
 interface Props {
   isModalOpen: boolean;
+  message: string;
+  onAddKey: any;
   onRequestClose: any;
 }
 
@@ -19,7 +21,12 @@ const customStyles = {
   },
 };
 
-export default function ApiModal({ isModalOpen, onRequestClose }: Props) {
+export default function ApiModal({
+  isModalOpen,
+  message,
+  onAddKey,
+  onRequestClose,
+}: Props) {
   return (
     <Modal
       className="bg-discord-bg-1 absolute  w-7/12 h-80 Overlay"
@@ -29,7 +36,13 @@ export default function ApiModal({ isModalOpen, onRequestClose }: Props) {
       contentLabel="Password"
     >
       <div className="rounded-xl pt-5 text-center">
-        <div className="flex flex-row w-full justify-end pr-5 pb-2">
+        <div className="flex flex-row w-full pl-5 pr-5 pb-2 text-center justify-between">
+          <AiOutlineKey
+            onClick={onRequestClose}
+            size={30}
+            className="rounded-full cursor-pointer text-discord-cross-color"
+          />
+          <span className="text-discord-text-color-1">{message}</span>
           <AiOutlineClose
             onClick={onRequestClose}
             size={30}
@@ -52,9 +65,15 @@ export default function ApiModal({ isModalOpen, onRequestClose }: Props) {
             placeholder="Name"
           />
         </div>
-        <p className="inline-block text-discord-text-color-1 mt-8 hover:underline cursor-pointer font-bold">
+        <div
+          role="button"
+          className="addKeyText"
+          onClick={onAddKey}
+          onKeyDown={() => undefined}
+          tabIndex={0}
+        >
           Add Key
-        </p>
+        </div>
       </div>
     </Modal>
   );
