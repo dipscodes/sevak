@@ -37,16 +37,12 @@ export default function ApiModal({
     >
       <div className="rounded-xl pt-5 text-center">
         <div className="flex flex-row w-full pl-5 pr-5 pb-2 text-center justify-between">
-          <AiOutlineKey
-            onClick={onRequestClose}
-            size={30}
-            className="rounded-full cursor-pointer text-discord-cross-color"
-          />
+          <AiOutlineKey size={30} className="text-discord-cross-color" />
           <span className="text-discord-text-color-1">{message}</span>
           <AiOutlineClose
             onClick={onRequestClose}
             size={30}
-            className="rounded-full cursor-pointer text-discord-cross-color"
+            className="cursor-pointer text-discord-cross-color"
           />
         </div>
         <div className="pt-4 pl-8 pr-8">
