@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { dialog } from 'electron';
 import Store from 'electron-store';
 import checkedListToJson from './utils/CheckedListToJson';
@@ -48,8 +47,6 @@ async function handleSetRawToken(
   template.name = name;
   template.is_raw_token = true;
 
-  console.log(name, key, passKey, masterPassword);
-
   const encryptedTokenString: string[] = await encrypt(
     JSON.stringify(template),
     passKey
@@ -61,12 +58,6 @@ async function handleSetRawToken(
   );
   store.set(name, encryptedTokenString[1]);
   store.set(`password.${name}`, encryptedPassword[1]);
-
-  console.log(store.get(name));
-  console.log(store.get('password'));
-
-  store.delete(name);
-  store.delete('password');
 }
 
 export {
