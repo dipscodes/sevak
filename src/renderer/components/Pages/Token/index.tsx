@@ -7,6 +7,13 @@ export default function Token() {
   const [message, setMessage] = useState('Key Not Added');
 
   function onAddKey() {
+    const key = (document.getElementById('token-key') as HTMLInputElement)
+      .value;
+    const name = (document.getElementById('token-name') as HTMLInputElement)
+      .value;
+
+    // eslint-disable-next-line no-console
+    console.log(key, name);
     setMessage('Key Added Succesfully');
   }
 

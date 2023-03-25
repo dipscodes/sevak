@@ -36,7 +36,7 @@ export default function ApiModal({
       contentLabel="Password"
     >
       <div className="rounded-xl pt-5 text-center">
-        <div className="flex flex-row w-full pl-5 pr-5 pb-2 text-center justify-between">
+        <div className="flex flex-row w-full pl-5 pr-5 pb-2 justify-between">
           <AiOutlineKey size={30} className="text-discord-cross-color" />
           <span className="text-discord-text-color-1">{message}</span>
           <AiOutlineClose
@@ -48,7 +48,7 @@ export default function ApiModal({
         <div className="pt-4 pl-8 pr-8">
           <input
             type="password"
-            id="large-input"
+            id="token-key"
             className="discord-large-input"
             placeholder="Token Key"
           />
@@ -56,7 +56,7 @@ export default function ApiModal({
         <div className="pt-4 pl-8 pr-8">
           <input
             type="text"
-            id="large-input"
+            id="token-name"
             className="discord-large-input"
             placeholder="Name"
           />
