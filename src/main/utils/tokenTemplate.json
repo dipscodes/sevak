@@ -1,5 +1,7 @@
 {
   "token":"token",
+  "name":"name",
+  "is_raw_token":false,
   "droplet_action": {
     "power_on":false,
     "power_off":false,

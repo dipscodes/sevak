@@ -15,6 +15,7 @@ import log from 'electron-log';
 import {
   handleExportEncryptedTokenFileFromPermissionString,
   handleFileOpen,
+  handleSetStore,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -136,6 +137,9 @@ app
       'exportEncryptedTokenFileFromPermissionString',
       async (event, args) =>
         handleExportEncryptedTokenFileFromPermissionString(args[0], args[1])
+    );
+    ipcMain.handle('setStore', async (event, args) =>
+      handleSetStore(args[0], args[1], args[2])
     );
     createWindow();
     app.on('activate', () => {

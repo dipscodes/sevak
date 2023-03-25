@@ -30,3 +30,4 @@ npm-debug.log.*
 src/main/encrypToken.mjs
 src/main/decryptToken.mjs
 src/main/utils/tst.mjs
+src/main/utils/test.mjs

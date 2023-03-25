@@ -1,5 +1,5 @@
 import { PermissionObject } from './Interfaces';
-import template from './template.json';
+import template from './tokenTemplate.json';
 
 export default function checkedListToJson(
   checkedList: string[]

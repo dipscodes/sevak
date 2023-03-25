@@ -29,7 +29,7 @@ export default function ApiModal({
 }: Props) {
   return (
     <Modal
-      className="bg-discord-bg-1 absolute  w-7/12 h-80 Overlay"
+      className="bg-discord-bg-1 absolute  w-7/12 h-auto Overlay"
       isOpen={isModalOpen}
       onRequestClose={onRequestClose}
       style={customStyles}
@@ -61,9 +61,17 @@ export default function ApiModal({
             placeholder="Name"
           />
         </div>
+        <div className="pt-4 pl-8 pr-8">
+          <input
+            type="password"
+            id="token-password"
+            className="discord-large-input"
+            placeholder="Password"
+          />
+        </div>
         <div
           role="button"
-          className="addKeyText"
+          className="addKeyText mb-8"
           onClick={onAddKey}
           onKeyDown={() => undefined}
           tabIndex={0}
