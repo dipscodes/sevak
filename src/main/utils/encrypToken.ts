@@ -26,7 +26,7 @@ async function encrypt(
   encryptedData += cipher.final('hex');
   const passKey = securitykey.toString('hex');
 
-  return [!password ? passKey : '', encryptedData];
+  return [!password ? passKey : password, encryptedData];
 }
 
 export default encrypt;

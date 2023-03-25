@@ -5,6 +5,7 @@ export default function Token() {
   const [file, setFile] = useState('Import File');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('Key Not Added');
+  const masterPassword = 'qwerty';
 
   function onAddKey() {
     const key = (document.getElementById('token-key') as HTMLInputElement)
@@ -12,8 +13,13 @@ export default function Token() {
     const name = (document.getElementById('token-name') as HTMLInputElement)
       .value;
 
+    const passKey = (
+      document.getElementById('token-password') as HTMLInputElement
+    ).value;
+
     // eslint-disable-next-line no-console
     console.log(key, name);
+    window.electron.setRawToken(name, key, passKey, masterPassword);
     setMessage('Key Added Succesfully');
   }
 

@@ -29,11 +29,18 @@ const electronHandler = {
     writePath: string,
     checkedList: string[]
   ) {
-    // const writePath = this.openFile(); // this opens a dialog and returns a path
     return ipcRenderer.invoke('exportEncryptedTokenFileFromPermissionString', [
       writePath,
       checkedList,
-    ]); // this is waiting for resoponse from main
+    ]);
+  },
+  setRawToken(
+    name: string,
+    key: string,
+    passKey: string,
+    masterPassword: string
+  ) {
+    ipcRenderer.invoke('setRawToken', [name, key, passKey, masterPassword]);
   },
 };
 

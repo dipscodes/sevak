@@ -1,7 +1,11 @@
+/* eslint-disable no-console */
 import { dialog } from 'electron';
+import Store from 'electron-store';
 import checkedListToJson from './utils/CheckedListToJson';
 import { PermissionObject } from './utils/Interfaces';
 import permissionObjectToFile from './utils/PermissionObjectToFile';
+import tokenTemlate from './utils/tokenTemplate.json';
+import encrypt from './utils/encrypToken';
 
 async function handleFileOpen(): Promise<string> {
   const { canceled, filePath } = await dialog.showSaveDialog({
@@ -31,4 +35,42 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   return passKey;
 }
 
-export { handleFileOpen, handleExportEncryptedTokenFileFromPermissionString };
+async function handleSetRawToken(
+  name: string,
+  key: string,
+  passKey: string,
+  masterPassword: string
+): Promise<void> {
+  const store = new Store();
+  const template = tokenTemlate;
+
+  template.token = key;
+  template.name = name;
+  template.is_raw_token = true;
+
+  console.log(name, key, passKey, masterPassword);
+
+  const encryptedTokenString: string[] = await encrypt(
+    JSON.stringify(template),
+    passKey
+  );
+
+  const encryptedPassword: string[] = await encrypt(
+    encryptedTokenString[0],
+    masterPassword
+  );
+  store.set(name, encryptedTokenString[1]);
+  store.set(`password.${name}`, encryptedPassword[1]);
+
+  console.log(store.get(name));
+  console.log(store.get('password'));
+
+  store.delete(name);
+  store.delete('password');
+}
+
+export {
+  handleFileOpen,
+  handleExportEncryptedTokenFileFromPermissionString,
+  handleSetRawToken,
+};
