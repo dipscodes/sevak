@@ -32,17 +32,22 @@ export default function Export() {
     console.log(checked, expanded);
   }, [checked, expanded]);
 
-  async function exportEncryptedTokenFileFromPermissionString() {
+  async function exportEncryptedTokenFileFromPermissionString(): Promise<void> {
     const writePath = await window.electron.openFile();
-    // eslint-disable-next-line no-console
-    console.log(writePath);
+
+    if (checked.length === 1 && checked[0] === '') {
+      setPassWordKey(
+        'A permission file can not be generated with no permissions list.'
+      );
+      setIsModalOpen(true);
+      return;
+    }
+
     const passKey =
       await window.electron.exportEncryptedTokenFileFromPermissionString(
         writePath,
         checked
       );
-    // eslint-disable-next-line no-console
-    console.log(`pass key : ${passKey}`);
     setPassWordKey(passKey);
     setIsModalOpen(true);
   }

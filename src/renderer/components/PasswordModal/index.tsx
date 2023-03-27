@@ -37,6 +37,7 @@ export default function PasswordModal({
       isOpen={isModalOpen}
       onRequestClose={onRequestClose}
       style={customStyles}
+      ariaHideApp={false}
       contentLabel="Password"
     >
       <div
