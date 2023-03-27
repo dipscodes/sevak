@@ -19,6 +19,9 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     borderRadius: '12px',
   },
+  ovelay: {
+    backgroundColor: 'rgba(2, 7, 255, 0.75)',
+  },
 };
 
 export default function ApiModal({
@@ -34,6 +37,7 @@ export default function ApiModal({
       onRequestClose={onRequestClose}
       style={customStyles}
       contentLabel="Password"
+      ariaHideApp={false}
     >
       <div className="rounded-xl pt-5 text-center">
         <div className="flex flex-row w-full pl-5 pr-5 pb-2 justify-between">

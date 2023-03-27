@@ -56,6 +56,7 @@ async function handleSetRawToken(
     encryptedTokenString[0],
     masterPassword
   );
+
   store.set(name, encryptedTokenString[1]);
   store.set(`password.${name}`, encryptedPassword[1]);
 }

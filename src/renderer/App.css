@@ -35,6 +35,8 @@
   .addKeyText {
     @apply inline-block text-discord-text-color-1 mt-10 hover:underline cursor-pointer font-bold;
   }
+}
 
-
+.ReactModal__Overlay {
+  background-color: #070808c7 !important;
 }
