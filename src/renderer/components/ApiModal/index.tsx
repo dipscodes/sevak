@@ -19,9 +19,6 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
     borderRadius: '12px',
   },
-  ovelay: {
-    backgroundColor: 'rgba(2, 7, 255, 0.75)',
-  },
 };
 
 export default function ApiModal({
