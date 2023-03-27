@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import ApiModal from 'renderer/components/ApiModal';
+import MasterContext from 'renderer/Context';
 
 export default function Token() {
   const [file, setFile] = useState('Import File');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('Key Not Added');
-  const masterPassword = 'qwerty';
+  const masterPassword = useContext(MasterContext);
 
   function onAddKey() {
     const key = (document.getElementById('token-key') as HTMLInputElement)
@@ -19,7 +20,7 @@ export default function Token() {
 
     // eslint-disable-next-line no-console
     console.log(key, name);
-    window.electron.setRawToken(name, key, passKey, masterPassword);
+    window.electron.setRawToken(name, key, passKey, masterPassword ?? '');
     setMessage('Key Added Succesfully');
   }
 
@@ -39,8 +40,10 @@ export default function Token() {
           className="discord-button ml-2"
           type="button"
           onClick={async () => {
-            const filePath = await window.electron.openFile();
-            setFile(filePath);
+            // const filePath = await window.electron.openFile();
+            setFile(masterPassword ?? '');
+            // eslint-disable-next-line no-console
+            console.log(masterPassword);
           }}
         >
           {file}

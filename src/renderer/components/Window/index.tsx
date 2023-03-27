@@ -1,9 +1,32 @@
+/* eslint-disable no-console */
 import Sidebar from 'renderer/components/SideBar';
+import { useState } from 'react';
+import MasterContext from 'renderer/Context';
+import MasterPasswordWindow from '../MasterPasswordWindow';
 
 export default function Window() {
+  const [isMasterPasswordGiven, setIsMasterPasswordGiven] = useState(false);
+  const [masterPassword, setMasterPassword] = useState('qwerty');
+
+  function openSidebar(password: string): void {
+    console.log(`password: ${password}`);
+    setMasterPassword(password);
+    setIsMasterPasswordGiven(true);
+  }
+
   return (
-    <div className="flex flex-row">
-      <Sidebar />
-    </div>
+    <MasterContext.Provider value={masterPassword}>
+      <div className="flex flex-row">
+        {isMasterPasswordGiven ? (
+          <Sidebar />
+        ) : (
+          <MasterPasswordWindow
+            onMasterPasswordGiven={(password: string) => {
+              openSidebar(password);
+            }}
+          />
+        )}
+      </div>
+    </MasterContext.Provider>
   );
 }
