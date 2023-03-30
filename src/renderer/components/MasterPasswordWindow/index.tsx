@@ -1,7 +1,3 @@
-// interface Props {
-//   onMasterPasswordGiven: (password: string) => void;
-// }
-
 export default function MasterPasswordWindow({ onMasterPasswordGiven }: any) {
   return (
     <div className="bg-discord-secondary w-screen h-screen text-text-generic-color">

@@ -21,7 +21,7 @@ const customStyles = {
   },
 };
 
-export default function ApiModal({
+export default function PasswordInputModal({
   isModalOpen,
   message,
   onAddKey,
@@ -49,23 +49,7 @@ export default function ApiModal({
         <div className="pt-4 pl-8 pr-8">
           <input
             type="password"
-            id="token-key"
-            className="discord-large-input"
-            placeholder="Token Key"
-          />
-        </div>
-        <div className="pt-4 pl-8 pr-8">
-          <input
-            type="text"
-            id="token-name"
-            className="discord-large-input"
-            placeholder="Name"
-          />
-        </div>
-        <div className="pt-4 pl-8 pr-8">
-          <input
-            type="password"
-            id="token-password"
+            id="file-password"
             className="discord-large-input"
             placeholder="Password"
           />

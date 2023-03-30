@@ -1,12 +1,15 @@
 import { useState, useContext } from 'react';
 import ApiModal from 'renderer/components/ApiModal';
 import MasterContext from 'renderer/Context';
+import PasswordInputModal from 'renderer/components/PasswordInputModal';
 
 export default function Token() {
   const [file, setFile] = useState('Import File');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('Key Not Added');
   const masterPassword = useContext(MasterContext);
+  const [isPasswordInputModal, setIsPasswordInputModal] = useState(false);
+  const [fileMessage, setFileMessage] = useState('Add Password');
 
   function onAddKey() {
     const key = (document.getElementById('token-key') as HTMLInputElement)
@@ -18,10 +21,18 @@ export default function Token() {
       document.getElementById('token-password') as HTMLInputElement
     ).value;
 
-    // eslint-disable-next-line no-console
-    console.log(key, name);
     window.electron.setRawToken(name, key, passKey, masterPassword ?? '');
     setMessage('Key Added Succesfully');
+  }
+
+  function onAddMessage() {
+    const passKey = (
+      document.getElementById('file-password') as HTMLInputElement
+    ).value;
+
+    window.electron.setFileToken(file, passKey, masterPassword ?? '');
+    setFileMessage('File Added Succesfully');
+    setIsPasswordInputModal(false);
   }
 
   return (
@@ -40,13 +51,12 @@ export default function Token() {
           className="discord-button ml-2"
           type="button"
           onClick={async () => {
-            // const filePath = await window.electron.openFile();
-            setFile(masterPassword ?? '');
-            // eslint-disable-next-line no-console
-            console.log(masterPassword);
+            const filePath = await window.electron.openFile();
+            setFile(filePath ?? '');
+            setIsPasswordInputModal(true);
           }}
         >
-          {file}
+          Import File
         </button>
       </div>
       <ApiModal
@@ -56,6 +66,15 @@ export default function Token() {
         onRequestClose={() => {
           setIsModalOpen(false);
           setMessage('Key Not Added');
+        }}
+      />
+      <PasswordInputModal
+        isModalOpen={isPasswordInputModal}
+        message={fileMessage}
+        onAddKey={() => onAddMessage()}
+        onRequestClose={() => {
+          setIsPasswordInputModal(false);
+          setMessage('Add Password');
         }}
       />
     </div>

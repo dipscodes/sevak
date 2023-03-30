@@ -42,6 +42,9 @@ const electronHandler = {
   ) {
     ipcRenderer.invoke('setRawToken', [name, key, passKey, masterPassword]);
   },
+  setFileToken(file: string, passKey: string, masterPassword: string) {
+    ipcRenderer.invoke('setFileToken', [file, passKey, masterPassword]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
