@@ -61,8 +61,32 @@ async function handleSetRawToken(
   store.set(`password.${name}`, encryptedPassword[1]);
 }
 
+async function handleSetFileToken(
+  file: string,
+  passKey: string,
+  masterPassword: string
+): Promise<void> {
+  const store = new Store();
+  const template = tokenTemlate;
+  template.is_raw_token = false;
+
+  const encryptedTokenString: string[] = await encrypt(
+    JSON.stringify(template),
+    passKey
+  );
+
+  const encryptedPassword: string[] = await encrypt(
+    encryptedTokenString[0],
+    masterPassword
+  );
+
+  store.set(file, encryptedTokenString[1]);
+  store.set(`password.${file}`, encryptedPassword[1]);
+}
+
 export {
   handleFileOpen,
   handleExportEncryptedTokenFileFromPermissionString,
   handleSetRawToken,
+  handleSetFileToken,
 };
