@@ -17,6 +17,7 @@ import {
   handleFileOpen,
   handleSetRawToken,
   handleSetFileToken,
+  handleGetFilePath,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -134,6 +135,7 @@ app
   .whenReady()
   .then(() => {
     ipcMain.handle('dialog:openFile', handleFileOpen);
+    ipcMain.handle('dialog:getFilePath', handleGetFilePath);
     ipcMain.handle(
       'exportEncryptedTokenFileFromPermissionString',
       async (event, args) =>
@@ -143,7 +145,7 @@ app
       handleSetRawToken(args[0], args[1], args[2], args[3])
     );
     ipcMain.handle('setFileToken', async (event, args) =>
-      handleSetFileToken(args[0], args[1], args[2])
+      handleSetFileToken(args[0], args[1], args[2], args[3])
     );
     createWindow();
     app.on('activate', () => {

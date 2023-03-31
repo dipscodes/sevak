@@ -1,10 +1,12 @@
 import { dialog } from 'electron';
 import Store from 'electron-store';
+import { readFile } from 'fs/promises';
 import checkedListToJson from './utils/CheckedListToJson';
 import { PermissionObject } from './utils/Interfaces';
 import permissionObjectToFile from './utils/PermissionObjectToFile';
 import tokenTemlate from './utils/tokenTemplate.json';
 import encrypt from './utils/encrypToken';
+import decrypt from './utils/decryptToken';
 
 async function handleFileOpen(): Promise<string> {
   const { canceled, filePath } = await dialog.showSaveDialog({
@@ -20,6 +22,22 @@ async function handleFileOpen(): Promise<string> {
   if (!filePath) return '';
 
   return filePath;
+}
+
+async function handleGetFilePath(): Promise<string> {
+  const { canceled, filePaths } = await dialog.showOpenDialog({
+    properties: ['openFile', 'showHiddenFiles'],
+  });
+
+  filePaths.push('');
+  // eslint-disable-next-line no-console
+  console.log(`filepath: ${filePaths[0]}`);
+
+  if (canceled) {
+    return 'No file was selected';
+  }
+
+  return filePaths[0];
 }
 
 async function handleExportEncryptedTokenFileFromPermissionString(
@@ -57,31 +75,35 @@ async function handleSetRawToken(
     masterPassword
   );
 
-  store.set(name, encryptedTokenString[1]);
+  store.set(`permission.${name}`, encryptedTokenString[1]);
   store.set(`password.${name}`, encryptedPassword[1]);
 }
 
 async function handleSetFileToken(
   file: string,
-  passKey: string,
-  masterPassword: string
+  password: string,
+  masterPassword: string,
+  name?: string
 ): Promise<void> {
   const store = new Store();
-  const template = tokenTemlate;
-  template.is_raw_token = false;
+  const fileContent: string = await readFile(file, { encoding: 'utf-8' });
+  let decryptedPermissionString: string = await decrypt(fileContent, password);
+  const permission = JSON.parse(decryptedPermissionString);
 
-  const encryptedTokenString: string[] = await encrypt(
-    JSON.stringify(template),
-    passKey
+  if (name !== undefined) {
+    permission.name = name;
+  }
+
+  decryptedPermissionString = JSON.stringify(permission);
+  const encryptedPermissionString: string[] = await encrypt(
+    decryptedPermissionString,
+    password
   );
 
-  const encryptedPassword: string[] = await encrypt(
-    encryptedTokenString[0],
-    masterPassword
-  );
+  const encryptedPassword: string[] = await encrypt(password, masterPassword);
 
-  store.set(file, encryptedTokenString[1]);
-  store.set(`password.${file}`, encryptedPassword[1]);
+  store.set(`permission.${permission.name}`, encryptedPermissionString[1]);
+  store.set(`password.${permission.name}`, encryptedPassword[1]);
 }
 
 export {
@@ -89,4 +111,5 @@ export {
   handleExportEncryptedTokenFileFromPermissionString,
   handleSetRawToken,
   handleSetFileToken,
+  handleGetFilePath,
 };

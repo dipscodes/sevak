@@ -12,8 +12,8 @@ async function decrypt(
     Buffer.from(securitykey, 'hex'),
     Buffer.from(initVector, 'hex')
   );
-  let decryptedData = decipher.update(permission, 'utf-8', 'hex');
-  decryptedData += decipher.final('hex');
+  let decryptedData = decipher.update(permission, 'hex', 'utf-8');
+  decryptedData += decipher.final('utf-8');
 
   return decryptedData;
 }

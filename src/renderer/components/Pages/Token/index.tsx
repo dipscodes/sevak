@@ -29,8 +29,10 @@ export default function Token() {
     const passKey = (
       document.getElementById('file-password') as HTMLInputElement
     ).value;
+    const name = (document.getElementById('file-name') as HTMLInputElement)
+      .value;
 
-    window.electron.setFileToken(file, passKey, masterPassword ?? '');
+    window.electron.setFileToken(file, passKey, masterPassword ?? '', name);
     setFileMessage('File Added Succesfully');
     setIsPasswordInputModal(false);
   }
@@ -51,7 +53,7 @@ export default function Token() {
           className="discord-button ml-2"
           type="button"
           onClick={async () => {
-            const filePath = await window.electron.openFile();
+            const filePath = await window.electron.getFilePath();
             setFile(filePath ?? '');
             setIsPasswordInputModal(true);
           }}

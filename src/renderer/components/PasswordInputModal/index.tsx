@@ -48,6 +48,14 @@ export default function PasswordInputModal({
         </div>
         <div className="pt-4 pl-8 pr-8">
           <input
+            type="text"
+            id="file-name"
+            className="discord-large-input"
+            placeholder="Name"
+          />
+        </div>
+        <div className="pt-4 pl-8 pr-8">
+          <input
             type="password"
             id="file-password"
             className="discord-large-input"

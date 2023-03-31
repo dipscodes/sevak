@@ -42,8 +42,16 @@ const electronHandler = {
   ) {
     ipcRenderer.invoke('setRawToken', [name, key, passKey, masterPassword]);
   },
-  setFileToken(file: string, passKey: string, masterPassword: string) {
-    ipcRenderer.invoke('setFileToken', [file, passKey, masterPassword]);
+  setFileToken(
+    file: string,
+    passKey: string,
+    masterPassword: string,
+    name: string
+  ) {
+    ipcRenderer.invoke('setFileToken', [file, passKey, masterPassword, name]);
+  },
+  getFilePath() {
+    return ipcRenderer.invoke('dialog:getFilePath');
   },
 };
 
