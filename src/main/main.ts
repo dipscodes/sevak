@@ -18,6 +18,7 @@ import {
   handleSetRawToken,
   handleSetFileToken,
   handleGetFilePath,
+  handleGetAllPermissionNames,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -147,6 +148,8 @@ app
     ipcMain.handle('setFileToken', async (event, args) =>
       handleSetFileToken(args[0], args[1], args[2], args[3])
     );
+    ipcMain.handle('getAllPermissionNames', handleGetAllPermissionNames);
+
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

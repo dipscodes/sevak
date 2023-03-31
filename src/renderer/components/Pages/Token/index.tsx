@@ -11,6 +11,14 @@ export default function Token() {
   const [isPasswordInputModal, setIsPasswordInputModal] = useState(false);
   const [fileMessage, setFileMessage] = useState('Add Password');
 
+  const getListOfAllPermissions = async () => {
+    const a = await window.electron.getListOfAllPermissions();
+    // eslint-disable-next-line no-console
+    console.log(a);
+  };
+
+  getListOfAllPermissions();
+
   function onAddKey() {
     const key = (document.getElementById('token-key') as HTMLInputElement)
       .value;
@@ -59,6 +67,17 @@ export default function Token() {
           }}
         >
           Import File
+        </button>
+        <button
+          className="discord-button ml-2"
+          type="button"
+          onClick={async () => {
+            const filePath = await window.electron.getListOfAllPermissions();
+            // eslint-disable-next-line no-console
+            console.log(filePath);
+          }}
+        >
+          Refresh
         </button>
       </div>
       <ApiModal

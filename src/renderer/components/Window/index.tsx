@@ -9,7 +9,6 @@ export default function Window() {
   const [masterPassword, setMasterPassword] = useState('qwerty');
 
   function openSidebar(password: string): void {
-    console.log(`password: ${password}`);
     setMasterPassword(password);
     setIsMasterPasswordGiven(true);
   }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { dialog } from 'electron';
 import Store from 'electron-store';
 import { readFile } from 'fs/promises';
@@ -31,7 +32,7 @@ async function handleGetFilePath(): Promise<string> {
 
   filePaths.push('');
   // eslint-disable-next-line no-console
-  console.log(`filepath: ${filePaths[0]}`);
+  // console.log(`filepath: ${filePaths[0]}`);
 
   if (canceled) {
     return 'No file was selected';
@@ -106,10 +107,26 @@ async function handleSetFileToken(
   store.set(`password.${permission.name}`, encryptedPassword[1]);
 }
 
+function handleGetAllPermissionNames(): any[] {
+  const store = new Store();
+  const permissions: object | unknown = store.get('permission');
+  if (typeof permissions === 'object') {
+    const listOfPermissions: any[] = [];
+    Object.keys(permissions as Object).forEach((value) => {
+      listOfPermissions.push(value);
+    });
+    // console.log(listOfPermissions);
+    return Object.keys(permissions as Object);
+  }
+
+  return [];
+}
+
 export {
   handleFileOpen,
   handleExportEncryptedTokenFileFromPermissionString,
   handleSetRawToken,
   handleSetFileToken,
   handleGetFilePath,
+  handleGetAllPermissionNames,
 };

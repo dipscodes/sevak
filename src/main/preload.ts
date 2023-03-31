@@ -53,6 +53,9 @@ const electronHandler = {
   getFilePath() {
     return ipcRenderer.invoke('dialog:getFilePath');
   },
+  getListOfAllPermissions() {
+    return ipcRenderer.invoke('getAllPermissionNames');
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
