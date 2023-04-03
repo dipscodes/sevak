@@ -10,6 +10,7 @@ export default function Token() {
   const [message, setMessage] = useState('Key Not Added');
   const [isPasswordInputModal, setIsPasswordInputModal] = useState(false);
   const [fileMessage, setFileMessage] = useState('Add Password');
+  const [refresh, setRefresh] = useState(true);
   const masterPassword = useContext(MasterContext);
 
   function onAddKey() {
@@ -96,7 +97,7 @@ export default function Token() {
           setMessage('Add Password');
         }}
       />
-      <ListOfTokens />
+      <ListOfTokens refresh={refresh} onShowList={() => setRefresh(false)} />
     </div>
   );
 }

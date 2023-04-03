@@ -1,15 +1,26 @@
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import RowOfToken from '../RowOfToken';
 
-export default function ListOfTokens(): ReactElement {
+interface Props {
+  refresh: boolean;
+  onShowList: Function;
+}
+
+export default function ListOfTokens({
+  refresh,
+  onShowList,
+}: Props): ReactElement {
   const [listOfTokenNames, setListOfTokenNames] = useState(['']);
 
-  useEffect(() => {
-    (async () => {
+  (async () => {
+    if (refresh) {
       const tokenNames: string[] = await window.electron.getListOfAllTokens();
       setListOfTokenNames(tokenNames);
-    })();
-  }, []);
+    }
+  })();
+  // eslint-disable-next-line no-console
+  console.log(listOfTokenNames);
+  onShowList();
 
   return (
     <div>

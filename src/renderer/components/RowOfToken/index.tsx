@@ -2,11 +2,15 @@ import { BsChevronRight } from 'react-icons/bs';
 
 interface Props {
   name: string;
+  key: string;
 }
 
-export default function RowOfToken({ name }: Props) {
+export default function RowOfToken({ name, key }: Props) {
   return (
-    <div className="w-80 h-10 flex flex-row justify-between py-2 px-4 my-1">
+    <div
+      className="w-80 h-10 flex flex-row justify-between py-2 px-4 my-1"
+      key={key}
+    >
       <div className="flex flex-row text-text-generic-color">
         <BsChevronRight className="my-auto" size={18} />
         <span className="pl-2 font-semibold">{name}</span>
