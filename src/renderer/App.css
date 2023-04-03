@@ -9,7 +9,7 @@
   }
 
   .page-common {
-    @apply bg-discord-secondary w-full text-center;
+    @apply bg-discord-secondary w-full;
   }
 
   .power-on-button {

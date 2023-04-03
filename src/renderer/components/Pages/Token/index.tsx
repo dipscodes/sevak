@@ -39,7 +39,7 @@ export default function Token() {
   }
 
   return (
-    <div className="page-common text-text-generic-color">
+    <div className="page-common">
       <div className="flex flex-row justify-center pt-5 pb-5 bg-discord-bg-1 shadow-lg">
         <button
           className="discord-button mr-2"
