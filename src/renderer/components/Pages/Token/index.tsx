@@ -2,22 +2,15 @@ import { useState, useContext } from 'react';
 import ApiModal from 'renderer/components/ApiModal';
 import MasterContext from 'renderer/Context';
 import PasswordInputModal from 'renderer/components/PasswordInputModal';
+import ListOfTokens from 'renderer/components/ListOfTokens';
 
 export default function Token() {
   const [file, setFile] = useState('Import File');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [message, setMessage] = useState('Key Not Added');
-  const masterPassword = useContext(MasterContext);
   const [isPasswordInputModal, setIsPasswordInputModal] = useState(false);
   const [fileMessage, setFileMessage] = useState('Add Password');
-
-  const getListOfAllPermissions = async () => {
-    const a = await window.electron.getListOfAllPermissions();
-    // eslint-disable-next-line no-console
-    console.log(a);
-  };
-
-  getListOfAllPermissions();
+  const masterPassword = useContext(MasterContext);
 
   function onAddKey() {
     const key = (document.getElementById('token-key') as HTMLInputElement)
@@ -72,7 +65,7 @@ export default function Token() {
           className="discord-button ml-2"
           type="button"
           onClick={async () => {
-            const filePath = await window.electron.getListOfAllPermissions();
+            const filePath = await window.electron.getListOfAllTokens();
             // eslint-disable-next-line no-console
             console.log(filePath);
           }}
@@ -98,6 +91,7 @@ export default function Token() {
           setMessage('Add Password');
         }}
       />
+      <ListOfTokens />
     </div>
   );
 }

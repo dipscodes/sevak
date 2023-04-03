@@ -107,19 +107,14 @@ async function handleSetFileToken(
   store.set(`password.${permission.name}`, encryptedPassword[1]);
 }
 
-function handleGetAllPermissionNames(): any[] {
+function handleGetAllTokenNames(): string[] {
   const store = new Store();
-  const permissions: object | unknown = store.get('permission');
-  if (typeof permissions === 'object') {
-    const listOfPermissions: any[] = [];
-    Object.keys(permissions as Object).forEach((value) => {
-      listOfPermissions.push(value);
-    });
-    // console.log(listOfPermissions);
-    return Object.keys(permissions as Object);
+  const tokens: object = store.get('permission') as object;
+  if (typeof tokens === 'object') {
+    return Object.keys(tokens);
   }
 
-  return [];
+  return [''];
 }
 
 export {
@@ -128,5 +123,5 @@ export {
   handleSetRawToken,
   handleSetFileToken,
   handleGetFilePath,
-  handleGetAllPermissionNames,
+  handleGetAllTokenNames,
 };

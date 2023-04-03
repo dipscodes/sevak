@@ -46,15 +46,15 @@ const electronHandler = {
     file: string,
     passKey: string,
     masterPassword: string,
-    name: string
+    name?: string
   ) {
     ipcRenderer.invoke('setFileToken', [file, passKey, masterPassword, name]);
   },
   getFilePath() {
     return ipcRenderer.invoke('dialog:getFilePath');
   },
-  getListOfAllPermissions() {
-    return ipcRenderer.invoke('getAllPermissionNames');
+  getListOfAllTokens() {
+    return ipcRenderer.invoke('getAllTokenNames');
   },
 };
 

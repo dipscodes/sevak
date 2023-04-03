@@ -6,7 +6,7 @@ import MasterPasswordWindow from '../MasterPasswordWindow';
 
 export default function Window() {
   const [isMasterPasswordGiven, setIsMasterPasswordGiven] = useState(false);
-  const [masterPassword, setMasterPassword] = useState('qwerty');
+  const [masterPassword, setMasterPassword] = useState('');
 
   function openSidebar(password: string): void {
     setMasterPassword(password);
