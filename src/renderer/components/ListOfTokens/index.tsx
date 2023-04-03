@@ -5,15 +5,10 @@ export default function ListOfTokens(): ReactElement {
   const [listOfTokenNames, setListOfTokenNames] = useState(['']);
 
   useEffect(() => {
-    window.electron
-      .getListOfAllTokens()
-      .then((value) => {
-        setListOfTokenNames(value);
-        return '';
-      })
-      .catch((error) => {
-        throw error;
-      });
+    (async () => {
+      const tokenNames: string[] = await window.electron.getListOfAllTokens();
+      setListOfTokenNames(tokenNames);
+    })();
   }, []);
 
   return (
