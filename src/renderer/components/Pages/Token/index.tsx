@@ -33,7 +33,12 @@ export default function Token() {
     const name = (document.getElementById('file-name') as HTMLInputElement)
       .value;
 
-    window.electron.setFileToken(file, passKey, masterPassword ?? '', name);
+    window.electron.setFileToken(
+      file,
+      passKey,
+      masterPassword ?? '',
+      name === '' ? undefined : name
+    );
     setFileMessage('File Added Succesfully');
     setIsPasswordInputModal(false);
   }
