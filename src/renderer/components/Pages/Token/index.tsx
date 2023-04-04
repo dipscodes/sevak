@@ -52,6 +52,7 @@ export default function Token() {
           type="button"
           onClick={() => {
             setIsModalOpen(true);
+            setRefresh((prev) => (prev + 1) % 2);
           }}
         >
           Add Token
@@ -62,7 +63,8 @@ export default function Token() {
           onClick={async () => {
             const filePath = await window.electron.getFilePath();
             setFile(filePath ?? '');
-            setIsPasswordInputModal(true);
+            setIsPasswordInputModal((filePath || false) && true);
+            setRefresh((prev) => (prev + 1) % 2);
           }}
         >
           Import File

@@ -26,6 +26,7 @@ async function handleFileOpen(): Promise<string> {
 }
 
 async function handleGetFilePath(): Promise<string> {
+  // eslint-disable-next-line no-unused-vars
   const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openFile', 'showHiddenFiles'],
   });
@@ -33,10 +34,6 @@ async function handleGetFilePath(): Promise<string> {
   filePaths.push('');
   // eslint-disable-next-line no-console
   // console.log(`filepath: ${filePaths[0]}`);
-
-  if (canceled) {
-    return 'No file was selected';
-  }
 
   return filePaths[0];
 }
