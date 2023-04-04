@@ -15,7 +15,9 @@ export default function ListOfTokens(): ReactElement {
     <div>
       {listOfTokenNames.map((name) => {
         return name === '' ? (
-          <span className="text-text-generic-color">No Available Tokens</span>
+          <span className="text-text-generic-color" key="nothing">
+            No Available Tokens
+          </span>
         ) : (
           <RowOfToken name={name} key={name} />
         );

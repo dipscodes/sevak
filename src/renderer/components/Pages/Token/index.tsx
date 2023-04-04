@@ -10,6 +10,7 @@ export default function Token() {
   const [message, setMessage] = useState('Key Not Added');
   const [isPasswordInputModal, setIsPasswordInputModal] = useState(false);
   const [fileMessage, setFileMessage] = useState('Add Password');
+  const [refresh, setRefresh] = useState(0);
   const masterPassword = useContext(MasterContext);
 
   function onAddKey() {
@@ -70,9 +71,8 @@ export default function Token() {
           className="discord-button ml-2"
           type="button"
           onClick={async () => {
-            const filePath = await window.electron.getListOfAllTokens();
             // eslint-disable-next-line no-console
-            console.log(filePath);
+            setRefresh((prev) => (prev + 1) % 2);
           }}
         >
           Refresh
@@ -96,7 +96,7 @@ export default function Token() {
           setMessage('Add Password');
         }}
       />
-      <ListOfTokens />
+      <ListOfTokens key={refresh} />
     </div>
   );
 }
