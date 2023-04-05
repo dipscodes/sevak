@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import {
   AiOutlineDownload,
@@ -28,7 +28,6 @@ export default function Export() {
   const [expanded, setExpanded] = useState(['']);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [passWordKey, setPassWordKey] = useState('');
-  const [tokenName, setTokenName] = useState('');
   const masterPassword = useContext(MasterContext);
 
   async function exportEncryptedTokenFileFromPermissionString(): Promise<void> {
@@ -42,6 +41,13 @@ export default function Export() {
       return;
     }
 
+    const tokenName: string = (
+      document.getElementById('selectToken') as HTMLSelectElement
+    ).value;
+
+    // eslint-disable-next-line no-console
+    console.log(tokenName);
+
     const passKey =
       await window.electron.exportEncryptedTokenFileFromPermissionString(
         writePath,
@@ -53,13 +59,9 @@ export default function Export() {
     setIsModalOpen(true);
   }
 
-  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setTokenName(event.target.value);
-  };
-
   return (
     <div className="page-common text-text-generic-color justify-center">
-      <TokenListDropdown onChange={handleChange} />
+      <TokenListDropdown />
       <CheckboxTree
         nodes={nodes}
         checked={checked}

@@ -1,10 +1,6 @@
-import { useEffect, useState, ChangeEventHandler } from 'react';
+import { useEffect, useState } from 'react';
 
-interface Props {
-  onChange: ChangeEventHandler<HTMLSelectElement>;
-}
-
-export default function TokenListDropdown({ onChange }: Props) {
+export default function TokenListDropdown() {
   const [listOfTokenNames, setListOfTokenNames] = useState(['']);
 
   useEffect(() => {
@@ -17,9 +13,9 @@ export default function TokenListDropdown({ onChange }: Props) {
   return (
     <div className="flex flex-row justify-center pt-5 pb-5 bg-discord-bg-1 shadow-lg">
       <select
+        id="selectToken"
         name="token"
         className="w-40 text-center bg-gray-700 rounded-lg pb-1 text-white"
-        onChange={onChange}
       >
         {listOfTokenNames.map((name) => {
           return name === '' ? (
