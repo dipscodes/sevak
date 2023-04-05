@@ -10,7 +10,7 @@ function inflate(targetLength: number, password?: string): Buffer | undefined {
 
 async function encrypt(
   genericString: string,
-  password?: string
+  password?: string // this password is decrypted always
 ): Promise<Array<string>> {
   const algorithm: string = 'aes-256-cbc';
   const initVector: string = 'bd5fac96dd725e297f87bf255e3aadb0';
@@ -24,7 +24,7 @@ async function encrypt(
 
   let encryptedData = cipher.update(genericString, 'utf-8', 'hex');
   encryptedData += cipher.final('hex');
-  const passKey = securitykey.toString('hex');
+  const passKey = securitykey.toString('utf-8');
 
   return [!password ? passKey : password, encryptedData];
 }

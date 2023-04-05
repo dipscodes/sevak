@@ -40,13 +40,38 @@ async function handleGetFilePath(): Promise<string> {
 
 async function handleExportEncryptedTokenFileFromPermissionString(
   writePath: string,
-  checkedList: string[]
+  checkedList: string[],
+  tokenName: string,
+  masterPassword: string
 ) {
-  const permissionObject: PermissionObject = checkedListToJson(checkedList);
+  const store = new Store();
+  const encryptedPassword = store.get(`password.${tokenName}`);
+  console.log(`encrypted_password${encryptedPassword}`);
+  console.log('master_password', masterPassword);
+  const decryptedPassword = await decrypt(
+    encryptedPassword as string,
+    masterPassword
+  );
+  console.log('decrypted_password', decryptedPassword);
+  const encryptedPermissionString = store.get(`permission.${tokenName}`);
+  const decryptedPermissionString = await decrypt(
+    encryptedPermissionString as string,
+    decryptedPassword
+  );
+
+  console.log('encryptedPermissionString', encryptedPermissionString);
+  console.log('decryptedPermissionString', decryptedPermissionString);
+
+  const rawTokenKey: string = JSON.parse(decryptedPermissionString).token;
+  const permissionObject: PermissionObject = checkedListToJson(
+    checkedList,
+    rawTokenKey as string
+  );
   const passKey: string = await permissionObjectToFile(
     writePath,
     permissionObject
   );
+  console.log(writePath, rawTokenKey);
   return passKey;
 }
 
@@ -83,6 +108,7 @@ async function handleSetFileToken(
   masterPassword: string,
   name?: string
 ): Promise<void> {
+  console.log(file, password, masterPassword, name ?? 'no name came');
   const store = new Store();
   const fileContent: string = await readFile(file, { encoding: 'utf-8' });
   let decryptedPermissionString: string = await decrypt(fileContent, password);

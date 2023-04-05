@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
@@ -27,11 +28,18 @@ const electronHandler = {
   },
   exportEncryptedTokenFileFromPermissionString(
     writePath: string,
-    checkedList: string[]
+    checkedList: string[],
+    tokenName: string,
+    masterPassword: string
   ) {
+    // console.log(
+    //   `preload.${writePath}.${checkedList}.${tokenName}.${masterPassword}`
+    // );
     return ipcRenderer.invoke('exportEncryptedTokenFileFromPermissionString', [
       writePath,
       checkedList,
+      tokenName,
+      masterPassword,
     ]);
   },
   setRawToken(
@@ -48,6 +56,7 @@ const electronHandler = {
     masterPassword: string,
     name?: string
   ) {
+    console.log(file, passKey, masterPassword, name ?? 'no name came');
     ipcRenderer.invoke('setFileToken', [file, passKey, masterPassword, name]);
   },
   getFilePath() {

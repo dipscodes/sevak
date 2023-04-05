@@ -140,7 +140,12 @@ app
     ipcMain.handle(
       'exportEncryptedTokenFileFromPermissionString',
       async (event, args) =>
-        handleExportEncryptedTokenFileFromPermissionString(args[0], args[1])
+        handleExportEncryptedTokenFileFromPermissionString(
+          args[0],
+          args[1],
+          args[2],
+          args[3]
+        )
     );
     ipcMain.handle('setRawToken', async (event, args) =>
       handleSetRawToken(args[0], args[1], args[2], args[3])
