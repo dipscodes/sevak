@@ -2,7 +2,8 @@ import { PermissionObject } from './Interfaces';
 import template from './tokenTemplate.json';
 
 export default function checkedListToJson(
-  checkedList: string[]
+  checkedList: string[],
+  rawTokenKey: string
 ): PermissionObject {
   const permissionObject = template;
   if (!checkedList) {
@@ -13,6 +14,7 @@ export default function checkedListToJson(
     const subKey = value.split('-')[1];
     permissionObject[key][subKey] = true;
   });
+  permissionObject.token = rawTokenKey;
 
   return permissionObject;
 }
