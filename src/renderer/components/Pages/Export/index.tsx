@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useState, useContext } from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import {
   AiOutlineDownload,
@@ -8,6 +8,8 @@ import {
 import { BsChevronDown, BsChevronRight, BsDashSquare } from 'react-icons/bs';
 import { FaCheckSquare } from 'react-icons/fa';
 import PasswordModal from 'renderer/components/PasswordModal';
+import TokenListDropdown from 'renderer/components/TokenListDropdown';
+import MasterContext from 'renderer/Context';
 
 const nodes = [
   {
@@ -26,11 +28,8 @@ export default function Export() {
   const [expanded, setExpanded] = useState(['']);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [passWordKey, setPassWordKey] = useState('');
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log(checked, expanded);
-  }, [checked, expanded]);
+  const [tokenName, setTokenName] = useState('');
+  const masterPassword = useContext(MasterContext);
 
   async function exportEncryptedTokenFileFromPermissionString(): Promise<void> {
     const writePath = await window.electron.openFile();
@@ -46,14 +45,21 @@ export default function Export() {
     const passKey =
       await window.electron.exportEncryptedTokenFileFromPermissionString(
         writePath,
-        checked
+        checked,
+        tokenName,
+        masterPassword ?? ''
       );
     setPassWordKey(passKey);
     setIsModalOpen(true);
   }
 
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    setTokenName(event.target.value);
+  };
+
   return (
     <div className="page-common text-text-generic-color justify-center">
+      <TokenListDropdown onChange={handleChange} />
       <CheckboxTree
         nodes={nodes}
         checked={checked}
