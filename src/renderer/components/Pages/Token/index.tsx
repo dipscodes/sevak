@@ -19,11 +19,7 @@ export default function Token() {
     const name = (document.getElementById('token-name') as HTMLInputElement)
       .value;
 
-    const passKey = (
-      document.getElementById('token-password') as HTMLInputElement
-    ).value;
-
-    window.electron.setRawToken(name, key, passKey, masterPassword ?? '');
+    window.electron.setRawToken(name, key, masterPassword ?? '');
     setMessage('Key Added Succesfully');
     setRefresh((prev) => (prev + 1) % 2);
   }

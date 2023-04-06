@@ -6,7 +6,9 @@ export default class Encrypt {
    * Encrypts the data and sends back(returns) a security key.
    * @param permissionString: normal string with no encryption applied.
    */
-  static encryptPermissionString(permissionString: string) {
+  static async encryptPermissionString(
+    permissionString: string
+  ): Promise<Array<string>> {
     const algorithm: string = 'aes-256-cbc';
     const initVector: string = 'bd5fac96dd725e297f87bf255e3aadb0';
     const securitykey: Buffer = crypto.randomBytes(32);
@@ -33,7 +35,10 @@ export default class Encrypt {
    * @param normalPassword: normal string (decrypted)
    * @param masterPassword: normal string (decrypted)
    */
-  static encryptNormalPassword(normalPassword: string, masterPassword: string) {
+  static async encryptNormalPassword(
+    normalPassword: string,
+    masterPassword: string
+  ): Promise<string> {
     const algorithm: string = 'aes-256-cbc';
     const initVector: string = 'bd5fac96dd725e297f87bf255e3aadb0';
     const inflatedPassword: string = this.#inflate(32, masterPassword);

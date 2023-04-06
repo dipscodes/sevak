@@ -148,7 +148,7 @@ app
         )
     );
     ipcMain.handle('setRawToken', async (event, args) =>
-      handleSetRawToken(args[0], args[1], args[2], args[3])
+      handleSetRawToken(args[0], args[1], args[2])
     );
     ipcMain.handle('setFileToken', async (event, args) =>
       handleSetFileToken(args[0], args[1], args[2], args[3])

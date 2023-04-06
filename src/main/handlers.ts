@@ -6,8 +6,8 @@ import checkedListToJson from './utils/CheckedListToJson';
 import { PermissionObject } from './utils/Interfaces';
 import permissionObjectToFile from './utils/PermissionObjectToFile';
 import tokenTemlate from './utils/tokenTemplate.json';
-import encrypt from './utils/encrypToken';
-import decrypt from './utils/decryptToken';
+import Encrypt from './utils/Encrypt';
+import Decrypt from './utils/Decrypt';
 
 async function handleFileOpen(): Promise<string> {
   const { canceled, filePath } = await dialog.showSaveDialog({
@@ -46,21 +46,15 @@ async function handleExportEncryptedTokenFileFromPermissionString(
 ) {
   const store = new Store();
   const encryptedPassword = store.get(`password.${tokenName}`);
-  console.log(`encrypted_password${encryptedPassword}`);
-  console.log('master_password', masterPassword);
-  const decryptedPassword = await decrypt(
+  const decryptedPassword = await Decrypt.decryptNormalPassword(
     encryptedPassword as string,
     masterPassword
   );
-  console.log('decrypted_password', decryptedPassword);
   const encryptedPermissionString = store.get(`permission.${tokenName}`);
-  const decryptedPermissionString = await decrypt(
+  const decryptedPermissionString = await Decrypt.decryptPermissionString(
     encryptedPermissionString as string,
     decryptedPassword
   );
-
-  console.log('encryptedPermissionString', encryptedPermissionString);
-  console.log('decryptedPermissionString', decryptedPermissionString);
 
   const rawTokenKey: string = JSON.parse(decryptedPermissionString).token;
   const permissionObject: PermissionObject = checkedListToJson(
@@ -78,7 +72,6 @@ async function handleExportEncryptedTokenFileFromPermissionString(
 async function handleSetRawToken(
   name: string,
   key: string,
-  passKey: string,
   masterPassword: string
 ): Promise<void> {
   const store = new Store();
@@ -88,18 +81,17 @@ async function handleSetRawToken(
   template.name = name;
   template.is_raw_token = true;
 
-  const encryptedTokenString: string[] = await encrypt(
-    JSON.stringify(template),
-    passKey
+  const encryptedTokenString: string[] = await Encrypt.encryptPermissionString(
+    JSON.stringify(template)
   );
 
-  const encryptedPassword: string[] = await encrypt(
-    encryptedTokenString[0],
+  const encryptedPassword: string = await Encrypt.encryptNormalPassword(
+    encryptedTokenString[0], // passKey
     masterPassword
   );
 
   store.set(`permission.${name}`, encryptedTokenString[1]);
-  store.set(`password.${name}`, encryptedPassword[1]);
+  store.set(`password.${name}`, encryptedPassword);
 }
 
 async function handleSetFileToken(
@@ -111,7 +103,10 @@ async function handleSetFileToken(
   console.log(file, password, masterPassword, name ?? 'no name came');
   const store = new Store();
   const fileContent: string = await readFile(file, { encoding: 'utf-8' });
-  let decryptedPermissionString: string = await decrypt(fileContent, password);
+  let decryptedPermissionString: string = await Decrypt.decryptPermissionString(
+    fileContent,
+    password
+  );
   const permission = JSON.parse(decryptedPermissionString);
 
   if (name !== undefined) {
@@ -119,15 +114,16 @@ async function handleSetFileToken(
   }
 
   decryptedPermissionString = JSON.stringify(permission);
-  const encryptedPermissionString: string[] = await encrypt(
-    decryptedPermissionString,
-    password
+  const encryptedPermissionString: string[] =
+    await Encrypt.encryptPermissionString(decryptedPermissionString);
+
+  const encryptedPassword: string = await Encrypt.encryptNormalPassword(
+    encryptedPermissionString[0],
+    masterPassword
   );
 
-  const encryptedPassword: string[] = await encrypt(password, masterPassword);
-
   store.set(`permission.${permission.name}`, encryptedPermissionString[1]);
-  store.set(`password.${permission.name}`, encryptedPassword[1]);
+  store.set(`password.${permission.name}`, encryptedPassword);
 }
 
 function handleGetAllTokenNames(): string[] {

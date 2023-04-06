@@ -6,10 +6,10 @@ export default class Decrypt {
    * @param encryptedPermissionString: encrypted hex string
    * @param normalPassword: decrypted (hex) string. (NOT ENCRYPTED.)
    */
-  static decryptPermissionString(
+  static async decryptPermissionString(
     encryptedPermissionString: string,
     normalPassword: string
-  ): string {
+  ): Promise<string> {
     const algorithm: string = 'aes-256-cbc';
     const initVector: string = 'bd5fac96dd725e297f87bf255e3aadb0';
 
@@ -33,10 +33,10 @@ export default class Decrypt {
    * @param encryptedPassword: encrypted hex string
    * @param masterPassword: normal string
    */
-  static decryptNormalPassword(
+  static async decryptNormalPassword(
     encryptedPassword: string,
     masterPassword: string
-  ): string {
+  ): Promise<string> {
     const algorithm: string = 'aes-256-cbc';
     const initVector: string = 'bd5fac96dd725e297f87bf255e3aadb0';
     const inflatedPassword: string = this.#inflate(32, masterPassword);
