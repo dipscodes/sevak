@@ -62,14 +62,6 @@ export default function ApiModal({
             placeholder="Name"
           />
         </div>
-        <div className="pt-4 pl-8 pr-8">
-          <input
-            type="password"
-            id="token-password"
-            className="discord-large-input"
-            placeholder="Password"
-          />
-        </div>
         <div
           role="button"
           className="addKeyText mb-8"
