@@ -19,6 +19,7 @@ import {
   handleSetFileToken,
   handleGetFilePath,
   handleGetAllTokenNames,
+  handleGetTokenPermission,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -154,6 +155,9 @@ app
       handleSetFileToken(args[0], args[1], args[2], args[3])
     );
     ipcMain.handle('getAllTokenNames', handleGetAllTokenNames);
+    ipcMain.handle('getTokenPermission', async (event, args) =>
+      handleGetTokenPermission(args[0], args[1])
+    );
 
     createWindow();
     app.on('activate', () => {

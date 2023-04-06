@@ -136,6 +136,25 @@ function handleGetAllTokenNames(): string[] {
   return [''];
 }
 
+async function handleGetTokenPermission(
+  name: string,
+  masterPassword: string
+): Promise<string> {
+  const store = new Store();
+  const encryptedPassword = store.get(`password.${name}`);
+  const encryptedPermissionString = store.get(`permission.${name}`);
+
+  const decryptedPassword = await Decrypt.decryptNormalPassword(
+    encryptedPassword as string,
+    masterPassword
+  );
+  const decryptedPermissionString = await Decrypt.decryptPermissionString(
+    encryptedPermissionString as string,
+    decryptedPassword
+  );
+  return decryptedPermissionString;
+}
+
 export {
   handleFileOpen,
   handleExportEncryptedTokenFileFromPermissionString,
@@ -143,4 +162,5 @@ export {
   handleSetFileToken,
   handleGetFilePath,
   handleGetAllTokenNames,
+  handleGetTokenPermission,
 };

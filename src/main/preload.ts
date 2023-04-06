@@ -60,6 +60,9 @@ const electronHandler = {
   getListOfAllTokens() {
     return ipcRenderer.invoke('getAllTokenNames');
   },
+  getTokenPermission(name: string, masterPassword: string) {
+    return ipcRenderer.invoke('getTokenPermission', [name, masterPassword]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
