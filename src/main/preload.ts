@@ -51,7 +51,6 @@ const electronHandler = {
     masterPassword: string,
     name?: string
   ) {
-    console.log(file, passKey, masterPassword, name ?? 'no name came');
     ipcRenderer.invoke('setFileToken', [file, passKey, masterPassword, name]);
   },
   getFilePath() {

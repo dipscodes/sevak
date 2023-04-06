@@ -100,7 +100,6 @@ async function handleSetFileToken(
   masterPassword: string,
   name?: string
 ): Promise<void> {
-  console.log(file, password, masterPassword, name ?? 'no name came');
   const store = new Store();
   const fileContent: string = await readFile(file, { encoding: 'utf-8' });
   let decryptedPermissionString: string = await Decrypt.decryptPermissionString(
