@@ -20,6 +20,7 @@ import {
   handleGetFilePath,
   handleGetAllTokenNames,
   handleGetTokenPermission,
+  handleDeleteExistingToken,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -157,6 +158,9 @@ app
     ipcMain.handle('getAllTokenNames', handleGetAllTokenNames);
     ipcMain.handle('getTokenPermission', async (event, args) =>
       handleGetTokenPermission(args[0], args[1])
+    );
+    ipcMain.handle('deleteExistingToken', async (event, args) =>
+      handleDeleteExistingToken(args[0])
     );
 
     createWindow();

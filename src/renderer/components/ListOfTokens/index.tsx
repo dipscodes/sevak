@@ -1,7 +1,11 @@
 import { ReactElement, useEffect, useState } from 'react';
 import RowOfToken from '../RowOfToken';
 
-export default function ListOfTokens(): ReactElement {
+interface Props {
+  toggleRefresh: Function;
+}
+
+export default function ListOfTokens({ toggleRefresh }: Props): ReactElement {
   const [listOfTokenNames, setListOfTokenNames] = useState(['']);
   const [permissions, setPermissions] = useState('');
 
@@ -27,6 +31,7 @@ export default function ListOfTokens(): ReactElement {
               setPermissions={(p: string) => {
                 setPermissions(p);
               }}
+              toggleRefresh={toggleRefresh}
             />
           );
         })}

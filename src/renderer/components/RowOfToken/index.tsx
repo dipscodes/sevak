@@ -4,11 +4,15 @@ import MasterContext from 'renderer/Context';
 
 interface Props {
   name: string;
-  // eslint-disable-next-line no-unused-vars
   setPermissions: Function;
+  toggleRefresh: Function;
 }
 
-export default function RowOfToken({ name, setPermissions }: Props) {
+export default function RowOfToken({
+  name,
+  setPermissions,
+  toggleRefresh,
+}: Props) {
   const masterPassword = useContext(MasterContext);
   const showPermissionString = async () => {
     const permissionString = await window.electron.getTokenPermission(
@@ -18,6 +22,14 @@ export default function RowOfToken({ name, setPermissions }: Props) {
     // eslint-disable-next-line no-console
     console.log(JSON.parse(permissionString));
     setPermissions(permissionString);
+  };
+
+  const deletePermissionString = async () => {
+    // eslint-disable-next-line no-alert, no-restricted-globals
+    if (confirm('Do you want to delete?')) {
+      window.electron.deleteExistingToken(name);
+    }
+    toggleRefresh();
   };
 
   return (
@@ -31,6 +43,7 @@ export default function RowOfToken({ name, setPermissions }: Props) {
         <button
           className="rounded-full px-2 bg-red-500 text-white shadow-lg hover:shadow-none font-light"
           type="button"
+          onClick={deletePermissionString}
         >
           Delete
         </button>

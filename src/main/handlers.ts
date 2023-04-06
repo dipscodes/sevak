@@ -156,6 +156,12 @@ async function handleGetTokenPermission(
   return JSON.stringify(decyprtedPermissionStringInJSON);
 }
 
+async function handleDeleteExistingToken(name: string): Promise<void> {
+  const store = new Store();
+  store.delete(`permission.${name}`);
+  store.delete(`password.${name}`);
+}
+
 export {
   handleFileOpen,
   handleExportEncryptedTokenFileFromPermissionString,
@@ -164,4 +170,5 @@ export {
   handleGetFilePath,
   handleGetAllTokenNames,
   handleGetTokenPermission,
+  handleDeleteExistingToken,
 };

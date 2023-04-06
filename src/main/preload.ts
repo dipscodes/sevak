@@ -62,6 +62,9 @@ const electronHandler = {
   getTokenPermission(name: string, masterPassword: string) {
     return ipcRenderer.invoke('getTokenPermission', [name, masterPassword]);
   },
+  deleteExistingToken(name: string) {
+    ipcRenderer.invoke('deleteExistingToken', [name]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);

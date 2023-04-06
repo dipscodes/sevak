@@ -22,6 +22,7 @@ export default function Token() {
     window.electron.setRawToken(name, key, masterPassword ?? '');
     setMessage('Key Added Succesfully');
     setRefresh((prev) => (prev + 1) % 2);
+    setIsModalOpen(false);
   }
 
   function onAddMessage() {
@@ -41,6 +42,10 @@ export default function Token() {
     setIsPasswordInputModal(false);
     setRefresh((prev) => (prev + 1) % 2);
   }
+
+  const toggleRefresh = () => {
+    setRefresh((prev) => (prev + 1) % 2);
+  };
 
   return (
     <div className="page-common">
@@ -94,7 +99,7 @@ export default function Token() {
           setMessage('Add Password');
         }}
       />
-      <ListOfTokens key={refresh} />
+      <ListOfTokens key={refresh} toggleRefresh={toggleRefresh} />
     </div>
   );
 }
