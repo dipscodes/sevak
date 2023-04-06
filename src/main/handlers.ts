@@ -152,7 +152,9 @@ async function handleGetTokenPermission(
     encryptedPermissionString as string,
     decryptedPassword
   );
-  return decryptedPermissionString;
+  const decyprtedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
+  delete decyprtedPermissionStringInJSON.token;
+  return JSON.stringify(decyprtedPermissionStringInJSON);
 }
 
 export {
