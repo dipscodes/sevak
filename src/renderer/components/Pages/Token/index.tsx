@@ -21,8 +21,8 @@ export default function Token() {
 
     window.electron.setRawToken(name, key, masterPassword ?? '');
     setMessage('Key Added Succesfully');
-    setRefresh((prev) => (prev + 1) % 2);
     setIsModalOpen(false);
+    setRefresh((prev) => (prev + 1) % 2);
   }
 
   function onAddMessage() {
