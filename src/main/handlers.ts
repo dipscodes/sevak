@@ -8,7 +8,7 @@ import permissionObjectToFile from './utils/PermissionObjectToFile';
 import tokenTemlate from './utils/tokenTemplate.json';
 import Encrypt from './utils/Encrypt';
 import Decrypt from './utils/Decrypt';
-import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
+// import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
 
 async function handleFileOpen(): Promise<string> {
   const { canceled, filePath } = await dialog.showSaveDialog({
@@ -163,6 +163,32 @@ async function handleDeleteExistingToken(name: string): Promise<void> {
   store.delete(`password.${name}`);
 }
 
+async function getListOfDroplets(apiKey: string) {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+
+  const dropletNamesAndIds: any[] = [];
+  const allDropletsPresentAPICall: string = `https://api.digitalocean.com/v2/droplets`;
+
+  const apiResponse = await fetch(allDropletsPresentAPICall, {
+    method: 'GET',
+    headers,
+  });
+  const allDropletsPresent: any[] = await apiResponse.json();
+
+  allDropletsPresent.forEach((dropletInfo: any) => {
+    if (allDropletsPresent.length > 0) {
+      const name: string = dropletInfo.name as string;
+      const id: string = dropletInfo.id as string;
+      const dropletObj: object = { [`${name}`]: id };
+      dropletNamesAndIds.push(dropletObj);
+    }
+  });
+  return dropletNamesAndIds;
+}
+
 async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
@@ -182,16 +208,11 @@ async function handleGetTokenSpecificCheckboxNode(
   const decryptedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
   const apiKey = decryptedPermissionStringInJSON.token;
 
-  const headers = {
-    'Content-Type': 'application/json',
-    Authorization: apiKey,
-  };
+  const listOfDropletNamesAndIds = getListOfDroplets(apiKey); // [{dropletName: id, ...}]
 
-  const dropletPowerOnBody = {
-    type: 'power_on',
-  };
-
-  return [{}];
+  // populate the tokentemplate
+  // tokenTemlate.token =
+  return [{ listOfDropletNamesAndIds }];
 }
 
 export {
