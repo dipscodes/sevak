@@ -8,6 +8,7 @@ import permissionObjectToFile from './utils/PermissionObjectToFile';
 import tokenTemlate from './utils/tokenTemplate.json';
 import Encrypt from './utils/Encrypt';
 import Decrypt from './utils/Decrypt';
+import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
 
 async function handleFileOpen(): Promise<string> {
   const { canceled, filePath } = await dialog.showSaveDialog({
@@ -162,6 +163,37 @@ async function handleDeleteExistingToken(name: string): Promise<void> {
   store.delete(`password.${name}`);
 }
 
+async function handleGetTokenSpecificCheckboxNode(
+  tokenName: string,
+  masterPassword: string
+): Promise<Array<object>> {
+  const store = new Store();
+  const encryptedPassword = store.get(`password.${tokenName}`);
+  const encryptedPermissionString = store.get(`permission.${tokenName}`);
+
+  const decryptedPassword = await Decrypt.decryptNormalPassword(
+    encryptedPassword as string,
+    masterPassword
+  );
+  const decryptedPermissionString = await Decrypt.decryptPermissionString(
+    encryptedPermissionString as string,
+    decryptedPassword
+  );
+  const decryptedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
+  const apiKey = decryptedPermissionStringInJSON.token;
+
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: apiKey,
+  };
+
+  const dropletPowerOnBody = {
+    type: 'power_on',
+  };
+
+  return [{}];
+}
+
 export {
   handleFileOpen,
   handleExportEncryptedTokenFileFromPermissionString,
@@ -171,4 +203,5 @@ export {
   handleGetAllTokenNames,
   handleGetTokenPermission,
   handleDeleteExistingToken,
+  handleGetTokenSpecificCheckboxNode,
 };

@@ -21,6 +21,15 @@ const nodes = [
       { value: 'droplet_action-reboot', label: 'Reboot' },
     ],
   },
+  {
+    value: 'DropletActions1',
+    label: 'Droplet Actions',
+    children: [
+      { value: 'droplet_action-power_on1', label: 'Power On' },
+      { value: 'droplet_action-power_off1', label: 'Power Off' },
+      { value: 'droplet_action-reboot1', label: 'Reboot' },
+    ],
+  },
 ];
 
 export default function Export() {
@@ -44,9 +53,6 @@ export default function Export() {
     const tokenName: string = (
       document.getElementById('selectToken') as HTMLSelectElement
     ).value;
-
-    // eslint-disable-next-line no-console
-    console.log(tokenName);
 
     const passKey =
       await window.electron.exportEncryptedTokenFileFromPermissionString(

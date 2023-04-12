@@ -17,7 +17,19 @@ export default function TokenListDropdown() {
         name="token"
         className="w-40 text-center bg-gray-700 rounded-lg pb-1 text-white"
       >
-        {listOfTokenNames.map((name) => {
+        {listOfTokenNames.map((name, index) => {
+          if (name !== '' && index === 0) {
+            return (
+              <option
+                className="hover:bg-gray-100"
+                value={name}
+                key={name}
+                selected
+              >
+                {name}
+              </option>
+            );
+          }
           return name === '' ? (
             <option className="text-white" key="nothing">
               No Available Tokens
