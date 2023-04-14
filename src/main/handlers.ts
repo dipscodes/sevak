@@ -170,16 +170,16 @@ async function getListOfDroplets(apiKey: string) {
   };
 
   const dropletNamesAndIds: any[] = [];
-  const allDropletsPresentAPICall: string = `https://api.digitalocean.com/v2/droplets`;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets`;
 
-  const apiResponse = await fetch(allDropletsPresentAPICall, {
+  const apiResponse = await fetch(dropletsApiCall, {
     method: 'GET',
     headers,
   });
-  const allDropletsPresent: any[] = await apiResponse.json();
+  const droplets: any = await apiResponse.json();
 
-  allDropletsPresent.forEach((dropletInfo: any) => {
-    if (allDropletsPresent.length > 0) {
+  droplets.droplets.forEach((dropletInfo: any) => {
+    if (droplets.droplets.length > 0) {
       const name: string = dropletInfo.name as string;
       const id: string = dropletInfo.id as string;
       const dropletObj: object = { [`${name}`]: id };
@@ -193,6 +193,7 @@ async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
 ): Promise<Array<object>> {
+  console.log(tokenName, masterPassword);
   const store = new Store();
   const encryptedPassword = store.get(`password.${tokenName}`);
   const encryptedPermissionString = store.get(`permission.${tokenName}`);
@@ -208,11 +209,11 @@ async function handleGetTokenSpecificCheckboxNode(
   const decryptedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
   const apiKey = decryptedPermissionStringInJSON.token;
 
-  const listOfDropletNamesAndIds = getListOfDroplets(apiKey); // [{dropletName: id, ...}]
+  const listOfDropletNamesAndIds = await getListOfDroplets(apiKey); // [{dropletName: id, ...}]
 
   // populate the tokentemplate
   // tokenTemlate.token =
-  return [{ listOfDropletNamesAndIds }];
+  return listOfDropletNamesAndIds;
 }
 
 export {

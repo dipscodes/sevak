@@ -65,6 +65,12 @@ const electronHandler = {
   deleteExistingToken(name: string) {
     ipcRenderer.invoke('deleteExistingToken', [name]);
   },
+  getTokenSpecificCheckboxNode(tokenName: string, masterPassword: string) {
+    return ipcRenderer.invoke('getTokenSpecificCheckboxNode', [
+      tokenName,
+      masterPassword,
+    ]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);

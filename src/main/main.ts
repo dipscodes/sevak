@@ -21,6 +21,7 @@ import {
   handleGetAllTokenNames,
   handleGetTokenPermission,
   handleDeleteExistingToken,
+  handleGetTokenSpecificCheckboxNode,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -161,6 +162,9 @@ app
     );
     ipcMain.handle('deleteExistingToken', async (event, args) =>
       handleDeleteExistingToken(args[0])
+    );
+    ipcMain.handle('getTokenSpecificCheckboxNode', async (event, args) =>
+      handleGetTokenSpecificCheckboxNode(args[0], args[1])
     );
 
     createWindow();
