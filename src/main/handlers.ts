@@ -8,6 +8,8 @@ import permissionObjectToFile from './utils/PermissionObjectToFile';
 import tokenTemlate from './utils/tokenTemplate.json';
 import Encrypt from './utils/Encrypt';
 import Decrypt from './utils/Decrypt';
+import dropletPermission from './utils/dropletPermissionTemplate.json';
+import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
 // import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
 
 async function handleFileOpen(): Promise<string> {
@@ -169,7 +171,7 @@ async function getListOfDroplets(apiKey: string) {
     Authorization: `Bearer dop_v1_${apiKey}`,
   };
 
-  const dropletNamesAndIds: any[] = [];
+  const dropletNamesAndIds: object = {};
   const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets`;
 
   const apiResponse = await fetch(dropletsApiCall, {
@@ -182,8 +184,8 @@ async function getListOfDroplets(apiKey: string) {
     if (droplets.droplets.length > 0) {
       const name: string = dropletInfo.name as string;
       const id: string = dropletInfo.id as string;
-      const dropletObj: object = { [`${name}`]: id };
-      dropletNamesAndIds.push(dropletObj);
+      // const dropletObj: object = { [`${id}~${name}`]: dropletPermission };
+      dropletNamesAndIds[`${id}~${name}`] = dropletPermission;
     }
   });
   return dropletNamesAndIds;
@@ -192,7 +194,7 @@ async function getListOfDroplets(apiKey: string) {
 async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
-): Promise<Array<object>> {
+): Promise<object> {
   console.log(tokenName, masterPassword);
   const store = new Store();
   const encryptedPassword = store.get(`password.${tokenName}`);
@@ -213,7 +215,9 @@ async function handleGetTokenSpecificCheckboxNode(
 
   // populate the tokentemplate
   // tokenTemlate.token =
-  return listOfDropletNamesAndIds;
+  tokenTemlate.permissions.droplets = listOfDropletNamesAndIds;
+  return convertJSONtoCheckboxNodes(tokenTemlate, '');
+  // return tokenTemlate;
 }
 
 export {

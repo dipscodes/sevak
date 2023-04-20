@@ -12,26 +12,77 @@ import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import MasterContext from 'renderer/Context';
 
 const nodes = [
+  { value: 'token', label: 'token' },
+  { value: 'name', label: 'name' },
+  { value: 'is_raw_token', label: 'is_raw_token' },
   {
-    value: 'DropletActions',
-    label: 'Droplet Actions',
+    value: 'permissions',
+    label: 'permissions',
     children: [
-      { value: 'droplet_action-power_on', label: 'Power On' },
-      { value: 'droplet_action-power_off', label: 'Power Off' },
-      { value: 'droplet_action-reboot', label: 'Reboot' },
-    ],
-  },
-  {
-    value: 'DropletActions1',
-    label: 'Droplet Actions',
-    children: [
-      { value: 'droplet_action-power_on1', label: 'Power On' },
-      { value: 'droplet_action-power_off1', label: 'Power Off' },
-      { value: 'droplet_action-reboot1', label: 'Reboot' },
+      {
+        value: 'permissions~droplets',
+        label: 'droplets',
+        children: [
+          {
+            value: 'permissions~droplets~342253375',
+            label: 'LyadhCraft',
+            children: [
+              {
+                value: 'permissions~droplets~342253375~power_on',
+                label: 'power_on',
+              },
+              {
+                value: 'permissions~droplets~342253375~power_off',
+                label: 'power_off',
+              },
+              {
+                value: 'permissions~droplets~342253375~reboot',
+                label: 'reboot',
+              },
+            ],
+          },
+          {
+            value: 'permissions~droplets~342266580',
+            label: 'TestCraft',
+            children: [
+              {
+                value: 'permissions~droplets~342266580~power_on',
+                label: 'power_on',
+              },
+              {
+                value: 'permissions~droplets~342266580~power_off',
+                label: 'power_off',
+              },
+              {
+                value: 'permissions~droplets~342266580~reboot',
+                label: 'reboot',
+              },
+            ],
+          },
+          {
+            value: 'permissions~droplets~344100833',
+            label: 'CreateCraft',
+            children: [
+              {
+                value: 'permissions~droplets~344100833~power_on',
+                label: 'power_on',
+              },
+              {
+                value: 'permissions~droplets~344100833~power_off',
+                label: 'power_off',
+              },
+              {
+                value: 'permissions~droplets~344100833~reboot',
+                label: 'reboot',
+              },
+            ],
+          },
+        ],
+      },
+      { value: 'permissions~ssh_keys', label: 'ssh_keys', children: [] },
     ],
   },
 ];
-
 export default function Export() {
   const [checked, setChecked] = useState(['']);
   const [expanded, setExpanded] = useState(['']);
