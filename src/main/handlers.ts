@@ -194,7 +194,7 @@ async function getListOfDroplets(apiKey: string) {
 async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
-): Promise<object> {
+): Promise<Array<object>> {
   console.log(tokenName, masterPassword);
   const store = new Store();
   const encryptedPassword = store.get(`password.${tokenName}`);

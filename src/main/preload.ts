@@ -65,7 +65,10 @@ const electronHandler = {
   deleteExistingToken(name: string) {
     ipcRenderer.invoke('deleteExistingToken', [name]);
   },
-  getTokenSpecificCheckboxNode(tokenName: string, masterPassword: string) {
+  getTokenSpecificCheckboxNode(
+    tokenName: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
     return ipcRenderer.invoke('getTokenSpecificCheckboxNode', [
       tokenName,
       masterPassword,

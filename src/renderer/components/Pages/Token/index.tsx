@@ -74,7 +74,6 @@ export default function Token() {
           className="discord-button ml-2"
           type="button"
           onClick={async () => {
-            // eslint-disable-next-line no-console
             setRefresh((prev) => (prev + 1) % 2);
           }}
         >
