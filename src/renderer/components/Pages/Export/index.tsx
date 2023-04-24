@@ -46,6 +46,19 @@ export default function Export() {
     setIsModalOpen(true);
   }
 
+  const showPermission = async () => {
+    // setRefresh((prev) => (prev + 1) % 2);
+    setNodes([{}]);
+    const tokenName: string = (
+      document.getElementById('selectToken') as HTMLSelectElement
+    ).value;
+    const checkboxNodes = await window.electron.getTokenSpecificCheckboxNode(
+      tokenName,
+      masterPassword ?? ''
+    );
+    setNodes(checkboxNodes);
+  };
+
   return (
     <div className="page-common text-text-generic-color justify-center">
       <TopBar>
@@ -53,19 +66,7 @@ export default function Export() {
         <button
           type="button"
           className="discord-button ml-4"
-          onClick={async () => {
-            // setRefresh((prev) => (prev + 1) % 2);
-            setNodes([{}]);
-            const tokenName: string = (
-              document.getElementById('selectToken') as HTMLSelectElement
-            ).value;
-            const checkboxNodes =
-              await window.electron.getTokenSpecificCheckboxNode(
-                tokenName,
-                masterPassword ?? ''
-              );
-            setNodes(checkboxNodes);
-          }}
+          onClick={showPermission}
         >
           Show Permissions
         </button>

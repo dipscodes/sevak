@@ -20,8 +20,8 @@ function getValue(key: string, prefix: string): string {
 export default function convertJSONtoCheckboxNodes(
   jsonObject: object,
   prefix: string
-): Array<Node> {
-  const listOfCheckedlists: Node[] = [];
+): Array<object> {
+  const listOfCheckedlists: object[] = [];
   Object.keys(jsonObject).map((value: string) => {
     if (typeof jsonObject[value] === 'object') {
       listOfCheckedlists.push({
