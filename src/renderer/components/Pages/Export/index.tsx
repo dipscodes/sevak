@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import CheckboxTree from 'react-checkbox-tree';
 import {
   AiOutlineDownload,
@@ -10,6 +10,7 @@ import { FaCheckSquare } from 'react-icons/fa';
 import PasswordModal from 'renderer/components/PasswordModal';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import TopBar from 'renderer/components/TopBar';
+import convertCheckboxNodesToJSON from 'renderer/utils/convertCheckboxNodesToJSON';
 import MasterContext from 'renderer/Context';
 
 export default function Export() {
@@ -21,6 +22,8 @@ export default function Export() {
   const [showCheckbox, setShowCheckbox] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState('');
   const masterPassword = useContext(MasterContext);
+
+  const permissionObject = useRef({});
 
   async function exportEncryptedTokenFileFromPermissionString(): Promise<void> {
     const writePath = await window.electron.openFile();
@@ -54,10 +57,17 @@ export default function Export() {
     const tokenName: string = (
       document.getElementById('selectToken') as HTMLSelectElement
     ).value;
-    const checkboxNodes = await window.electron.getTokenSpecificCheckboxNode(
-      tokenName,
-      masterPassword ?? ''
-    );
+    const checkboxNodes: any =
+      await window.electron.getTokenSpecificCheckboxNode(
+        tokenName,
+        masterPassword ?? ''
+      );
+
+    const jsonObject = convertCheckboxNodesToJSON(checkboxNodes);
+    permissionObject.current = jsonObject;
+    // eslint-disable-next-line no-console
+    console.log(JSON.stringify(permissionObject.current));
+
     setNodes(checkboxNodes);
     setShowCheckbox(true);
   };

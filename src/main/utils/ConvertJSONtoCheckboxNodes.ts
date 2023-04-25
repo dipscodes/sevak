@@ -39,7 +39,7 @@ export default function convertJSONtoCheckboxNodes(
       });
     }
     // eslint-disable-next-line no-console
-    console.log(getValue(value, prefix), getLabel(value));
+    // console.log(getValue(value, prefix), getLabel(value));
     return 0;
   });
   return listOfCheckedlists;
