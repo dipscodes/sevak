@@ -18,6 +18,8 @@ export default function Export() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [passWordKey, setPassWordKey] = useState('');
   const [nodes, setNodes] = useState([{}]);
+  const [showCheckbox, setShowCheckbox] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const masterPassword = useContext(MasterContext);
 
   async function exportEncryptedTokenFileFromPermissionString(): Promise<void> {
@@ -47,8 +49,8 @@ export default function Export() {
   }
 
   const showPermission = async () => {
-    // setRefresh((prev) => (prev + 1) % 2);
-    setNodes([{}]);
+    setLoadingMessage('Loading Permissions ...');
+    setShowCheckbox(false);
     const tokenName: string = (
       document.getElementById('selectToken') as HTMLSelectElement
     ).value;
@@ -57,6 +59,7 @@ export default function Export() {
       masterPassword ?? ''
     );
     setNodes(checkboxNodes);
+    setShowCheckbox(true);
   };
 
   return (
@@ -72,26 +75,31 @@ export default function Export() {
         </button>
       </TopBar>
       <div>
-        <CheckboxTree
-          // @ts-ignore
-          nodes={nodes}
-          checked={checked}
-          expanded={expanded}
-          icons={{
-            check: <FaCheckSquare size={20} />,
-            uncheck: <BsDashSquare size={20} />,
-            halfCheck: <BsDashSquare size={20} />,
-            expandClose: <BsChevronRight size={20} />,
-            expandOpen: <BsChevronDown size={20} />,
-            expandAll: <AiOutlinePlusSquare size={20} />,
-            collapseAll: <AiOutlineMinusSquare size={20} />,
-            parentClose: undefined,
-            parentOpen: undefined,
-            leaf: undefined,
-          }}
-          onCheck={(chk) => setChecked(chk)}
-          onExpand={(exp) => setExpanded(exp)}
-        />
+        {showCheckbox ? (
+          <CheckboxTree
+            // @ts-ignore
+            nodes={nodes}
+            checked={checked}
+            expanded={expanded}
+            icons={{
+              check: <FaCheckSquare size={20} />,
+              uncheck: <BsDashSquare size={20} />,
+              halfCheck: <BsDashSquare size={20} />,
+              expandClose: <BsChevronRight size={20} />,
+              expandOpen: <BsChevronDown size={20} />,
+              expandAll: <AiOutlinePlusSquare size={20} />,
+              collapseAll: <AiOutlineMinusSquare size={20} />,
+              parentClose: undefined,
+              parentOpen: undefined,
+              leaf: undefined,
+            }}
+            onCheck={(chk) => setChecked(chk)}
+            onExpand={(exp) => setExpanded(exp)}
+          />
+        ) : (
+          <div>{loadingMessage}</div>
+        )}
+
         <PasswordModal
           isModalOpen={isModalOpen}
           onRequestClose={() => setIsModalOpen(false)}
