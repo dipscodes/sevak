@@ -32,7 +32,7 @@ export default function convertJSONtoCheckboxNodes(
           getValue(value, prefix)
         ),
       });
-    } else {
+    } else if (jsonObject[value] !== 'null') {
       listOfCheckedlists.push({
         value: getValue(value, prefix),
         label: getLabel(value),

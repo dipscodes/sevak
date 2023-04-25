@@ -214,7 +214,8 @@ async function handleGetTokenSpecificCheckboxNode(
   const listOfDropletNamesAndIds = await getListOfDroplets(apiKey); // [{dropletName: id, ...}]
 
   // populate the tokentemplate
-  // tokenTemlate.token =
+  tokenTemlate.token = 'null';
+  tokenTemlate.name = 'null';
   tokenTemlate.permissions.droplets = listOfDropletNamesAndIds;
   return convertJSONtoCheckboxNodes(tokenTemlate, '');
   // return tokenTemlate;
