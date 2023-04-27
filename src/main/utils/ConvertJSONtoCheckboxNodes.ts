@@ -38,8 +38,6 @@ export default function convertJSONtoCheckboxNodes(
         label: getLabel(value),
       });
     }
-    // eslint-disable-next-line no-console
-    // console.log(getValue(value, prefix), getLabel(value));
     return 0;
   });
   return listOfCheckedlists;

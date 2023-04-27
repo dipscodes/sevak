@@ -1,10 +1,9 @@
 import { writeFile } from 'fs/promises';
-import { PermissionObject } from './Interfaces';
 import Encrypt from './Encrypt';
 
 export default async function permissionObjectToFile(
   writePath: string,
-  permissionObject: PermissionObject
+  permissionObject: object
 ): Promise<string> {
   const [passKey, encryptedData] = await Encrypt.encryptPermissionString(
     JSON.stringify(permissionObject)

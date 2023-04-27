@@ -147,7 +147,8 @@ app
           args[0],
           args[1],
           args[2],
-          args[3]
+          args[3],
+          args[4]
         )
     );
     ipcMain.handle('setRawToken', async (event, args) =>

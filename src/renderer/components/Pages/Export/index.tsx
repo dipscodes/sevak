@@ -45,6 +45,7 @@ export default function Export() {
         writePath,
         checked,
         tokenName,
+        JSON.stringify(permissionObject.current),
         masterPassword ?? ''
       );
     setPassWordKey(passKey);

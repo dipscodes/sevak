@@ -30,6 +30,7 @@ const electronHandler = {
     writePath: string,
     checkedList: string[],
     tokenName: string,
+    permissionObject: string,
     masterPassword: string
   ) {
     // console.log(
@@ -39,6 +40,7 @@ const electronHandler = {
       writePath,
       checkedList,
       tokenName,
+      permissionObject,
       masterPassword,
     ]);
   },

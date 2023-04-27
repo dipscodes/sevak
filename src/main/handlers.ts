@@ -3,7 +3,6 @@ import { dialog } from 'electron';
 import Store from 'electron-store';
 import { readFile } from 'fs/promises';
 import checkedListToJson from './utils/CheckedListToJson';
-import { PermissionObject } from './utils/Interfaces';
 import permissionObjectToFile from './utils/PermissionObjectToFile';
 import tokenTemlate from './utils/tokenTemplate.json';
 import Encrypt from './utils/Encrypt';
@@ -45,6 +44,7 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   writePath: string,
   checkedList: string[],
   tokenName: string,
+  permissionObject: string,
   masterPassword: string
 ) {
   const store = new Store();
@@ -60,13 +60,14 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   );
 
   const rawTokenKey: string = JSON.parse(decryptedPermissionString).token;
-  const permissionObject: PermissionObject = checkedListToJson(
+  const updatedPermissionObject: object = checkedListToJson(
     checkedList,
+    JSON.parse(permissionObject),
     rawTokenKey as string
   );
   const passKey: string = await permissionObjectToFile(
     writePath,
-    permissionObject
+    updatedPermissionObject
   );
   console.log(writePath, rawTokenKey);
   return passKey;
@@ -218,7 +219,6 @@ async function handleGetTokenSpecificCheckboxNode(
   tokenTemlate.name = 'null';
   tokenTemlate.permissions.droplets = listOfDropletNamesAndIds;
   return convertJSONtoCheckboxNodes(tokenTemlate, '');
-  // return tokenTemlate;
 }
 
 export {
