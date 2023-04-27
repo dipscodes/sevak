@@ -11,16 +11,19 @@ interface CheckBoxWithChildren {
 }
 
 export default function convertCheckboxNodesToJSON(
-  checkBox: (CheckBoxWithChildren | CheckBoxWithoutChildren)[]
+  checkBox: (CheckBoxWithChildren | CheckBoxWithoutChildren)[],
+  depth: number
 ): object {
   const listOfCheckedlists: object = {};
   checkBox.map((value: CheckBoxWithChildren | CheckBoxWithoutChildren) => {
+    const key = value.value.split('~')[depth];
     if (Object.prototype.hasOwnProperty.call(value, 'children')) {
-      listOfCheckedlists[value.label] = convertCheckboxNodesToJSON(
-        value.children
+      listOfCheckedlists[key] = convertCheckboxNodesToJSON(
+        value.children,
+        depth + 1
       );
     } else {
-      listOfCheckedlists[value.label] = false;
+      listOfCheckedlists[key] = false;
     }
     // eslint-disable-next-line no-console
     // console.log(getValue(value, prefix), getLabel(value));

@@ -62,9 +62,10 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   const rawTokenKey: string = JSON.parse(decryptedPermissionString).token;
   const updatedPermissionObject: object = checkedListToJson(
     checkedList,
-    JSON.parse(permissionObject),
-    rawTokenKey as string
+    JSON.parse(permissionObject)
   );
+
+  Object.assign(updatedPermissionObject, { token: rawTokenKey });
   const passKey: string = await permissionObjectToFile(
     writePath,
     updatedPermissionObject

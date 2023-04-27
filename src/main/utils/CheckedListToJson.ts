@@ -1,24 +1,36 @@
+function splitInHalf(string: string, separator: string) {
+  const parts = [
+    string.slice(0, string.indexOf(separator)),
+    string.slice(string.indexOf(separator) + 1),
+  ];
+  return parts;
+}
+
+function modifyRecursively(chk: string, obj: object): object {
+  if (chk.split('~').length === 1) {
+    obj[chk] = true;
+  } else {
+    const key = splitInHalf(chk, '~')[0];
+    const value = modifyRecursively(splitInHalf(chk, '~')[1], obj[key]);
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
 export default function checkedListToJson(
   checkedList: string[],
-  permissionObject: object,
-  rawTokenKey: string
+  permissionObject: object
 ): object {
-  // const permissionObject = template;
   if (!checkedList) {
     return permissionObject;
   }
+  let updatedPermissionObject = permissionObject;
+  console.log(`back end 1 : ${JSON.stringify(updatedPermissionObject)}`);
+  // console.log('checked list', checkedList);
   checkedList.forEach((value) => {
-    const key = value.split('-')[0];
-    const subKey = value.split('-')[1];
-    let temp: any;
-    value.split('~').map((v) => {
-      temp = permissionObject[v];
-      return temp;
-    });
-    permissionObject[key][subKey] = true;
+    updatedPermissionObject = modifyRecursively(value, updatedPermissionObject);
   });
-  Object.assign(permissionObject, { token: rawTokenKey });
-  // permissionObject.token = rawTokenKey;
-
-  return permissionObject;
+  console.log(`back end 2 : ${JSON.stringify(updatedPermissionObject)}`);
+  return updatedPermissionObject;
 }

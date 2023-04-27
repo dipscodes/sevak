@@ -26,7 +26,7 @@ export default function Export() {
   const permissionObject = useRef({});
 
   async function exportEncryptedTokenFileFromPermissionString(): Promise<void> {
-    const writePath = await window.electron.openFile();
+    const writePath = 'C:\\Users\\dipsg\\OneDrive\\Documents\\test.dcn'; // await window.electron.openFile();
 
     if (checked.length === 1 && checked[0] === '') {
       setPassWordKey(
@@ -63,11 +63,11 @@ export default function Export() {
         tokenName,
         masterPassword ?? ''
       );
-
-    const jsonObject = convertCheckboxNodesToJSON(checkboxNodes);
+    // console.log(JSON.stringify(checkboxNodes));
+    const jsonObject = convertCheckboxNodesToJSON(checkboxNodes, 0);
     permissionObject.current = jsonObject;
     // eslint-disable-next-line no-console
-    console.log(JSON.stringify(permissionObject.current));
+    console.log(`front end : ${JSON.stringify(permissionObject.current)}`);
 
     setNodes(checkboxNodes);
     setShowCheckbox(true);
