@@ -129,7 +129,7 @@ async function handleSetFileToken(
   store.set(`password.${permission.name}`, encryptedPassword);
 }
 
-function handleGetListOfAllTokenNames(): string[] {
+async function handleGetListOfAllTokenNames(): Promise<string[]> {
   const store = new Store();
   const tokens: object = store.get('permission') as object;
   if (typeof tokens === 'object') {
