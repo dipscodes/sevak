@@ -26,7 +26,7 @@ export default function Export() {
   const permissionObject = useRef({});
 
   async function exportEncryptedTokenFileFromPermissionString(): Promise<void> {
-    const writePath = 'C:\\Users\\dipsg\\OneDrive\\Documents\\test.dcn'; // await window.electron.openFile();
+    const writePath = await window.electron.openFile();
 
     if (checked.length === 1 && checked[0] === '') {
       setPassWordKey(

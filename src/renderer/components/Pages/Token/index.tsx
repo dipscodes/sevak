@@ -60,7 +60,7 @@ export default function Token() {
           Add Token
         </button>
         <button
-          className="discord-button ml-2"
+          className="discord-button ml-2 mr-2"
           type="button"
           onClick={async () => {
             const filePath = await window.electron.getFilePath();
