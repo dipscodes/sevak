@@ -59,7 +59,7 @@ const electronHandler = {
     return ipcRenderer.invoke('dialog:getFilePath');
   },
   getListOfAllTokens() {
-    return ipcRenderer.invoke('getAllTokenNames');
+    return ipcRenderer.invoke('getListOfAllTokenNames');
   },
   getTokenPermission(name: string, masterPassword: string) {
     return ipcRenderer.invoke('getTokenPermission', [name, masterPassword]);
