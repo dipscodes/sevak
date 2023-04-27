@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 
 interface Props {
-  children: ReactElement[];
+  children: ReactElement[] | ReactElement;
 }
 
 export default function TopBar({ children }: Props) {

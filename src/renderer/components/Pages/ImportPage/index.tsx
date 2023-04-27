@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 import MasterContext from 'renderer/Context';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
+import TopBar from 'renderer/components/TopBar';
 
 export default function Import() {
   const masterPassword = useContext(MasterContext);
@@ -20,7 +21,9 @@ export default function Import() {
 
   return (
     <div className="page-common text-text-generic-color">
-      <TokenListDropdown />
+      <TopBar>
+        <TokenListDropdown />
+      </TopBar>
       <div className="flex flex-row h-[calc(100vh-80px)]">
         <div className="w-4/12">
           <button

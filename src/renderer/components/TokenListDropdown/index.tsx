@@ -3,7 +3,7 @@ import MasterContext from 'renderer/Context';
 
 interface Props {
   all?: boolean;
-  className: string;
+  className?: string;
 }
 
 export default function TokenListDropdown({ all, className }: Props) {
@@ -59,4 +59,5 @@ export default function TokenListDropdown({ all, className }: Props) {
 
 TokenListDropdown.defaultProps = {
   all: true,
+  className: '',
 };
