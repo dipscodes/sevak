@@ -70,7 +70,6 @@ async function handleExportEncryptedTokenFileFromPermissionString(
     writePath,
     updatedPermissionObject
   );
-  console.log(writePath, rawTokenKey);
   return passKey;
 }
 

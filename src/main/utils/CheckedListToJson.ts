@@ -26,11 +26,8 @@ export default function checkedListToJson(
     return permissionObject;
   }
   let updatedPermissionObject = permissionObject;
-  console.log(`back end 1 : ${JSON.stringify(updatedPermissionObject)}`);
-  // console.log('checked list', checkedList);
   checkedList.forEach((value) => {
     updatedPermissionObject = modifyRecursively(value, updatedPermissionObject);
   });
-  console.log(`back end 2 : ${JSON.stringify(updatedPermissionObject)}`);
   return updatedPermissionObject;
 }
