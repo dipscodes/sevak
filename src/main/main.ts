@@ -19,6 +19,7 @@ import {
   handleSetFileToken,
   handleGetFilePath,
   handleGetListOfAllTokenNames,
+  handleGetListOfAllRawTokenNames,
   handleGetTokenPermission,
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,
@@ -158,6 +159,9 @@ app
       handleSetFileToken(args[0], args[1], args[2], args[3])
     );
     ipcMain.handle('getListOfAllTokenNames', handleGetListOfAllTokenNames);
+    ipcMain.handle('getListOfAllRawTokens', async (event, args) =>
+      handleGetListOfAllRawTokenNames(args[0])
+    );
     ipcMain.handle('getTokenPermission', async (event, args) =>
       handleGetTokenPermission(args[0], args[1])
     );

@@ -76,7 +76,7 @@ export default function Export() {
   return (
     <div className="page-common text-text-generic-color justify-center">
       <TopBar>
-        <TokenListDropdown className="mr-4" />
+        <TokenListDropdown all={false} className="mr-4" />
         <button
           type="button"
           className="discord-button ml-4"

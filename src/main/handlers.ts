@@ -9,7 +9,7 @@ import Encrypt from './utils/Encrypt';
 import Decrypt from './utils/Decrypt';
 import dropletPermission from './utils/dropletPermissionTemplate.json';
 import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
-// import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
+import getDecryptedPermissionObject from './utils/GetDecryptedPermissionString';
 
 async function handleFileOpen(): Promise<string> {
   const { canceled, filePath } = await dialog.showSaveDialog({
@@ -139,6 +139,35 @@ async function handleGetListOfAllTokenNames(): Promise<string[]> {
   return [''];
 }
 
+async function handleGetListOfAllRawTokenNames(
+  masterPassword: string
+): Promise<string[]> {
+  const store = new Store();
+  const tokens: object = store.get('permission') as object;
+  if (typeof tokens === 'object') {
+    let listOfAllRawTokenNames = await Promise.all(
+      Object.keys(tokens).map(async (tokenName) => {
+        const t = await (async () => {
+          const temp = await getDecryptedPermissionObject(
+            tokenName,
+            masterPassword
+          );
+          const check: boolean = (temp as any).is_raw_token;
+          return check ? tokenName : '';
+        })();
+        return t;
+      })
+    );
+    listOfAllRawTokenNames = listOfAllRawTokenNames.filter(
+      (value) => value !== ''
+    );
+    console.log(listOfAllRawTokenNames);
+    return listOfAllRawTokenNames;
+  }
+
+  return [''];
+}
+
 async function handleGetTokenPermission(
   name: string,
   masterPassword: string
@@ -196,7 +225,7 @@ async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
 ): Promise<Array<object>> {
-  console.log(tokenName, masterPassword);
+  // console.log(tokenName, masterPassword);
   const store = new Store();
   const encryptedPassword = store.get(`password.${tokenName}`);
   const encryptedPermissionString = store.get(`permission.${tokenName}`);
@@ -228,6 +257,7 @@ export {
   handleSetFileToken,
   handleGetFilePath,
   handleGetListOfAllTokenNames,
+  handleGetListOfAllRawTokenNames,
   handleGetTokenPermission,
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,

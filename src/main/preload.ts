@@ -61,6 +61,9 @@ const electronHandler = {
   getListOfAllTokens() {
     return ipcRenderer.invoke('getListOfAllTokenNames');
   },
+  getListOfAllRawTokens(masterPassword) {
+    return ipcRenderer.invoke('getListOfAllRawTokens', [masterPassword]);
+  },
   getTokenPermission(name: string, masterPassword: string) {
     return ipcRenderer.invoke('getTokenPermission', [name, masterPassword]);
   },
