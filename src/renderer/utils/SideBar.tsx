@@ -20,8 +20,8 @@ export default function getAllPages(): Object {
     Power: <AiOutlinePoweroff size={30} />,
     Droplet: <BsDroplet size={30} />,
     Key: <AiOutlineKey size={30} />,
-    Import: <AiOutlinePlusCircle size={30} />,
     Export: <AiOutlineExport size={30} />,
+    Import: <AiOutlinePlusCircle size={30} />,
   };
   return sideBarIcons;
 }
