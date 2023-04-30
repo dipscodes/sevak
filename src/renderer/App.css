@@ -39,6 +39,26 @@
   .addKeyText {
     @apply inline-block text-discord-text-color-1 mt-10 hover:underline cursor-pointer font-bold;
   }
+
+  .action-button-common {
+    @apply flex flex-row justify-center items-center cursor-pointer hover:rounded-xl transition-all duration-100 ease-linear hover:shadow-2xl hover:bg-discord-bg-1;
+  }
+
+  .power-on {
+    @apply text-green-500;
+  }
+
+  .power-off {
+    @apply text-red-600;
+  }
+
+  .reboot {
+    @apply items-center;
+  }
+
+  .view {
+    @apply text-yellow-400;
+  }
 }
 
 .ReactModal__Overlay {
@@ -92,14 +112,6 @@
   border-radius: 8px;
   background-color: #4e5058;
   box-shadow: 4px 4px 4px 0px #4E505840;
-}
-.power-on {
-}
-.power-off {
-}
-.reboot {
-}
-.view {
 }
 .card {
   width: 284px;
