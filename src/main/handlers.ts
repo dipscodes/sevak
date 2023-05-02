@@ -44,19 +44,12 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   permissionObject: string,
   masterPassword: string
 ) {
-  const store = new Store();
-  const encryptedPassword = store.get(`password.${tokenName}`);
-  const decryptedPassword = await Decrypt.decryptNormalPassword(
-    encryptedPassword as string,
+  const decryptedPermissionObject: object = getDecryptedPermissionObject(
+    tokenName,
     masterPassword
   );
-  const encryptedPermissionString = store.get(`permission.${tokenName}`);
-  const decryptedPermissionString = await Decrypt.decryptPermissionString(
-    encryptedPermissionString as string,
-    decryptedPassword
-  );
 
-  const rawTokenKey: string = JSON.parse(decryptedPermissionString).token;
+  const rawTokenKey: string = (decryptedPermissionObject as any).token;
   const updatedPermissionObject: object = checkedListToJson(
     checkedList,
     JSON.parse(permissionObject)
@@ -167,22 +160,14 @@ async function handleGetListOfAllRawTokenNames(
 }
 
 async function handleGetTokenPermission(
-  name: string,
+  tokenName: string,
   masterPassword: string
 ): Promise<string> {
-  const store = new Store();
-  const encryptedPassword = store.get(`password.${name}`);
-  const encryptedPermissionString = store.get(`permission.${name}`);
-  const decryptedPassword = await Decrypt.decryptNormalPassword(
-    encryptedPassword as string,
+  const decyprtedPermissionStringInJSON: object = getDecryptedPermissionObject(
+    tokenName,
     masterPassword
   );
-  const decryptedPermissionString = await Decrypt.decryptPermissionString(
-    encryptedPermissionString as string,
-    decryptedPassword
-  );
-  const decyprtedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
-  delete decyprtedPermissionStringInJSON.token;
+  delete (decyprtedPermissionStringInJSON as any).token;
 
   return JSON.stringify(decyprtedPermissionStringInJSON);
 }
@@ -221,21 +206,12 @@ async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
 ): Promise<Array<object>> {
-  const store = new Store();
-  const encryptedPassword = store.get(`password.${tokenName}`);
-  const encryptedPermissionString = store.get(`permission.${tokenName}`);
-
-  const decryptedPassword = await Decrypt.decryptNormalPassword(
-    encryptedPassword as string,
+  const decryptedPermissionStringInJSON = getDecryptedPermissionObject(
+    tokenName,
     masterPassword
   );
-  const decryptedPermissionString = await Decrypt.decryptPermissionString(
-    encryptedPermissionString as string,
-    decryptedPassword
-  );
-  const decryptedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
 
-  const apiKey = decryptedPermissionStringInJSON.token;
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
   const listOfDropletNamesAndIds = await getListOfDroplets(apiKey);
   tokenTemlate.token = 'null';
   tokenTemlate.name = 'null';
