@@ -200,6 +200,53 @@ async function getListOfDroplets(apiKey: string) {
   return dropletNamesAndIds;
 }
 
+async function handleGetListOfDropletsFromDO(
+  tokenName: string,
+  masterPassword: string
+) {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const isRawToken: boolean = (decryptedPermissionStringInJSON as any)
+    .is_raw_token;
+
+  const dropletPermissions: object = (decryptedPermissionStringInJSON as any)
+    .permissions.droplets;
+
+  const dropletFilter: object = {};
+  Object.keys(dropletPermissions).forEach((value) => {
+    const temp = dropletPermissions[value];
+    let res: boolean = false;
+
+    Object.keys(temp).forEach((element) => {
+      res = res || temp[element];
+    });
+
+    dropletFilter[value] = res;
+  });
+
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets`;
+  const apiResponse = await fetch(dropletsApiCall, {
+    method: 'GET',
+    headers,
+  });
+  const droplets: any = await apiResponse.json();
+
+  if (isRawToken) {
+    return droplets.droplets;
+  }
+
+  return droplets.droplets.filter((dropletInfo: any) => {
+    return dropletFilter[dropletInfo.id];
+  });
+}
+
 async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
@@ -231,4 +278,5 @@ export {
   handleGetTokenPermission,
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,
+  handleGetListOfDropletsFromDO,
 };

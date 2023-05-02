@@ -23,6 +23,7 @@ import {
   handleGetTokenPermission,
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,
+  handleGetListOfDropletsFromDO,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -170,6 +171,10 @@ app
     );
     ipcMain.handle('getTokenSpecificCheckboxNode', async (event, args) =>
       handleGetTokenSpecificCheckboxNode(args[0], args[1])
+    );
+
+    ipcMain.handle('getListOfDropletsFromDO', async (event, args) =>
+      handleGetListOfDropletsFromDO(args[0], args[1])
     );
 
     createWindow();

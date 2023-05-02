@@ -10,13 +10,12 @@ export default function Import() {
     const tokenName: string = (
       document.getElementById('selectToken') as HTMLSelectElement
     ).value;
-    const testResult: any = await window.electron.getTokenSpecificCheckboxNode(
+    const testResult: any = await window.electron.getListOfDropletsFromDO(
       tokenName,
       masterPassword ?? ''
     );
     (document.getElementById('information') as HTMLDivElement).innerText =
       JSON.stringify(testResult);
-    // console.log(testResult);
   };
 
   return (
@@ -34,7 +33,10 @@ export default function Import() {
             Test
           </button>
         </div>
-        <div className="w-8/12 bg-discord-cross-color" id="information">
+        <div
+          className="w-8/12 max-w-[66.666667%] bg-discord-cross-color overflow-y-scroll break-words hidden-scrollbar"
+          id="information"
+        >
           No Info
         </div>
       </div>

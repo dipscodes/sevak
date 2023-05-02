@@ -79,6 +79,15 @@ const electronHandler = {
       masterPassword,
     ]);
   },
+  getListOfDropletsFromDO(
+    tokenName: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('getListOfDropletsFromDO', [
+      tokenName,
+      masterPassword,
+    ]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
