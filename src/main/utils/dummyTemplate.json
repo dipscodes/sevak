@@ -1,0 +1,20 @@
+{
+  "token":"token",
+  "name":"name",
+  "is_raw_token":false,
+  "permissions": {
+    "droplets": {
+      "LyadhCraft": [
+        "power_on",
+        "power_off",
+        "reboot"
+      ],
+      "CreateCraft": [
+        "power_on",
+        "power_off",
+        "reboot"
+      ]
+    },
+    "ssh_keys": {}
+  }
+}

@@ -12,6 +12,18 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import {
+  handleExportEncryptedTokenFileFromPermissionString,
+  handleFileOpen,
+  handleSetRawToken,
+  handleSetFileToken,
+  handleGetFilePath,
+  handleGetListOfAllTokenNames,
+  handleGetListOfAllRawTokenNames,
+  handleGetTokenPermission,
+  handleDeleteExistingToken,
+  handleGetTokenSpecificCheckboxNode,
+} from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
@@ -40,7 +52,7 @@ const isDebug =
   process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDebug) {
-  require('electron-debug')();
+  // require('electron-debug')();
 }
 
 const installExtensions = async () => {
@@ -127,6 +139,39 @@ app.on('window-all-closed', () => {
 app
   .whenReady()
   .then(() => {
+    ipcMain.handle('dialog:openFile', handleFileOpen);
+    ipcMain.handle('dialog:getFilePath', handleGetFilePath);
+    ipcMain.handle(
+      'exportEncryptedTokenFileFromPermissionString',
+      async (event, args) =>
+        handleExportEncryptedTokenFileFromPermissionString(
+          args[0],
+          args[1],
+          args[2],
+          args[3],
+          args[4]
+        )
+    );
+    ipcMain.handle('setRawToken', async (event, args) =>
+      handleSetRawToken(args[0], args[1], args[2])
+    );
+    ipcMain.handle('setFileToken', async (event, args) =>
+      handleSetFileToken(args[0], args[1], args[2], args[3])
+    );
+    ipcMain.handle('getListOfAllTokenNames', handleGetListOfAllTokenNames);
+    ipcMain.handle('getListOfAllRawTokens', async (event, args) =>
+      handleGetListOfAllRawTokenNames(args[0])
+    );
+    ipcMain.handle('getTokenPermission', async (event, args) =>
+      handleGetTokenPermission(args[0], args[1])
+    );
+    ipcMain.handle('deleteExistingToken', async (event, args) =>
+      handleDeleteExistingToken(args[0])
+    );
+    ipcMain.handle('getTokenSpecificCheckboxNode', async (event, args) =>
+      handleGetTokenSpecificCheckboxNode(args[0], args[1])
+    );
+
     createWindow();
     app.on('activate', () => {
       // On macOS it's common to re-create a window in the app when the

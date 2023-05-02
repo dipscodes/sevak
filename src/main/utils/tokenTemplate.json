@@ -1,0 +1,9 @@
+{
+  "token":"token",
+  "name":"name",
+  "is_raw_token":false,
+  "permissions": {
+    "droplets": {},
+    "ssh_keys": {}
+  }
+}
