@@ -7,6 +7,7 @@ interface Props {
   dropletInfo: string;
   dropletV4IP: string;
   dropletV6IP: string;
+  statusClass?: string;
 }
 
 export default function CardComponent({
@@ -14,11 +15,12 @@ export default function CardComponent({
   dropletInfo,
   dropletV4IP,
   dropletV6IP,
+  statusClass,
 }: Props) {
   return (
     <div className="mb-5 mt-5">
       <div className="cardComponent">
-        <div className="status" />
+        <div className={`status ${statusClass}`} />
         <div className="dropletInfoDiv">
           <div className="card">
             <span className="dropletName">{dropletName}</span>
@@ -45,3 +47,7 @@ export default function CardComponent({
     </div>
   );
 }
+
+CardComponent.defaultProps = {
+  statusClass: '',
+};

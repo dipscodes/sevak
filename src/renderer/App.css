@@ -49,7 +49,7 @@
   }
 
   .power-off {
-    @apply text-red-600;
+    @apply text-red-500;
   }
 
   .reboot {
@@ -132,7 +132,6 @@
   top: 10px;
   left: 420px;
   border-radius: 50px;
-  background-color: #aa2828;
   height: 23px;
 }
 .dropletIP {

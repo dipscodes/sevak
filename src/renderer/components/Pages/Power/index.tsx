@@ -45,6 +45,11 @@ export default function Power() {
               } GB, ${(droplet as any).image.distribution}`;
               const availablev4: object[] = (droplet as any).networks.v4;
               const availablev6: object[] = (droplet as any).networks.v6;
+              let statusClass = '';
+
+              if ((droplet as any).status === 'off') statusClass = 'bg-red-500';
+              else if ((droplet as any).status === 'active')
+                statusClass = 'bg-green-500';
 
               let v4ip = 'Not Available';
               let v6ip = 'Not Available';
@@ -67,6 +72,7 @@ export default function Power() {
                   dropletInfo={info}
                   dropletV4IP={v4ip}
                   dropletV6IP={v6ip}
+                  statusClass={statusClass}
                 />
               );
             })}
