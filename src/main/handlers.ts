@@ -204,6 +204,10 @@ async function handleGetListOfDropletsFromDO(
   tokenName: string,
   masterPassword: string
 ) {
+  if (tokenName === 'No Available Tokens') {
+    return [{}];
+  }
+  console.log(`tokenName: ${tokenName}`);
   const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
     tokenName,
     masterPassword

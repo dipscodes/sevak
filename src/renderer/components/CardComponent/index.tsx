@@ -2,16 +2,29 @@ import { AiOutlinePoweroff } from 'react-icons/ai';
 import { GrRotateRight } from 'react-icons/gr';
 import { VscOpenPreview } from 'react-icons/vsc';
 
-export default function CardComponent() {
+interface Props {
+  dropletName: string;
+  dropletInfo: string;
+  dropletV4IP: string;
+  dropletV6IP: string;
+}
+
+export default function CardComponent({
+  dropletName,
+  dropletInfo,
+  dropletV4IP,
+  dropletV6IP,
+}: Props) {
   return (
     <div className="mb-5 mt-5">
       <div className="cardComponent">
         <div className="status" />
         <div className="dropletInfoDiv">
           <div className="card">
-            <span className="dropletName">LyadhCraft</span>
-            <span className="dropletInfo">4 Cores, 8 GB, Ubuntu</span>
-            <span className="dropletIP">IP: 6.6.6.6</span>
+            <span className="dropletName">{dropletName}</span>
+            <span className="dropletInfo">{dropletInfo}</span>
+            <span className="dropletIP">{dropletV4IP}</span>
+            <span className="dropletIP">{dropletV6IP}</span>
           </div>
         </div>
         <div className="buttonDiv">

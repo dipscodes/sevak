@@ -4,9 +4,14 @@ import MasterContext from 'renderer/Context';
 interface Props {
   all?: boolean;
   className?: string;
+  toggleRefresh?: Function;
 }
 
-export default function TokenListDropdown({ all, className }: Props) {
+export default function TokenListDropdown({
+  all,
+  className,
+  toggleRefresh,
+}: Props) {
   const [listOfTokenNames, setListOfTokenNames] = useState(['']);
   const masterPassword = useContext(MasterContext);
 
@@ -22,6 +27,7 @@ export default function TokenListDropdown({ all, className }: Props) {
           masterPassword ?? ''
         );
       }
+      if (toggleRefresh) toggleRefresh();
 
       setListOfTokenNames(tokenNames);
     })();
@@ -60,4 +66,5 @@ export default function TokenListDropdown({ all, className }: Props) {
 TokenListDropdown.defaultProps = {
   all: true,
   className: '',
+  toggleRefresh: () => {},
 };
