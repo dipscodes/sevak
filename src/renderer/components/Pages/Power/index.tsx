@@ -10,6 +10,7 @@ export default function Power() {
   // eslint-disable-next-line no-unused-vars
   const [refresh, setRefresh] = useState(0);
   const masterPassword = useContext(MasterContext);
+  console.log(refresh);
 
   useEffect(() => {
     (async () => {
@@ -26,7 +27,7 @@ export default function Power() {
     })();
   }, [masterPassword, refresh]);
 
-  const toggleRefresh = (value: number) => setRefresh((value + 1) % 2);
+  const toggleRefresh = () => setRefresh((value) => (value + 1) % 2);
 
   return (
     <div className="page-common text-text-generic-color overflow-hidden">

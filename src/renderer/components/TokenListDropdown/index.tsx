@@ -35,7 +35,14 @@ export default function TokenListDropdown({
   }, []);
 
   return (
-    <select id="selectToken" name="token" className={classNames}>
+    <select
+      id="selectToken"
+      name="token"
+      className={classNames}
+      onChange={() => {
+        if (toggleRefresh) toggleRefresh();
+      }}
+    >
       {listOfTokenNames.map((name, index) => {
         if (name !== '' && index === 0) {
           return (
