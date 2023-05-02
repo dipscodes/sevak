@@ -44,7 +44,7 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   permissionObject: string,
   masterPassword: string
 ) {
-  const decryptedPermissionObject: object = getDecryptedPermissionObject(
+  const decryptedPermissionObject: object = await getDecryptedPermissionObject(
     tokenName,
     masterPassword
   );
@@ -163,10 +163,8 @@ async function handleGetTokenPermission(
   tokenName: string,
   masterPassword: string
 ): Promise<string> {
-  const decyprtedPermissionStringInJSON: object = getDecryptedPermissionObject(
-    tokenName,
-    masterPassword
-  );
+  const decyprtedPermissionStringInJSON: object =
+    await getDecryptedPermissionObject(tokenName, masterPassword);
   delete (decyprtedPermissionStringInJSON as any).token;
 
   return JSON.stringify(decyprtedPermissionStringInJSON);
@@ -206,10 +204,12 @@ async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
 ): Promise<Array<object>> {
-  const decryptedPermissionStringInJSON = getDecryptedPermissionObject(
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
     tokenName,
     masterPassword
   );
+
+  console.log(decryptedPermissionStringInJSON);
 
   const apiKey = (decryptedPermissionStringInJSON as any).token;
   const listOfDropletNamesAndIds = await getListOfDroplets(apiKey);
