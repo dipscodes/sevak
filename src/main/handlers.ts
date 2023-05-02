@@ -9,7 +9,7 @@ import Encrypt from './utils/Encrypt';
 import Decrypt from './utils/Decrypt';
 import dropletPermission from './utils/dropletPermissionTemplate.json';
 import convertJSONtoCheckboxNodes from './utils/ConvertJSONtoCheckboxNodes';
-import getDecryptedPermissionObject from './utils/GetDecryptedPermissionString';
+import getDecryptedPermissionObject from './utils/GetDecryptedPermissionObject';
 
 async function handleFileOpen(): Promise<string> {
   const { canceled, filePath } = await dialog.showSaveDialog({
@@ -32,10 +32,7 @@ async function handleGetFilePath(): Promise<string> {
   const { canceled, filePaths } = await dialog.showOpenDialog({
     properties: ['openFile', 'showHiddenFiles'],
   });
-
   filePaths.push('');
-  // eslint-disable-next-line no-console
-  // console.log(`filepath: ${filePaths[0]}`);
 
   return filePaths[0];
 }
@@ -70,6 +67,7 @@ async function handleExportEncryptedTokenFileFromPermissionString(
     writePath,
     updatedPermissionObject
   );
+
   return passKey;
 }
 
@@ -90,7 +88,7 @@ async function handleSetRawToken(
   );
 
   const encryptedPassword: string = await Encrypt.encryptNormalPassword(
-    encryptedTokenString[0], // passKey
+    encryptedTokenString[0],
     masterPassword
   );
 
@@ -175,7 +173,6 @@ async function handleGetTokenPermission(
   const store = new Store();
   const encryptedPassword = store.get(`password.${name}`);
   const encryptedPermissionString = store.get(`permission.${name}`);
-
   const decryptedPassword = await Decrypt.decryptNormalPassword(
     encryptedPassword as string,
     masterPassword
@@ -186,6 +183,7 @@ async function handleGetTokenPermission(
   );
   const decyprtedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
   delete decyprtedPermissionStringInJSON.token;
+
   return JSON.stringify(decyprtedPermissionStringInJSON);
 }
 
@@ -200,10 +198,8 @@ async function getListOfDroplets(apiKey: string) {
     'Content-Type': 'application/json',
     Authorization: `Bearer dop_v1_${apiKey}`,
   };
-
   const dropletNamesAndIds: object = {};
   const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets`;
-
   const apiResponse = await fetch(dropletsApiCall, {
     method: 'GET',
     headers,
@@ -214,10 +210,10 @@ async function getListOfDroplets(apiKey: string) {
     if (droplets.droplets.length > 0) {
       const name: string = dropletInfo.name as string;
       const id: string = dropletInfo.id as string;
-      // const dropletObj: object = { [`${id}~${name}`]: dropletPermission };
       dropletNamesAndIds[`${id}~${name}`] = dropletPermission;
     }
   });
+
   return dropletNamesAndIds;
 }
 
@@ -225,7 +221,6 @@ async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
 ): Promise<Array<object>> {
-  // console.log(tokenName, masterPassword);
   const store = new Store();
   const encryptedPassword = store.get(`password.${tokenName}`);
   const encryptedPermissionString = store.get(`permission.${tokenName}`);
@@ -239,14 +234,13 @@ async function handleGetTokenSpecificCheckboxNode(
     decryptedPassword
   );
   const decryptedPermissionStringInJSON = JSON.parse(decryptedPermissionString);
+
   const apiKey = decryptedPermissionStringInJSON.token;
-
-  const listOfDropletNamesAndIds = await getListOfDroplets(apiKey); // [{dropletName: id, ...}]
-
-  // populate the tokentemplate
+  const listOfDropletNamesAndIds = await getListOfDroplets(apiKey);
   tokenTemlate.token = 'null';
   tokenTemlate.name = 'null';
   tokenTemlate.permissions.droplets = listOfDropletNamesAndIds;
+
   return convertJSONtoCheckboxNodes(tokenTemlate, '');
 }
 
