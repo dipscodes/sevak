@@ -4,6 +4,7 @@ const MasterContext: Context<string | null | undefined> = createContext<
   string | null | undefined
 >(null);
 
-const StatusContext: Context<string> = createContext<string>('');
+const StatusContext: Context<any> = createContext<any>({});
+const SetStatus: Context<Function> = createContext<Function>(() => {});
 
-export { MasterContext, StatusContext };
+export { MasterContext, StatusContext, SetStatus };

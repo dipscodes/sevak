@@ -5,12 +5,9 @@ import CardComponent from 'renderer/components/CardComponent';
 import { MasterContext } from 'renderer/Context';
 
 export default function Power() {
-  // eslint-disable-next-line no-unused-vars
   const [dropletList, setDropletList] = useState([{}]);
-  // eslint-disable-next-line no-unused-vars
   const [refresh, setRefresh] = useState(0);
   const masterPassword = useContext(MasterContext);
-  console.log(refresh);
 
   useEffect(() => {
     (async () => {
@@ -38,18 +35,14 @@ export default function Power() {
         {JSON.stringify(dropletList[0]) === JSON.stringify({})
           ? 'No Info'
           : dropletList.map((droplet) => {
-              // console.log('droplet', droplet);
               const dname: string = (droplet as any).name;
+              const dropletId: string = (droplet as any).id;
               const info: string = `${(droplet as any).vcpus} Cores, ${
                 (droplet as any).memory / 1024
               } GB, ${(droplet as any).image.distribution}`;
               const availablev4: object[] = (droplet as any).networks.v4;
               const availablev6: object[] = (droplet as any).networks.v6;
-              let statusClass = '';
-
-              if ((droplet as any).status === 'off') statusClass = 'bg-red-500';
-              else if ((droplet as any).status === 'active')
-                statusClass = 'bg-green-500';
+              const statusClass = (droplet as any).status;
 
               let v4ip = 'Not Available';
               let v6ip = 'Not Available';
@@ -68,11 +61,13 @@ export default function Power() {
 
               return (
                 <CardComponent
+                  dropletID={dropletId}
                   dropletName={dname}
                   dropletInfo={info}
                   dropletV4IP={v4ip}
                   dropletV6IP={v6ip}
                   statusClass={statusClass}
+                  key={dropletId}
                 />
               );
             })}
