@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import ApiModal from 'renderer/components/ApiModal';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 import PasswordInputModal from 'renderer/components/PasswordInputModal';
 import ListOfTokens from 'renderer/components/ListOfTokens';
 

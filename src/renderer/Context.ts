@@ -4,4 +4,6 @@ const MasterContext: Context<string | null | undefined> = createContext<
   string | null | undefined
 >(null);
 
-export default MasterContext;
+const StatusContext: Context<string> = createContext<string>('');
+
+export { MasterContext, StatusContext };

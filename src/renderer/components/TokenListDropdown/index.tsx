@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 
 interface Props {
   all?: boolean;

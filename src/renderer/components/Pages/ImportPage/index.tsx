@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import TopBar from 'renderer/components/TopBar';
 

@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import TopBar from 'renderer/components/TopBar';
 import CardComponent from 'renderer/components/CardComponent';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 
 export default function Power() {
   // eslint-disable-next-line no-unused-vars

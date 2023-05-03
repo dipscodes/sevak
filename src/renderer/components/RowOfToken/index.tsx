@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { BsChevronRight } from 'react-icons/bs';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 
 interface Props {
   name: string;

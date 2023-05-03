@@ -11,7 +11,7 @@ import PasswordModal from 'renderer/components/PasswordModal';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import TopBar from 'renderer/components/TopBar';
 import convertCheckboxNodesToJSON from 'renderer/utils/convertCheckboxNodesToJSON';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 
 export default function Export() {
   const [checked, setChecked] = useState(['']);

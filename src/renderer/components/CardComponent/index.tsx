@@ -1,6 +1,8 @@
-import { AiOutlinePoweroff } from 'react-icons/ai';
-import { GrRotateRight } from 'react-icons/gr';
-import { VscOpenPreview } from 'react-icons/vsc';
+import PowerOnButton from '../PowerOnButton';
+import PowerOffButton from '../PowerOffButton';
+import RebootButton from '../RebootButton';
+import ViewButton from '../ViewButton';
+import StatusComponent from '../StatusComponent';
 
 interface Props {
   dropletName: string;
@@ -20,7 +22,7 @@ export default function CardComponent({
   return (
     <div className="mb-5 mt-5">
       <div className="cardComponent">
-        <div className={`status ${statusClass}`} />
+        <StatusComponent statusClass={statusClass ?? ''} />
         <div className="dropletInfoDiv">
           <div className="card">
             <span className="dropletName">{dropletName}</span>
@@ -30,18 +32,10 @@ export default function CardComponent({
           </div>
         </div>
         <div className="buttonDiv">
-          <div className="action-button power-on action-button-common">
-            <AiOutlinePoweroff size={30} />
-          </div>
-          <div className="action-button power-off action-button-common">
-            <AiOutlinePoweroff className="rotate-180" size={30} />
-          </div>
-          <div className="action-button reboot action-button-common">
-            <GrRotateRight size={30} />
-          </div>
-          <div className="action-button view action-button-common">
-            <VscOpenPreview size={30} />
-          </div>
+          <PowerOnButton />
+          <PowerOffButton />
+          <RebootButton />
+          <ViewButton />
         </div>
       </div>
     </div>
