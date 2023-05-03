@@ -260,8 +260,6 @@ async function handleGetTokenSpecificCheckboxNode(
     masterPassword
   );
 
-  console.log(decryptedPermissionStringInJSON);
-
   const apiKey = (decryptedPermissionStringInJSON as any).token;
   const listOfDropletNamesAndIds = await getListOfDroplets(apiKey);
   tokenTemlate.token = 'null';
@@ -269,6 +267,66 @@ async function handleGetTokenSpecificCheckboxNode(
   tokenTemlate.permissions.droplets = listOfDropletNamesAndIds;
 
   return convertJSONtoCheckboxNodes(tokenTemlate, '');
+}
+
+async function handlePowerOnDroplet(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+) {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}/actions`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ type: 'power_on' }),
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    console.log(apiResponseInJson);
+    return apiResponseInJson.action.status === 'in-progress';
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+}
+
+async function handlePowerOffDroplet(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+) {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}/actions`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ type: 'power_off' }),
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    console.log(apiResponseInJson);
+    return apiResponseInJson.action.status === 'in-progress';
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
 }
 
 export {
@@ -283,4 +341,6 @@ export {
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,
   handleGetListOfDropletsFromDO,
+  handlePowerOnDroplet,
+  handlePowerOffDroplet,
 };

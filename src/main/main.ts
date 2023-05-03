@@ -24,6 +24,8 @@ import {
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,
   handleGetListOfDropletsFromDO,
+  handlePowerOnDroplet,
+  handlePowerOffDroplet,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -175,6 +177,14 @@ app
 
     ipcMain.handle('getListOfDropletsFromDO', async (event, args) =>
       handleGetListOfDropletsFromDO(args[0], args[1])
+    );
+
+    ipcMain.handle('powerOnDroplet', async (event, args) =>
+      handlePowerOnDroplet(args[0], args[1], args[2])
+    );
+
+    ipcMain.handle('powerOffDroplet', async (event, args) =>
+      handlePowerOffDroplet(args[0], args[1], args[2])
     );
 
     createWindow();

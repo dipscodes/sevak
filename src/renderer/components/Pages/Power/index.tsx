@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import TopBar from 'renderer/components/TopBar';
 import CardComponent from 'renderer/components/CardComponent';
@@ -8,18 +8,19 @@ export default function Power() {
   const [dropletList, setDropletList] = useState([{}]);
   const [refresh, setRefresh] = useState(0);
   const masterPassword = useContext(MasterContext);
+  const tokenName = useRef('');
 
   useEffect(() => {
     (async () => {
-      const tokenName: string = (
+      const token: string = (
         document.getElementById('selectToken') as HTMLSelectElement
       ).value;
+      tokenName.current = token;
       const dropletListFromDO: object[] =
         await window.electron.getListOfDropletsFromDO(
-          tokenName ?? '',
+          token ?? '',
           masterPassword ?? ''
         );
-      console.log(tokenName);
       setDropletList(dropletListFromDO);
     })();
   }, [masterPassword, refresh]);
@@ -61,6 +62,7 @@ export default function Power() {
 
               return (
                 <CardComponent
+                  tokenName={tokenName.current}
                   dropletID={dropletId}
                   dropletName={dname}
                   dropletInfo={info}

@@ -1,12 +1,17 @@
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import { StatusContext } from 'renderer/Context';
 
 interface Props {
   dropletID: string;
   statusClass: string;
+  toggleRefresh: Function;
 }
 
-export default function StatusComponent({ dropletID, statusClass }: Props) {
+export default function StatusComponent({
+  dropletID,
+  statusClass,
+  toggleRefresh,
+}: Props) {
   const statusColor: object = {
     off: 'bg-red-500',
     active: 'bg-green-500',
@@ -14,15 +19,15 @@ export default function StatusComponent({ dropletID, statusClass }: Props) {
 
   // eslint-disable-next-line no-unused-vars
   const { status, setStatus } = useContext(StatusContext);
-  const [globalStatus, setGlobalStatus] = useState(status[dropletID]);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setGlobalStatus(status[dropletID]);
+      toggleRefresh();
+      // setGlobalStatus(status[dropletID]);
     }, 5000);
 
     console.time('status');
-    console.log(globalStatus, statusClass);
+    console.log(status[dropletID], statusClass);
     console.timeEnd('status');
 
     return () => clearInterval(interval);
@@ -31,7 +36,7 @@ export default function StatusComponent({ dropletID, statusClass }: Props) {
 
   return (
     <div>
-      {globalStatus === statusClass ? (
+      {status[dropletID] === statusClass ? (
         <svg className="spinner" viewBox="0 0 50 50">
           <circle
             className="path"

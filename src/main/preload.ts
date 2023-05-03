@@ -88,6 +88,29 @@ const electronHandler = {
       masterPassword,
     ]);
   },
+  powerOnDroplet(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    console.log('tname:', tokenName, dropletID, masterPassword);
+    return ipcRenderer.invoke('powerOnDroplet', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
+  powerOffDroplet(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('powerOffDroplet', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);

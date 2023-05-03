@@ -12,6 +12,7 @@ interface Props {
   dropletV4IP: string;
   dropletV6IP: string;
   statusClass?: string;
+  tokenName: string;
 }
 
 export default function CardComponent({
@@ -21,6 +22,7 @@ export default function CardComponent({
   dropletV4IP,
   dropletV6IP,
   statusClass,
+  tokenName,
 }: Props) {
   const [refresh, setRefresh] = useState(0);
 
@@ -34,6 +36,7 @@ export default function CardComponent({
         <StatusComponent
           dropletID={dropletID}
           statusClass={statusClass ?? ''}
+          toggleRefresh={toggleRefresh}
           key={refresh}
         />
         <div className="dropletInfoDiv">
@@ -45,7 +48,11 @@ export default function CardComponent({
           </div>
         </div>
         <div className="buttonDiv">
-          <PowerOnButton dropletID={dropletID} toggleRefresh={toggleRefresh} />
+          <PowerOnButton
+            tokenName={tokenName}
+            dropletID={dropletID}
+            toggleRefresh={toggleRefresh}
+          />
           <PowerOffButton dropletID={dropletID} toggleRefresh={toggleRefresh} />
           <RebootButton />
           <ViewButton />
