@@ -26,6 +26,8 @@ import {
   handleGetListOfDropletsFromDO,
   handlePowerOnDroplet,
   handlePowerOffDroplet,
+  handleGetDropletInfo,
+  handleGetListOfAccesibleDropletIDs,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -185,6 +187,14 @@ app
 
     ipcMain.handle('powerOffDroplet', async (event, args) =>
       handlePowerOffDroplet(args[0], args[1], args[2])
+    );
+
+    ipcMain.handle('getDropletInfo', async (event, args) =>
+      handleGetDropletInfo(args[0], args[1], args[2])
+    );
+
+    ipcMain.handle('getListOfAccesibleDropletIDs', async (event, args) =>
+      handleGetListOfAccesibleDropletIDs(args[0], args[1])
     );
 
     createWindow();

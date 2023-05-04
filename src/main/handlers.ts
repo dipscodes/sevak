@@ -251,6 +251,69 @@ async function handleGetListOfDropletsFromDO(
   });
 }
 
+async function handleGetListOfAccesibleDropletIDs(
+  tokenName: string,
+  masterPassword: string
+): Promise<Array<string>> {
+  if (tokenName === 'No Available Tokens') {
+    return [''];
+  }
+  console.log(`tokenName: ${tokenName}`);
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+
+  const dropletPermissions: object = (decryptedPermissionStringInJSON as any)
+    .permissions.droplets;
+
+  const dropletFilter: string[] = [];
+  Object.keys(dropletPermissions).forEach((value) => {
+    const temp = dropletPermissions[value];
+    let res: boolean = false;
+
+    Object.keys(temp).forEach((element) => {
+      res = res || temp[element];
+    });
+
+    if (!res) dropletFilter.push(value.split('~')[0]);
+    console.log(
+      '🚀 ~ file: handlers.ts:280 ~ Object.keys ~ dropletFilter:',
+      dropletFilter
+    );
+  });
+
+  return dropletFilter;
+}
+
+async function handleGetDropletInfo(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+): Promise<object> {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'GET',
+      headers,
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    return apiResponseInJson.droplet;
+  } catch (error) {
+    console.log(error);
+  }
+  return {};
+}
+
 async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
@@ -343,4 +406,6 @@ export {
   handleGetListOfDropletsFromDO,
   handlePowerOnDroplet,
   handlePowerOffDroplet,
+  handleGetListOfAccesibleDropletIDs,
+  handleGetDropletInfo,
 };

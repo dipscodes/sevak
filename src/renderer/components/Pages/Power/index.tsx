@@ -5,7 +5,7 @@ import CardComponent from 'renderer/components/CardComponent';
 import { MasterContext } from 'renderer/Context';
 
 export default function Power() {
-  const [dropletList, setDropletList] = useState([{}]);
+  const [dropletList, setDropletList] = useState(['']);
   const [refresh, setRefresh] = useState(0);
   const masterPassword = useContext(MasterContext);
   const tokenName = useRef('');
@@ -16,11 +16,16 @@ export default function Power() {
         document.getElementById('selectToken') as HTMLSelectElement
       ).value;
       tokenName.current = token;
-      const dropletListFromDO: object[] =
-        await window.electron.getListOfDropletsFromDO(
-          token ?? '',
+      console.log('🚀 ~ file: index.tsx:19 ~ token:', token);
+      const dropletListFromDO: string[] =
+        await window.electron.getListOfAccesibleDropletIDs(
+          token ?? 'No Available Tokens',
           masterPassword ?? ''
         );
+      console.log(
+        '🚀 ~ file: index.tsx:26 ~ dropletListFromDO:',
+        dropletListFromDO
+      );
       setDropletList(dropletListFromDO);
     })();
   }, [masterPassword, refresh]);
@@ -33,43 +38,18 @@ export default function Power() {
         <TokenListDropdown toggleRefresh={toggleRefresh} />
       </TopBar>
       <div className="flex flex-row flex-wrap overflow-y-scroll h-[calc(100vh-80px)] hidden-scrollbar justify-around">
-        {JSON.stringify(dropletList[0]) === JSON.stringify({})
+        {dropletList[0] === ''
           ? 'No Info'
-          : dropletList.map((droplet) => {
-              const dname: string = (droplet as any).name;
-              const dropletId: string = (droplet as any).id;
-              const info: string = `${(droplet as any).vcpus} Cores, ${
-                (droplet as any).memory / 1024
-              } GB, ${(droplet as any).image.distribution}`;
-              const availablev4: object[] = (droplet as any).networks.v4;
-              const availablev6: object[] = (droplet as any).networks.v6;
-              const statusClass = (droplet as any).status;
-
-              let v4ip = 'Not Available';
-              let v6ip = 'Not Available';
-
-              availablev4.forEach((value) => {
-                if ((value as any).type === 'public')
-                  v4ip = (value as any).ip_address;
-              });
-              availablev6.forEach((value) => {
-                if ((value as any).type === 'public')
-                  v6ip = (value as any).ip_address;
-              });
-
-              v4ip = `V4: ${v4ip}`;
-              v6ip = `V6: ${v6ip}`;
-
+          : dropletList.map((dropletID) => {
+              console.log(
+                '🚀 ~ file: index.tsx:39 ~ Power ~ dropletID:',
+                dropletID
+              );
               return (
                 <CardComponent
                   tokenName={tokenName.current}
-                  dropletID={dropletId}
-                  dropletName={dname}
-                  dropletInfo={info}
-                  dropletV4IP={v4ip}
-                  dropletV6IP={v6ip}
-                  statusClass={statusClass}
-                  key={dropletId}
+                  dropletID={dropletID}
+                  key={dropletID}
                 />
               );
             })}

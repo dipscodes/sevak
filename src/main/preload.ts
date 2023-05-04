@@ -111,6 +111,26 @@ const electronHandler = {
       masterPassword,
     ]);
   },
+  getDropletInfo(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('getDropletInfo', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
+  getListOfAccesibleDropletIDs(
+    tokenName: string,
+    masterPassword: string
+  ): Promise<Array<string>> {
+    return ipcRenderer.invoke('getListOfAccesibleDropletIDs', [
+      tokenName,
+      masterPassword,
+    ]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
