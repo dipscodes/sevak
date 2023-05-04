@@ -1,23 +1,43 @@
 import { useContext } from 'react';
 import { AiOutlinePoweroff } from 'react-icons/ai';
-import { StatusContext } from 'renderer/Context';
+import { MasterContext, StatusContext } from 'renderer/Context';
 
 interface Props {
+  tokenName: string;
   dropletID: string;
   toggleRefresh: Function;
 }
 
-export default function PowerOffButton({ dropletID, toggleRefresh }: Props) {
+export default function PowerOffButton({
+  tokenName,
+  dropletID,
+  toggleRefresh,
+}: Props) {
   const { status, setStatus } = useContext(StatusContext);
+  const masterPassword = useContext(MasterContext);
+
+  function handlePowerOff() {
+    (async () => {
+      const result = await window.electron.powerOffDroplet(
+        tokenName,
+        dropletID,
+        masterPassword ?? ''
+      );
+      console.log(result);
+      if (result) {
+        status[dropletID] = 'active';
+        setStatus(status);
+        toggleRefresh();
+        // console.log(tokenName, dropletID, masterPassword);
+      }
+    })();
+  }
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className="action-button power-off action-button-common"
       onClick={() => {
-        status[dropletID] = 'active';
-        setStatus(status);
-        toggleRefresh();
-        console.log(status);
+        handlePowerOff();
       }}
     >
       <AiOutlinePoweroff className="rotate-180" size={30} />

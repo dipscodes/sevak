@@ -5,6 +5,7 @@ import PowerOffButton from '../PowerOffButton';
 import RebootButton from '../RebootButton';
 import ViewButton from '../ViewButton';
 import StatusComponent from '../StatusComponent';
+import DropletInfoComponent from '../DropletInfoComponent';
 
 interface Props {
   dropletID: string;
@@ -23,7 +24,7 @@ export default function CardComponent({ dropletID, tokenName }: Props) {
   };
 
   useEffect(() => {
-    // updates the card component informations.
+    // updates the card component.
     (async () => {
       const token: string = (
         document.getElementById('selectToken') as HTMLSelectElement
@@ -33,24 +34,17 @@ export default function CardComponent({ dropletID, tokenName }: Props) {
         dropletID,
         masterPassword ?? ''
       );
-      setDropletInformation(dropletInfo);
+      if (JSON.stringify(dropletID) !== JSON.stringify({})) {
+        setDropletInformation(dropletInfo);
+      }
     })();
   }, [masterPassword, refresh, dropletID]);
 
   useEffect(() => {
-    // updates the status component informations.
+    // updates the status component.
     const interval = setInterval(() => {
-      (async () => {
-        const dInfo = await window.electron.getDropletInfo(
-          tokenName ?? '',
-          dropletID,
-          masterPassword ?? ''
-        );
-        // setDropletInformation(dropletInfo);
-        console.log('🚀 ~ file: index.tsx:40 ~ dInfo:', dInfo);
-      })();
       toggleRefresh();
-    }, 3000);
+    }, 4000);
 
     return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -64,29 +58,18 @@ export default function CardComponent({ dropletID, tokenName }: Props) {
           spinner={(dropletInformation as any).status === status[dropletID]}
           key={refresh}
         />
-        <div className="dropletInfoDiv">
-          <div className="card">
-            <span className="dropletName">
-              {(dropletInformation as any).name}
-            </span>
-            <span className="dropletInfo">
-              {(dropletInformation as any).vcpus}
-            </span>
-            <span className="dropletIP">
-              {(dropletInformation as any).vcpusu}
-            </span>
-            <span className="dropletIP">
-              {(dropletInformation as any).vcpus}
-            </span>
-          </div>
-        </div>
+        <DropletInfoComponent dropletInformation={dropletInformation} />
         <div className="buttonDiv">
           <PowerOnButton
             tokenName={tokenName}
             dropletID={dropletID}
             toggleRefresh={toggleRefresh}
           />
-          <PowerOffButton dropletID={dropletID} toggleRefresh={toggleRefresh} />
+          <PowerOffButton
+            tokenName={tokenName}
+            dropletID={dropletID}
+            toggleRefresh={toggleRefresh}
+          />
           <RebootButton />
           <ViewButton />
         </div>
