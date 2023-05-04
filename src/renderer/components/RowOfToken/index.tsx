@@ -20,7 +20,6 @@ export default function RowOfToken({
       masterPassword ?? ''
     );
     // eslint-disable-next-line no-console
-    console.log(JSON.parse(permissionString));
     setPermissions(permissionString);
   };
 

@@ -16,16 +16,12 @@ export default function Power() {
         document.getElementById('selectToken') as HTMLSelectElement
       ).value;
       tokenName.current = token;
-      console.log('🚀 ~ file: index.tsx:19 ~ token:', token);
       const dropletListFromDO: string[] =
         await window.electron.getListOfAccesibleDropletIDs(
           token ?? 'No Available Tokens',
           masterPassword ?? ''
         );
-      console.log(
-        '🚀 ~ file: index.tsx:26 ~ dropletListFromDO:',
-        dropletListFromDO
-      );
+
       setDropletList(dropletListFromDO);
     })();
   }, [masterPassword, refresh]);
@@ -41,10 +37,6 @@ export default function Power() {
         {dropletList[0] === ''
           ? 'No Info'
           : dropletList.map((dropletID) => {
-              console.log(
-                '🚀 ~ file: index.tsx:39 ~ Power ~ dropletID:',
-                dropletID
-              );
               return (
                 <CardComponent
                   tokenName={tokenName.current}

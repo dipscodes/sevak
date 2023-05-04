@@ -25,8 +25,7 @@ export default function convertCheckboxNodesToJSON(
     } else {
       listOfCheckedlists[key] = false;
     }
-    // eslint-disable-next-line no-console
-    // console.log(getValue(value, prefix), getLabel(value));
+
     return 0;
   });
   return listOfCheckedlists;

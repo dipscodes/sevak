@@ -8,7 +8,6 @@ export default async function permissionObjectToFile(
   const [passKey, encryptedData] = await Encrypt.encryptPermissionString(
     JSON.stringify(permissionObject)
   );
-  // console.log(`back end : ${JSON.stringify(permissionObject)}`);
   writeFile(writePath, encryptedData, { encoding: 'utf-8' });
   return passKey;
 }

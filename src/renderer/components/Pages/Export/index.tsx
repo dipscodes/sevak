@@ -63,11 +63,8 @@ export default function Export() {
         tokenName,
         masterPassword ?? ''
       );
-    // console.log(JSON.stringify(checkboxNodes));
     const jsonObject = convertCheckboxNodesToJSON(checkboxNodes, 0);
     permissionObject.current = jsonObject;
-    // eslint-disable-next-line no-console
-    console.log(`front end : ${JSON.stringify(permissionObject.current)}`);
 
     setNodes(checkboxNodes);
     setShowCheckbox(true);

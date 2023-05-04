@@ -23,12 +23,10 @@ export default function PowerOnButton({
         dropletID,
         masterPassword ?? ''
       );
-      console.log(result);
       if (result) {
         status[dropletID] = 'off';
         setStatus(status);
         toggleRefresh();
-        // console.log(tokenName, dropletID, masterPassword);
       }
     })();
   }

@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import { useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { MdContentCopy } from 'react-icons/md';
 import Modal from 'react-modal';
@@ -28,10 +27,6 @@ export default function PasswordModal({
   passKey,
   onRequestClose,
 }: Props) {
-  useEffect(() => {
-    console.log(`${isModalOpen}`);
-  }, [isModalOpen]);
-
   return (
     <Modal
       isOpen={isModalOpen}
