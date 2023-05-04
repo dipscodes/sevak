@@ -33,7 +33,10 @@ export default function Power() {
       <TopBar>
         <TokenListDropdown toggleRefresh={toggleRefresh} />
       </TopBar>
-      <div className="flex flex-row flex-wrap overflow-y-scroll h-[calc(100vh-80px)] hidden-scrollbar justify-around">
+      <div
+        className="flex flex-row flex-wrap overflow-y-scroll h-[calc(100vh-80px)] hidden-scrollbar justify-around"
+        key={refresh}
+      >
         {dropletList[0] === ''
           ? 'No Info'
           : dropletList.map((dropletID) => {
