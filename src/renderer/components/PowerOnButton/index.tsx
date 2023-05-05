@@ -6,12 +6,14 @@ interface Props {
   tokenName: string;
   dropletID: string;
   toggleRefresh: Function;
+  enabled?: boolean;
 }
 
 export default function PowerOnButton({
   tokenName,
   dropletID,
   toggleRefresh,
+  enabled,
 }: Props) {
   const { status, setStatus } = useContext(StatusContext);
   const masterPassword = useContext(MasterContext);
@@ -30,15 +32,26 @@ export default function PowerOnButton({
       }
     })();
   }
+  if (enabled)
+    return (
+      // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
+      <div
+        className="action-button power-on action-button-common"
+        onClick={() => {
+          handlePowerOn();
+        }}
+      >
+        <AiOutlinePoweroff size={30} />
+      </div>
+    );
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
-    <div
-      className="action-button power-on action-button-common"
-      onClick={() => {
-        handlePowerOn();
-      }}
-    >
+    <div className="action-button-muted power-on-muted action-button-muted-common">
       <AiOutlinePoweroff size={30} />
     </div>
   );
 }
+
+PowerOnButton.defaultProps = {
+  enabled: false,
+};

@@ -152,7 +152,6 @@ async function handleGetListOfAllRawTokenNames(
     listOfAllRawTokenNames = listOfAllRawTokenNames.filter(
       (value) => value !== ''
     );
-    console.log(listOfAllRawTokenNames);
     return listOfAllRawTokenNames;
   }
 
@@ -162,12 +161,13 @@ async function handleGetListOfAllRawTokenNames(
 async function handleGetTokenPermission(
   tokenName: string,
   masterPassword: string
-): Promise<string> {
+): Promise<object> {
+  if (tokenName === 'No Available Tokens') return {};
   const decyprtedPermissionStringInJSON: object =
     await getDecryptedPermissionObject(tokenName, masterPassword);
   delete (decyprtedPermissionStringInJSON as any).token;
 
-  return JSON.stringify(decyprtedPermissionStringInJSON);
+  return decyprtedPermissionStringInJSON;
 }
 
 async function handleDeleteExistingToken(name: string): Promise<void> {
@@ -207,7 +207,6 @@ async function handleGetListOfDropletsFromDO(
   if (tokenName === 'No Available Tokens') {
     return [{}];
   }
-  console.log(`tokenName: ${tokenName}`);
   const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
     tokenName,
     masterPassword
@@ -258,11 +257,13 @@ async function handleGetListOfAccesibleDropletIDs(
   if (tokenName === 'No Available Tokens') {
     return [''];
   }
-  console.log(`tokenName: ${tokenName}`);
   const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
     tokenName,
     masterPassword
   );
+
+  const isRawToken: boolean = (decryptedPermissionStringInJSON as any)
+    .is_raw_token;
 
   const dropletPermissions: object = (decryptedPermissionStringInJSON as any)
     .permissions.droplets;
@@ -275,12 +276,9 @@ async function handleGetListOfAccesibleDropletIDs(
     Object.keys(temp).forEach((element) => {
       res = res || temp[element];
     });
-
-    if (!res) dropletFilter.push(value.split('~')[0]);
-    console.log(
-      '🚀 ~ file: handlers.ts:280 ~ Object.keys ~ dropletFilter:',
-      dropletFilter
-    );
+    if (res || isRawToken) {
+      dropletFilter.push(value);
+    }
   });
 
   return dropletFilter;
@@ -354,7 +352,6 @@ async function handlePowerOnDroplet(
       body: JSON.stringify({ type: 'power_on' }),
     });
     const apiResponseInJson: any = await apiResponse.json();
-    console.log(apiResponseInJson);
     return apiResponseInJson.action.status === 'in-progress';
   } catch (error) {
     console.log(error);
@@ -384,7 +381,6 @@ async function handlePowerOffDroplet(
       body: JSON.stringify({ type: 'power_off' }),
     });
     const apiResponseInJson: any = await apiResponse.json();
-    console.log(apiResponseInJson);
     return apiResponseInJson.action.status === 'in-progress';
   } catch (error) {
     console.log(error);

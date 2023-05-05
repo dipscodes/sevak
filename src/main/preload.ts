@@ -33,9 +33,6 @@ const electronHandler = {
     permissionObject: string,
     masterPassword: string
   ) {
-    // console.log(
-    //   `preload.${writePath}.${checkedList}.${tokenName}.${masterPassword}`
-    // );
     return ipcRenderer.invoke('exportEncryptedTokenFileFromPermissionString', [
       writePath,
       checkedList,
@@ -93,7 +90,6 @@ const electronHandler = {
     dropletID: string,
     masterPassword: string
   ): Promise<Array<object>> {
-    console.log('tname:', tokenName, dropletID, masterPassword);
     return ipcRenderer.invoke('powerOnDroplet', [
       tokenName,
       dropletID,

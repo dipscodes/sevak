@@ -44,16 +44,32 @@
     @apply flex flex-row justify-center items-center cursor-pointer hover:rounded-xl transition-all duration-100 ease-linear hover:shadow-2xl hover:bg-discord-bg-1;
   }
 
+  .action-button-muted-common {
+    @apply flex flex-row justify-center items-center;
+  }
+
   .power-on {
     @apply text-green-500;
+  }
+
+  .power-on-muted {
+    @apply text-green-700;
   }
 
   .power-off {
     @apply text-red-500;
   }
 
+  .power-off-muted {
+    @apply text-red-700;
+  }
+
   .reboot {
-    @apply items-center;
+    @apply text-text-generic-color;
+  }
+
+  .reboot-muted {
+    @apply text-text-generic-color-muted;
   }
 
   .view {
@@ -113,6 +129,17 @@
   background-color: #4e5058;
   box-shadow: 4px 4px 4px 0px #4E505840;
 }
+.action-button-muted {
+  width: 71px;
+  height: 48px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 0px solid black;
+  border-radius: 8px;
+  background-color: #313338;
+  box-shadow: 4px 4px 4px 0px #4E505840;
+}
+
 .card {
   width: 284px;
   height: 168px;

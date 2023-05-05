@@ -20,7 +20,7 @@ export default function RowOfToken({
       masterPassword ?? ''
     );
     // eslint-disable-next-line no-console
-    setPermissions(permissionString);
+    setPermissions(JSON.stringify(permissionString));
   };
 
   const deletePermissionString = async () => {

@@ -10,9 +10,14 @@ import DropletInfoComponent from '../DropletInfoComponent';
 interface Props {
   dropletID: string;
   tokenName: string;
+  buttonPermission: object;
 }
 
-export default function CardComponent({ dropletID, tokenName }: Props) {
+export default function CardComponent({
+  dropletID,
+  tokenName,
+  buttonPermission,
+}: Props) {
   const [refresh, setRefresh] = useState(0);
   const [dropletInformation, setDropletInformation] = useState({});
   const masterPassword = useContext(MasterContext);
@@ -63,14 +68,27 @@ export default function CardComponent({ dropletID, tokenName }: Props) {
           <PowerOnButton
             tokenName={tokenName}
             dropletID={dropletID}
+            enabled={
+              (buttonPermission as any).power_on ||
+              (buttonPermission as any).is_raw_token
+            }
             toggleRefresh={toggleRefresh}
           />
           <PowerOffButton
             tokenName={tokenName}
             dropletID={dropletID}
+            enabled={
+              (buttonPermission as any).power_off ||
+              (buttonPermission as any).is_raw_token
+            }
             toggleRefresh={toggleRefresh}
           />
-          <RebootButton />
+          <RebootButton
+            enabled={
+              (buttonPermission as any).reboot ||
+              (buttonPermission as any).is_raw_token
+            }
+          />
           <ViewButton />
         </div>
       </div>

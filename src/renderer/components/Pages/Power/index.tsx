@@ -9,6 +9,7 @@ export default function Power() {
   const [refresh, setRefresh] = useState(0);
   const masterPassword = useContext(MasterContext);
   const tokenName = useRef('');
+  const dropletPermission = useRef({});
 
   useEffect(() => {
     (async () => {
@@ -22,6 +23,12 @@ export default function Power() {
           masterPassword ?? ''
         );
 
+      const permission = await window.electron.getTokenPermission(
+        token ?? 'No Available Tokens',
+        masterPassword ?? ''
+      );
+
+      dropletPermission.current = permission;
       setDropletList(dropletListFromDO);
     })();
   }, [masterPassword, refresh]);
@@ -40,10 +47,20 @@ export default function Power() {
         {dropletList[0] === ''
           ? 'No Info'
           : dropletList.map((dropletID) => {
+              const temp = {
+                is_raw_token: (dropletPermission.current as any).is_raw_token,
+              };
+              const buttonPermission = {
+                ...temp,
+                ...(dropletPermission.current as any).permissions.droplets[
+                  dropletID
+                ],
+              };
               return (
                 <CardComponent
                   tokenName={tokenName.current}
-                  dropletID={dropletID}
+                  dropletID={dropletID.split('~')[0]}
+                  buttonPermission={buttonPermission}
                   key={dropletID}
                 />
               );
