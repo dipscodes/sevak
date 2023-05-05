@@ -197,7 +197,32 @@ async function getListOfDroplets(apiKey: string) {
     }
   });
 
+  console.log('getListOfDroplets');
+
   return dropletNamesAndIds;
+}
+
+async function getListOfDropletIDs(apiKey: string) {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets`;
+  const apiResponse = await fetch(dropletsApiCall, {
+    method: 'GET',
+    headers,
+  });
+  const droplets: any = await apiResponse.json();
+  const listOfDropletIDs: string[] = [];
+
+  droplets.droplets.forEach((dropletInfo: any) => {
+    if (droplets.droplets.length > 0) {
+      const id: string = dropletInfo.id as string;
+      listOfDropletIDs.push(id);
+    }
+  });
+
+  return listOfDropletIDs;
 }
 
 async function handleGetListOfDropletsFromDO(
@@ -265,21 +290,29 @@ async function handleGetListOfAccesibleDropletIDs(
   const isRawToken: boolean = (decryptedPermissionStringInJSON as any)
     .is_raw_token;
 
-  const dropletPermissions: object = (decryptedPermissionStringInJSON as any)
-    .permissions.droplets;
-
   const dropletFilter: string[] = [];
-  Object.keys(dropletPermissions).forEach((value) => {
-    const temp = dropletPermissions[value];
-    let res: boolean = false;
 
-    Object.keys(temp).forEach((element) => {
-      res = res || temp[element];
+  if (isRawToken) {
+    const temp = await getListOfDropletIDs(
+      (decryptedPermissionStringInJSON as any).token
+    );
+    temp.forEach((value) => dropletFilter.push(`${value}`));
+  } else {
+    const dropletPermissions: object = (decryptedPermissionStringInJSON as any)
+      .permissions.droplets;
+
+    Object.keys(dropletPermissions).forEach((value) => {
+      const temp = dropletPermissions[value];
+      let res: boolean = false;
+
+      Object.keys(temp).forEach((element) => {
+        res = res || temp[element];
+      });
+      if (res || isRawToken) {
+        dropletFilter.push(value);
+      }
     });
-    if (res || isRawToken) {
-      dropletFilter.push(value);
-    }
-  });
+  }
 
   return dropletFilter;
 }

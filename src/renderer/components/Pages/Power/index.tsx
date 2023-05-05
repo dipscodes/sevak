@@ -27,7 +27,6 @@ export default function Power() {
         token ?? 'No Available Tokens',
         masterPassword ?? ''
       );
-
       dropletPermission.current = permission;
       setDropletList(dropletListFromDO);
     })();

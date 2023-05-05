@@ -18,6 +18,7 @@ export default function CardComponent({
   tokenName,
   buttonPermission,
 }: Props) {
+  console.log(buttonPermission);
   const [refresh, setRefresh] = useState(0);
   const [dropletInformation, setDropletInformation] = useState({});
   const masterPassword = useContext(MasterContext);
