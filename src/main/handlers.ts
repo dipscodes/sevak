@@ -419,6 +419,35 @@ async function handlePowerOffDroplet(
   return false;
 }
 
+async function handleRebootDroplet(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+) {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}/actions`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ type: 'reboot' }),
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    return apiResponseInJson.action.status === 'in-progress';
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+}
+
 export {
   handleFileOpen,
   handleExportEncryptedTokenFileFromPermissionString,
@@ -435,4 +464,5 @@ export {
   handlePowerOffDroplet,
   handleGetListOfAccesibleDropletIDs,
   handleGetDropletInfo,
+  handleRebootDroplet,
 };

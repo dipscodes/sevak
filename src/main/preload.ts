@@ -107,6 +107,17 @@ const electronHandler = {
       masterPassword,
     ]);
   },
+  rebootDroplet(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('rebootDroplet', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
   getDropletInfo(
     tokenName: string,
     dropletID: string,

@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { MasterContext, StatusContext } from 'renderer/Context';
 import PowerOnButton from '../PowerOnButton';
 import PowerOffButton from '../PowerOffButton';
@@ -20,6 +20,7 @@ export default function CardComponent({
 }: Props) {
   console.log(buttonPermission);
   const [refresh, setRefresh] = useState(0);
+  const spinner = useRef(false);
   const [dropletInformation, setDropletInformation] = useState({});
   const masterPassword = useContext(MasterContext);
   // eslint-disable-next-line no-unused-vars
@@ -43,12 +44,19 @@ export default function CardComponent({
       if (JSON.stringify(dropletID) !== JSON.stringify({})) {
         setDropletInformation(dropletInfo);
       }
+      // spinner.current = (dropletInfo as any).status === status[dropletID];
     })();
   }, [masterPassword, refresh, dropletID]);
 
   useEffect(() => {
     // updates the status component.
     const interval = setInterval(() => {
+      if (status[dropletID] === 'reboot') {
+        if ((dropletInformation as any).status === 'active')
+          spinner.current = true;
+        else spinner.current = false;
+        console.log('reboot - ', spinner);
+      }
       toggleRefresh();
     }, 4000);
 
@@ -85,10 +93,13 @@ export default function CardComponent({
             toggleRefresh={toggleRefresh}
           />
           <RebootButton
+            tokenName={tokenName}
+            dropletID={dropletID}
             enabled={
               (buttonPermission as any).reboot ||
               (buttonPermission as any).is_raw_token
             }
+            toggleRefresh={toggleRefresh}
           />
           <ViewButton />
         </div>
