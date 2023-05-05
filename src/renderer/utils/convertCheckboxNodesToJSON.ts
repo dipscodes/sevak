@@ -28,6 +28,6 @@ export default function convertCheckboxNodesToJSON(
 
     return 0;
   });
-  console.log('convertCheckboxNodesToJSON');
+
   return listOfCheckedlists;
 }

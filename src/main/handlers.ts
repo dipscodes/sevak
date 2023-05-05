@@ -197,8 +197,6 @@ async function getListOfDroplets(apiKey: string) {
     }
   });
 
-  console.log('getListOfDroplets');
-
   return dropletNamesAndIds;
 }
 

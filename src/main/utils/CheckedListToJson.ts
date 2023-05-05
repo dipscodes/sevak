@@ -30,6 +30,5 @@ export default function checkedListToJson(
     updatedPermissionObject = modifyRecursively(value, updatedPermissionObject);
   });
 
-  console.log('checkedListToJSON');
   return updatedPermissionObject;
 }
