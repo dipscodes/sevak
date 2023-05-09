@@ -50,7 +50,7 @@ export default function TokenListDropdown({
               className="hover:bg-gray-100"
               value={name}
               key={name}
-              selected
+              defaultValue={name}
             >
               {name}
             </option>

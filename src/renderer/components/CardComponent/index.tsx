@@ -18,7 +18,6 @@ export default function CardComponent({
   tokenName,
   buttonPermission,
 }: Props) {
-  console.log(buttonPermission);
   const [refresh, setRefresh] = useState(0);
   const spinner = useRef(false);
   const [dropletInformation, setDropletInformation] = useState({});
@@ -55,7 +54,6 @@ export default function CardComponent({
         if ((dropletInformation as any).status === 'active')
           spinner.current = true;
         else spinner.current = false;
-        console.log('reboot - ', spinner);
       }
       toggleRefresh();
     }, 4000);
