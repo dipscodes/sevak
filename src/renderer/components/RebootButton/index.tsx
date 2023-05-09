@@ -23,7 +23,7 @@ export default function RebootButton({
       const result = await window.electron.rebootDroplet(
         tokenName,
         dropletID,
-        masterPassword ?? ''
+        masterPassword
       );
 
       if (result) {

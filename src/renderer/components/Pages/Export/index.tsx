@@ -79,7 +79,7 @@ export default function Export() {
         checked,
         tokenName,
         JSON.stringify(permissionObject.current),
-        masterPassword ?? ''
+        masterPassword
       );
     setPassWordKey(passKey);
     setIsModalOpen(true);
@@ -94,7 +94,7 @@ export default function Export() {
     const checkboxNodes: any =
       await window.electron.getTokenSpecificCheckboxNode(
         tokenName,
-        masterPassword ?? ''
+        masterPassword
       );
     const jsonObject = convertCheckboxNodesToJSON(checkboxNodes, 0);
     permissionObject.current = jsonObject;

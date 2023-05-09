@@ -12,7 +12,7 @@ export default function Import() {
     ).value;
     const testResult: any = await window.electron.getListOfDropletsFromDO(
       tokenName,
-      masterPassword ?? ''
+      masterPassword
     );
     (document.getElementById('information') as HTMLDivElement).innerText =
       JSON.stringify(testResult);

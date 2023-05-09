@@ -20,12 +20,12 @@ export default function Power() {
       const dropletListFromDO: string[] =
         await window.electron.getListOfAccesibleDropletIDs(
           token ?? 'No Available Tokens',
-          masterPassword ?? ''
+          masterPassword
         );
 
       const permission = await window.electron.getTokenPermission(
         token ?? 'No Available Tokens',
-        masterPassword ?? ''
+        masterPassword
       );
       dropletPermission.current = permission;
       setDropletList(dropletListFromDO);

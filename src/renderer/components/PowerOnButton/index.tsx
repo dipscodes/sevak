@@ -23,7 +23,7 @@ export default function PowerOnButton({
       const result = await window.electron.powerOnDroplet(
         tokenName,
         dropletID,
-        masterPassword ?? ''
+        masterPassword
       );
       if (result) {
         status[dropletID] = 'off';

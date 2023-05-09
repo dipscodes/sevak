@@ -24,7 +24,7 @@ export default function TokenListDropdown({
         tokenNames = await window.electron.getListOfAllTokens();
       } else {
         tokenNames = await window.electron.getListOfAllRawTokens(
-          masterPassword ?? ''
+          masterPassword
         );
       }
       if (toggleRefresh) toggleRefresh();

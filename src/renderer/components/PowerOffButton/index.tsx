@@ -23,7 +23,7 @@ export default function PowerOffButton({
       const result = await window.electron.powerOffDroplet(
         tokenName,
         dropletID,
-        masterPassword ?? ''
+        masterPassword
       );
 
       if (result) {

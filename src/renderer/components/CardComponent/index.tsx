@@ -38,7 +38,7 @@ export default function CardComponent({
       const dropletInfo: object = await window.electron.getDropletInfo(
         token ?? '',
         dropletID,
-        masterPassword ?? ''
+        masterPassword
       );
       if (JSON.stringify(dropletID) !== JSON.stringify({})) {
         setDropletInformation(dropletInfo);

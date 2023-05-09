@@ -17,7 +17,7 @@ export default function RowOfToken({
   const showPermissionString = async () => {
     const permissionString = await window.electron.getTokenPermission(
       name,
-      masterPassword ?? ''
+      masterPassword
     );
     // eslint-disable-next-line no-console
     setPermissions(JSON.stringify(permissionString));
