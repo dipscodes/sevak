@@ -28,6 +28,7 @@ export default function TokenListDropdown({
         );
       }
       if (toggleRefresh) toggleRefresh();
+      if (JSON.stringify(tokenNames) === JSON.stringify([])) tokenNames = [''];
 
       setListOfTokenNames(tokenNames);
     })();

@@ -277,7 +277,7 @@ async function handleGetListOfAccesibleDropletIDs(
   tokenName: string,
   masterPassword: string
 ): Promise<Array<string>> {
-  if (tokenName === 'No Available Tokens' || '' || undefined) {
+  if (tokenName === 'No Available Tokens') {
     return [''];
   }
   const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(

@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import ApiModal from 'renderer/components/ApiModal';
+import TokenModal from 'renderer/components/TokenModal';
 import { MasterContext } from 'renderer/Context';
 import PasswordInputModal from 'renderer/components/PasswordInputModal';
 import ListOfTokens from 'renderer/components/ListOfTokens';
@@ -80,7 +80,7 @@ export default function Token() {
           Refresh
         </button>
       </div>
-      <ApiModal
+      <TokenModal
         isModalOpen={isModalOpen}
         message={message}
         onAddKey={() => onAddKey()}

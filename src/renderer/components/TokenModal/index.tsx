@@ -21,7 +21,7 @@ const customStyles = {
   },
 };
 
-export default function ApiModal({
+export default function TokenModal({
   isModalOpen,
   message,
   onAddKey,
