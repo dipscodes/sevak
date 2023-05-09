@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
@@ -141,5 +140,4 @@ const electronHandler = {
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
-
 export type ElectronHandler = typeof electronHandler;
