@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import Sidebar from 'renderer/components/SideBar';
 import { useState } from 'react';
 import { MasterContext } from 'renderer/Context';

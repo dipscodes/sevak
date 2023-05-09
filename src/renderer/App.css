@@ -75,6 +75,14 @@
   .view {
     @apply text-yellow-400;
   }
+
+  .master-password-modal {
+    @apply bg-discord-bg-1 w-[450px] h-[180px] flex flex-col justify-between p-10 rounded-md fixed top-2/4 left-2/4 mt-[-180px] ml-[-225px] shadow-lg;
+  }
+
+  .master-password-add-button {
+    @apply w-auto bg-discord-button-color hover:bg-discord-button-color-hover text-white font-bold pt-1 pb-2 px-5 mx-auto mt-5 rounded-full transition-all duration-100 ease-linear shadow-md hover:shadow-sm;
+  }
 }
 
 .ReactModal__Overlay {
