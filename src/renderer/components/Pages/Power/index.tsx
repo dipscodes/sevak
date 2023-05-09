@@ -13,9 +13,12 @@ export default function Power() {
 
   useEffect(() => {
     (async () => {
-      const token: string = (
+      let token: string = (
         document.getElementById('selectToken') as HTMLSelectElement
       ).value;
+      if (token === '') {
+        token = 'No Available Tokens';
+      }
       tokenName.current = token;
       const dropletListFromDO: string[] =
         await window.electron.getListOfAccesibleDropletIDs(
