@@ -10,8 +10,41 @@ import { FaCheckSquare } from 'react-icons/fa';
 import PasswordModal from 'renderer/components/PasswordModal';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import TopBar from 'renderer/components/TopBar';
-import convertCheckboxNodesToJSON from 'renderer/utils/convertCheckboxNodesToJSON';
 import { MasterContext } from 'renderer/Context';
+
+interface CheckBoxWithoutChildren {
+  value: string;
+  label: string;
+  children?: any;
+}
+
+interface CheckBoxWithChildren {
+  value: string;
+  label: string;
+  children: Array<CheckBoxWithChildren | CheckBoxWithoutChildren>;
+}
+
+function convertCheckboxNodesToJSON(
+  checkBox: (CheckBoxWithChildren | CheckBoxWithoutChildren)[],
+  depth: number
+): object {
+  const listOfCheckedlists: object = {};
+  checkBox.map((value: CheckBoxWithChildren | CheckBoxWithoutChildren) => {
+    const key = value.value.split('~')[depth];
+    if (Object.prototype.hasOwnProperty.call(value, 'children')) {
+      listOfCheckedlists[key] = convertCheckboxNodesToJSON(
+        value.children,
+        depth + 1
+      );
+    } else {
+      listOfCheckedlists[key] = false;
+    }
+
+    return 0;
+  });
+
+  return listOfCheckedlists;
+}
 
 export default function Export() {
   const [checked, setChecked] = useState(['']);

@@ -1,8 +1,27 @@
 import Page from 'renderer/components/Page';
 import SidebarIcon from 'renderer/components/SideBarIcon';
 import { useState, useRef, useMemo } from 'react';
-import getAllPages from 'renderer/utils/SideBar';
 import { StatusContext } from 'renderer/Context';
+import {
+  AiOutlinePoweroff,
+  AiOutlineKey,
+  AiOutlineApi,
+  AiOutlinePlusCircle,
+  AiOutlineExport,
+} from 'react-icons/ai';
+import { BsDroplet } from 'react-icons/bs';
+
+function getAllPages(): Object {
+  const sideBarIcons = {
+    Token: <AiOutlineApi size={30} />,
+    Power: <AiOutlinePoweroff size={30} />,
+    Droplet: <BsDroplet size={30} />,
+    Key: <AiOutlineKey size={30} />,
+    Export: <AiOutlineExport size={30} />,
+    Import: <AiOutlinePlusCircle size={30} />,
+  };
+  return sideBarIcons;
+}
 
 export default function Sidebar() {
   // eslint-disable-next-line no-unused-vars
