@@ -44,20 +44,44 @@
     @apply flex flex-row justify-center items-center cursor-pointer hover:rounded-xl transition-all duration-100 ease-linear hover:shadow-2xl hover:bg-discord-bg-1;
   }
 
+  .action-button-muted-common {
+    @apply flex flex-row justify-center items-center;
+  }
+
   .power-on {
     @apply text-green-500;
   }
 
+  .power-on-muted {
+    @apply text-green-800;
+  }
+
   .power-off {
-    @apply text-red-600;
+    @apply text-red-500;
+  }
+
+  .power-off-muted {
+    @apply text-red-800;
   }
 
   .reboot {
-    @apply items-center;
+    @apply text-text-generic-color;
+  }
+
+  .reboot-muted {
+    @apply text-text-generic-color-muted;
   }
 
   .view {
     @apply text-yellow-400;
+  }
+
+  .master-password-modal {
+    @apply bg-discord-bg-1 w-[450px] h-[180px] flex flex-col justify-between p-10 rounded-md fixed top-2/4 left-2/4 mt-[-180px] ml-[-225px] shadow-lg;
+  }
+
+  .master-password-add-button {
+    @apply w-auto bg-discord-button-color hover:bg-discord-button-color-hover text-white font-bold pt-1 pb-2 px-5 mx-auto mt-5 rounded-full transition-all duration-100 ease-linear shadow-md hover:shadow-sm;
   }
 }
 
@@ -113,6 +137,17 @@
   background-color: #4e5058;
   box-shadow: 4px 4px 4px 0px #4E505840;
 }
+.action-button-muted {
+  width: 71px;
+  height: 48px;
+  margin-right: 15px;
+  margin-left: 15px;
+  border: 0px solid black;
+  border-radius: 8px;
+  background-color: #313338;
+  box-shadow: 4px 4px 4px 0px #4E505840;
+}
+
 .card {
   width: 284px;
   height: 168px;
@@ -132,7 +167,6 @@
   top: 10px;
   left: 420px;
   border-radius: 50px;
-  background-color: #aa2828;
   height: 23px;
 }
 .dropletIP {
@@ -145,4 +179,41 @@
 
 .hidden-scrollbar::-webkit-scrollbar {
   display: none;
+}
+
+.spinner {
+  animation: rotate 2s linear infinite;
+  z-index: 2;
+  position: relative;
+  top: 10px;
+  left: 420px;
+  width: 21px;
+  height: 23px;
+}
+
+.spinner .path {
+  stroke: rgb(147, 191, 236);
+  stroke-linecap: round;
+  animation: dash 1.5s ease-in-out infinite;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
 }

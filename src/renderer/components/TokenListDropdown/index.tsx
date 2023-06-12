@@ -1,12 +1,17 @@
 import { useContext, useEffect, useState } from 'react';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 
 interface Props {
   all?: boolean;
   className?: string;
+  toggleRefresh?: Function;
 }
 
-export default function TokenListDropdown({ all, className }: Props) {
+export default function TokenListDropdown({
+  all,
+  className,
+  toggleRefresh,
+}: Props) {
   const [listOfTokenNames, setListOfTokenNames] = useState(['']);
   const masterPassword = useContext(MasterContext);
 
@@ -19,9 +24,11 @@ export default function TokenListDropdown({ all, className }: Props) {
         tokenNames = await window.electron.getListOfAllTokens();
       } else {
         tokenNames = await window.electron.getListOfAllRawTokens(
-          masterPassword ?? ''
+          masterPassword
         );
       }
+      if (toggleRefresh) toggleRefresh();
+      if (JSON.stringify(tokenNames) === JSON.stringify([])) tokenNames = [''];
 
       setListOfTokenNames(tokenNames);
     })();
@@ -29,7 +36,14 @@ export default function TokenListDropdown({ all, className }: Props) {
   }, []);
 
   return (
-    <select id="selectToken" name="token" className={classNames}>
+    <select
+      id="selectToken"
+      name="token"
+      className={classNames}
+      onChange={() => {
+        if (toggleRefresh) toggleRefresh();
+      }}
+    >
       {listOfTokenNames.map((name, index) => {
         if (name !== '' && index === 0) {
           return (
@@ -37,7 +51,7 @@ export default function TokenListDropdown({ all, className }: Props) {
               className="hover:bg-gray-100"
               value={name}
               key={name}
-              selected
+              defaultValue={name}
             >
               {name}
             </option>
@@ -60,4 +74,5 @@ export default function TokenListDropdown({ all, className }: Props) {
 TokenListDropdown.defaultProps = {
   all: true,
   className: '',
+  toggleRefresh: () => {},
 };

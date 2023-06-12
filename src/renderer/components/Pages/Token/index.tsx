@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
-import ApiModal from 'renderer/components/ApiModal';
-import MasterContext from 'renderer/Context';
+import TokenModal from 'renderer/components/TokenModal';
+import { MasterContext } from 'renderer/Context';
 import PasswordInputModal from 'renderer/components/PasswordInputModal';
 import ListOfTokens from 'renderer/components/ListOfTokens';
 
@@ -19,7 +19,7 @@ export default function Token() {
     const name = (document.getElementById('token-name') as HTMLInputElement)
       .value;
 
-    window.electron.setRawToken(name, key, masterPassword ?? '');
+    window.electron.setRawToken(name, key, masterPassword);
     setMessage('Key Added Succesfully');
     setIsModalOpen(false);
     setRefresh((prev) => (prev + 1) % 2);
@@ -35,7 +35,7 @@ export default function Token() {
     window.electron.setFileToken(
       file,
       passKey,
-      masterPassword ?? '',
+      masterPassword,
       name === '' ? undefined : name
     );
     setFileMessage('File Added Succesfully');
@@ -80,7 +80,7 @@ export default function Token() {
           Refresh
         </button>
       </div>
-      <ApiModal
+      <TokenModal
         isModalOpen={isModalOpen}
         message={message}
         onAddKey={() => onAddKey()}

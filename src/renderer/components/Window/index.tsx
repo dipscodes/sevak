@@ -1,7 +1,6 @@
-/* eslint-disable no-console */
 import Sidebar from 'renderer/components/SideBar';
 import { useState } from 'react';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 import MasterPasswordWindow from '../MasterPasswordWindow';
 
 export default function Window() {

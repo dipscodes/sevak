@@ -10,8 +10,41 @@ import { FaCheckSquare } from 'react-icons/fa';
 import PasswordModal from 'renderer/components/PasswordModal';
 import TokenListDropdown from 'renderer/components/TokenListDropdown';
 import TopBar from 'renderer/components/TopBar';
-import convertCheckboxNodesToJSON from 'renderer/utils/convertCheckboxNodesToJSON';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
+
+interface CheckBoxWithoutChildren {
+  value: string;
+  label: string;
+  children?: any;
+}
+
+interface CheckBoxWithChildren {
+  value: string;
+  label: string;
+  children: Array<CheckBoxWithChildren | CheckBoxWithoutChildren>;
+}
+
+function convertCheckboxNodesToJSON(
+  checkBox: (CheckBoxWithChildren | CheckBoxWithoutChildren)[],
+  depth: number
+): object {
+  const listOfCheckedlists: object = {};
+  checkBox.map((value: CheckBoxWithChildren | CheckBoxWithoutChildren) => {
+    const key = value.value.split('~')[depth];
+    if (Object.prototype.hasOwnProperty.call(value, 'children')) {
+      listOfCheckedlists[key] = convertCheckboxNodesToJSON(
+        value.children,
+        depth + 1
+      );
+    } else {
+      listOfCheckedlists[key] = false;
+    }
+
+    return 0;
+  });
+
+  return listOfCheckedlists;
+}
 
 export default function Export() {
   const [checked, setChecked] = useState(['']);
@@ -46,7 +79,7 @@ export default function Export() {
         checked,
         tokenName,
         JSON.stringify(permissionObject.current),
-        masterPassword ?? ''
+        masterPassword
       );
     setPassWordKey(passKey);
     setIsModalOpen(true);
@@ -61,13 +94,10 @@ export default function Export() {
     const checkboxNodes: any =
       await window.electron.getTokenSpecificCheckboxNode(
         tokenName,
-        masterPassword ?? ''
+        masterPassword
       );
-    // console.log(JSON.stringify(checkboxNodes));
     const jsonObject = convertCheckboxNodesToJSON(checkboxNodes, 0);
     permissionObject.current = jsonObject;
-    // eslint-disable-next-line no-console
-    console.log(`front end : ${JSON.stringify(permissionObject.current)}`);
 
     setNodes(checkboxNodes);
     setShowCheckbox(true);

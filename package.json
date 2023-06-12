@@ -103,8 +103,7 @@
     "react-checkbox-tree": "^1.8.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
-    "react-modal": "^3.16.1",
-    "react-router-dom": "^6.8.1"
+    "react-modal": "^3.16.1"
   },
   "devDependencies": {
     "@electron/notarize": "^1.2.3",
@@ -179,7 +178,7 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
+    "productName": "Sevak",
     "appId": "org.erb.ElectronReact",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",

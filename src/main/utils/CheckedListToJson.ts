@@ -29,5 +29,6 @@ export default function checkedListToJson(
   checkedList.forEach((value) => {
     updatedPermissionObject = modifyRecursively(value, updatedPermissionObject);
   });
+
   return updatedPermissionObject;
 }

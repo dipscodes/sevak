@@ -44,7 +44,7 @@ async function handleExportEncryptedTokenFileFromPermissionString(
   permissionObject: string,
   masterPassword: string
 ) {
-  const decryptedPermissionObject: object = getDecryptedPermissionObject(
+  const decryptedPermissionObject: object = await getDecryptedPermissionObject(
     tokenName,
     masterPassword
   );
@@ -152,7 +152,6 @@ async function handleGetListOfAllRawTokenNames(
     listOfAllRawTokenNames = listOfAllRawTokenNames.filter(
       (value) => value !== ''
     );
-    console.log(listOfAllRawTokenNames);
     return listOfAllRawTokenNames;
   }
 
@@ -162,14 +161,13 @@ async function handleGetListOfAllRawTokenNames(
 async function handleGetTokenPermission(
   tokenName: string,
   masterPassword: string
-): Promise<string> {
-  const decyprtedPermissionStringInJSON: object = getDecryptedPermissionObject(
-    tokenName,
-    masterPassword
-  );
+): Promise<object> {
+  if (tokenName === 'No Available Tokens') return {};
+  const decyprtedPermissionStringInJSON: object =
+    await getDecryptedPermissionObject(tokenName, masterPassword);
   delete (decyprtedPermissionStringInJSON as any).token;
 
-  return JSON.stringify(decyprtedPermissionStringInJSON);
+  return decyprtedPermissionStringInJSON;
 }
 
 async function handleDeleteExistingToken(name: string): Promise<void> {
@@ -202,11 +200,154 @@ async function getListOfDroplets(apiKey: string) {
   return dropletNamesAndIds;
 }
 
+async function getListOfDropletIDs(apiKey: string) {
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets`;
+  const apiResponse = await fetch(dropletsApiCall, {
+    method: 'GET',
+    headers,
+  });
+  const droplets: any = await apiResponse.json();
+  const listOfDropletIDs: string[] = [];
+
+  droplets.droplets.forEach((dropletInfo: any) => {
+    if (droplets.droplets.length > 0) {
+      const id: string = dropletInfo.id as string;
+      listOfDropletIDs.push(id);
+    }
+  });
+
+  return listOfDropletIDs;
+}
+
+async function handleGetListOfDropletsFromDO(
+  tokenName: string,
+  masterPassword: string
+) {
+  if (tokenName === 'No Available Tokens') {
+    return [{}];
+  }
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const isRawToken: boolean = (decryptedPermissionStringInJSON as any)
+    .is_raw_token;
+
+  const dropletPermissions: object = (decryptedPermissionStringInJSON as any)
+    .permissions.droplets;
+
+  const dropletFilter: object = {};
+  Object.keys(dropletPermissions).forEach((value) => {
+    const temp = dropletPermissions[value];
+    let res: boolean = false;
+
+    Object.keys(temp).forEach((element) => {
+      res = res || temp[element];
+    });
+
+    dropletFilter[value] = res;
+  });
+
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets`;
+  const apiResponse = await fetch(dropletsApiCall, {
+    method: 'GET',
+    headers,
+  });
+  const droplets: any = await apiResponse.json();
+
+  if (isRawToken) {
+    return droplets.droplets;
+  }
+
+  return droplets.droplets.filter((dropletInfo: any) => {
+    return dropletFilter[dropletInfo.id];
+  });
+}
+
+async function handleGetListOfAccesibleDropletIDs(
+  tokenName: string,
+  masterPassword: string
+): Promise<Array<string>> {
+  if (tokenName === 'No Available Tokens') {
+    return [''];
+  }
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+
+  const isRawToken: boolean = (decryptedPermissionStringInJSON as any)
+    .is_raw_token;
+
+  const dropletFilter: string[] = [];
+
+  if (isRawToken) {
+    const temp = await getListOfDropletIDs(
+      (decryptedPermissionStringInJSON as any).token
+    );
+    temp.forEach((value) => dropletFilter.push(`${value}`));
+  } else {
+    const dropletPermissions: object = (decryptedPermissionStringInJSON as any)
+      .permissions.droplets;
+
+    Object.keys(dropletPermissions).forEach((value) => {
+      const temp = dropletPermissions[value];
+      let res: boolean = false;
+
+      Object.keys(temp).forEach((element) => {
+        res = res || temp[element];
+      });
+      if (res || isRawToken) {
+        dropletFilter.push(value);
+      }
+    });
+  }
+
+  return dropletFilter;
+}
+
+async function handleGetDropletInfo(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+): Promise<object> {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'GET',
+      headers,
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    return apiResponseInJson.droplet;
+  } catch (error) {
+    console.log(error);
+  }
+  return {};
+}
+
 async function handleGetTokenSpecificCheckboxNode(
   tokenName: string,
   masterPassword: string
 ): Promise<Array<object>> {
-  const decryptedPermissionStringInJSON = getDecryptedPermissionObject(
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
     tokenName,
     masterPassword
   );
@@ -220,6 +361,93 @@ async function handleGetTokenSpecificCheckboxNode(
   return convertJSONtoCheckboxNodes(tokenTemlate, '');
 }
 
+async function handlePowerOnDroplet(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+) {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}/actions`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ type: 'power_on' }),
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    return apiResponseInJson.action.status === 'in-progress';
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+}
+
+async function handlePowerOffDroplet(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+) {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}/actions`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ type: 'power_off' }),
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    return apiResponseInJson.action.status === 'in-progress';
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+}
+
+async function handleRebootDroplet(
+  tokenName: string,
+  dropletID: string,
+  masterPassword: string
+) {
+  const decryptedPermissionStringInJSON = await getDecryptedPermissionObject(
+    tokenName,
+    masterPassword
+  );
+  const apiKey = (decryptedPermissionStringInJSON as any).token;
+  const dropletsApiCall: string = `https://api.digitalocean.com/v2/droplets/${dropletID}/actions`;
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer dop_v1_${apiKey}`,
+  };
+  try {
+    const apiResponse = await fetch(dropletsApiCall, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ type: 'reboot' }),
+    });
+    const apiResponseInJson: any = await apiResponse.json();
+    return apiResponseInJson.action.status === 'in-progress';
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+}
+
 export {
   handleFileOpen,
   handleExportEncryptedTokenFileFromPermissionString,
@@ -231,4 +459,10 @@ export {
   handleGetTokenPermission,
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,
+  handleGetListOfDropletsFromDO,
+  handlePowerOnDroplet,
+  handlePowerOffDroplet,
+  handleGetListOfAccesibleDropletIDs,
+  handleGetDropletInfo,
+  handleRebootDroplet,
 };

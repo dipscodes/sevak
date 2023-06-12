@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 // Disable no-unused-vars, broken for spread args
 /* eslint no-unused-vars: off */
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
@@ -33,9 +32,6 @@ const electronHandler = {
     permissionObject: string,
     masterPassword: string
   ) {
-    // console.log(
-    //   `preload.${writePath}.${checkedList}.${tokenName}.${masterPassword}`
-    // );
     return ipcRenderer.invoke('exportEncryptedTokenFileFromPermissionString', [
       writePath,
       checkedList,
@@ -79,8 +75,69 @@ const electronHandler = {
       masterPassword,
     ]);
   },
+  getListOfDropletsFromDO(
+    tokenName: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('getListOfDropletsFromDO', [
+      tokenName,
+      masterPassword,
+    ]);
+  },
+  powerOnDroplet(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('powerOnDroplet', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
+  powerOffDroplet(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('powerOffDroplet', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
+  rebootDroplet(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('rebootDroplet', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
+  getDropletInfo(
+    tokenName: string,
+    dropletID: string,
+    masterPassword: string
+  ): Promise<Array<object>> {
+    return ipcRenderer.invoke('getDropletInfo', [
+      tokenName,
+      dropletID,
+      masterPassword,
+    ]);
+  },
+  getListOfAccesibleDropletIDs(
+    tokenName: string,
+    masterPassword: string
+  ): Promise<Array<string>> {
+    return ipcRenderer.invoke('getListOfAccesibleDropletIDs', [
+      tokenName,
+      masterPassword,
+    ]);
+  },
 };
 
 contextBridge.exposeInMainWorld('electron', electronHandler);
-
 export type ElectronHandler = typeof electronHandler;

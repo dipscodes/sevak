@@ -23,6 +23,12 @@ import {
   handleGetTokenPermission,
   handleDeleteExistingToken,
   handleGetTokenSpecificCheckboxNode,
+  handleGetListOfDropletsFromDO,
+  handlePowerOnDroplet,
+  handlePowerOffDroplet,
+  handleGetDropletInfo,
+  handleGetListOfAccesibleDropletIDs,
+  handleRebootDroplet,
 } from './handlers';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
@@ -170,6 +176,28 @@ app
     );
     ipcMain.handle('getTokenSpecificCheckboxNode', async (event, args) =>
       handleGetTokenSpecificCheckboxNode(args[0], args[1])
+    );
+
+    ipcMain.handle('getListOfDropletsFromDO', async (event, args) =>
+      handleGetListOfDropletsFromDO(args[0], args[1])
+    );
+
+    ipcMain.handle('powerOnDroplet', async (event, args) =>
+      handlePowerOnDroplet(args[0], args[1], args[2])
+    );
+    ipcMain.handle('powerOffDroplet', async (event, args) =>
+      handlePowerOffDroplet(args[0], args[1], args[2])
+    );
+    ipcMain.handle('rebootDroplet', async (event, args) =>
+      handleRebootDroplet(args[0], args[1], args[2])
+    );
+
+    ipcMain.handle('getDropletInfo', async (event, args) =>
+      handleGetDropletInfo(args[0], args[1], args[2])
+    );
+
+    ipcMain.handle('getListOfAccesibleDropletIDs', async (event, args) =>
+      handleGetListOfAccesibleDropletIDs(args[0], args[1])
     );
 
     createWindow();

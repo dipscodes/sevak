@@ -8,6 +8,7 @@ module.exports = {
         'discord-secondary': '#2b2d31',
         'discord-tertiary': '#313338',
         'text-generic-color': '#aad7f5',
+        'text-generic-color-muted': '#6d899c',
         'discord-button-color': '#5865f2',
         'discord-button-color-hover': '#4656c6',
         'discord-bg-1': '#313338',

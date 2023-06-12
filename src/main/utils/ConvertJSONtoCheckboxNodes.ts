@@ -40,5 +40,6 @@ export default function convertJSONtoCheckboxNodes(
     }
     return 0;
   });
+
   return listOfCheckedlists;
 }

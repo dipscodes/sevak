@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { BsChevronRight } from 'react-icons/bs';
-import MasterContext from 'renderer/Context';
+import { MasterContext } from 'renderer/Context';
 
 interface Props {
   name: string;
@@ -17,11 +17,10 @@ export default function RowOfToken({
   const showPermissionString = async () => {
     const permissionString = await window.electron.getTokenPermission(
       name,
-      masterPassword ?? ''
+      masterPassword
     );
     // eslint-disable-next-line no-console
-    console.log(JSON.parse(permissionString));
-    setPermissions(permissionString);
+    setPermissions(JSON.stringify(permissionString));
   };
 
   const deletePermissionString = async () => {
